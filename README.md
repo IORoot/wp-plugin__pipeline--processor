@@ -77,10 +77,25 @@ end
 Potentially use puppeteer script to post. Especially since API_scraper already uses this.
 
 ### YouTube 
-Native API
+Download videos with PHP Script?
+Native API to upload
 
 ### Google My Business.
 Native API (https://developers.google.com/my-business/content/posts-data)
 
 ### JSON
 Custom exporter. Allow the JSON template to be custom so it can be used alongside the Foundation Email framework to generate newsletters for mailchimp.
+
+### My Usecases
+
+1. Start auto-generating content for youtube from parkourpulse.
+    - Daily / Weekly / Monthly auto-posts - with adverts and 'fair usage'
+    - https://developers.google.com/youtube/v3/docs/videos/insert
+
+2. Auto-generate content from classes / news to Google My Business
+    - https://developers.google.com/my-business/content/posts-data
+
+3. Generate Instagram posts for daily/weekly/monthly content.
+    - Pupeeteer script.
+
+4. Pick newsletter content with the Weekly / Monthly top posts and generate JSON
