@@ -30,5 +30,8 @@ trait wp
      */
     use wp\wp_get_posts_with_meta;
 
-    
+    /**
+     * Returns metadata for a post
+     */
+    use wp\wp_get_meta;
 }

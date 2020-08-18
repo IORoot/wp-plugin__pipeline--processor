@@ -7,9 +7,9 @@ class query
 
     use \ue\utils;
     use \ue\wp;
+    use \ue\debug;
 
     public $args;
-
 
     public function set_args($query)
     {
@@ -19,7 +19,10 @@ class query
 
     public function run()
     {
-        return $this::wp_get_posts_with_meta($this->args);
+        $result = $this::wp_get_posts_with_meta($this->args);
+        $this->debug('content', $result);
+        return $result;
     }
+
 
 }

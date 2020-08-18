@@ -20,4 +20,15 @@ trait utils
      */
     use utils\string_to_wpquery;
     
+    /**
+     * Convert array / string to UTF string.
+     */
+    use utils\to_utf8_string;
+
+    /**
+     * Convert array / string / object to a nice JSON format (for outputting to screen)
+     */
+    use utils\to_pretty_JSON;
+
+    
 }

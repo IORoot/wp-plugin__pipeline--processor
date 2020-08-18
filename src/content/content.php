@@ -76,7 +76,7 @@ class content
 
     public function get_post()
     {
-        return $this->options['ue_job_content_id']['ue_content_input'];
+        return $this->options['ue_job_content_id']['ue_content_posts'];
     }  
 
     

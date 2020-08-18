@@ -4,9 +4,14 @@ function ue_codemirror_enqueue_scripts($hook)
 {
 
     $codemirror_settings = array(
-        'type' => 'text/css',
+        'type' => 'text/x-php',
         'codemirror' => [
             'theme' => 'material-darker',
+            'extraKeys' => [
+                'Ctrl-Y' =>'foldAll',
+                'Ctrl-I' =>'unfoldAll',
+            ],
+            'foldGutter' => true,
         ],    
     );
 
