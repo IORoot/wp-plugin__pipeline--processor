@@ -53,7 +53,11 @@ class exporter
     public function process_single_export()
     {
         $this->run_class('ue\content');
+
+        $this->run_class('ue\process');
     }
+
+
 
 
 
@@ -61,6 +65,7 @@ class exporter
     {
         $class = new $classname;
         $class->set_options($this->options[$this->_export_key]);
+        $class->set_collection($this->results);
         $this->results[$classname] = $class->run();
     }
 

@@ -7,6 +7,8 @@
 .cm-s-material-darker.CodeMirror {
     background-color: #212121;
     color: #EEFFFF;
+    min-height:80px;
+    height: auto !important;
   }
   
   .cm-s-material-darker .CodeMirror-gutters {

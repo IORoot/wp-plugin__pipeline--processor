@@ -12,6 +12,7 @@ function ue_codemirror_enqueue_scripts($hook)
                 'Ctrl-I' =>'unfoldAll',
             ],
             'foldGutter' => true,
+            'height' => 40,
         ],    
     );
 

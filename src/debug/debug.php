@@ -8,8 +8,6 @@ trait debug
 
     use \ue\utils;
 
-
-
     public $acf_group;
 
     public $acf_textarea;

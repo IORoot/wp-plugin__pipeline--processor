@@ -15,10 +15,16 @@ require __DIR__.'/on_update.php';
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │            Populate all of the 'select' types automatically             │
 //  └─────────────────────────────────────────────────────────────────────────┘
-require __DIR__.'/populate_ue_job_auth.php';
-require __DIR__.'/populate_ue_job_content.php';
-require __DIR__.'/populate_ue_job_export.php';
-require __DIR__.'/populate_ue_job_housekeep.php';
-require __DIR__.'/populate_ue_job_process.php';
-require __DIR__.'/populate_ue_job_save.php';
-require __DIR__.'/populate_ue_job_schedule.php';
+
+// jobs
+require __DIR__.'/selects/populate_ue_job_auth.php';
+require __DIR__.'/selects/populate_ue_job_content.php';
+require __DIR__.'/selects/populate_ue_job_export.php';
+require __DIR__.'/selects/populate_ue_job_housekeep.php';
+require __DIR__.'/selects/populate_ue_job_process.php';
+require __DIR__.'/selects/populate_ue_job_save.php';
+require __DIR__.'/selects/populate_ue_job_schedule.php';
+
+// process
+require __DIR__.'/selects/populate_ue_mutation_type.php';
+require __DIR__.'/selects/populate_ue_mutation_catalog.php';
