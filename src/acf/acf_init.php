@@ -4,6 +4,7 @@
 //  │                         Include ACF Options Page                        │
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/acf_admin_page.php';
+require __DIR__.'/acf_codemirror.php';
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │               Only run when the UPDATE button is clicked                │
