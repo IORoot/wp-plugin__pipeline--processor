@@ -5,10 +5,11 @@ function acf_populate_ue_mutation_catalog_choices($value)
 
     $value = [];
     
-    $type = 'mutations';
+    $type = 'mutation';
+    $folder = 'process';
 
     $helper = new \ue\interfaces;
-    $list = $helper->list_catalog($type);
+    $list = $helper->list_catalog($folder, $type);
 
     foreach($list as $item)
     {

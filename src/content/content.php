@@ -27,7 +27,7 @@ class content
 
     public function run()
     {
-        if ($this->is_disabled()){ return; }
+        if ($this::is_disabled($this->options, 'content')){ return; }
         $this->instantiate_class();
         $this->set_args();
         $this->execute();
@@ -35,16 +35,7 @@ class content
         return $this->results;
     }
 
-
-    public function is_disabled()
-    {
-        if ($this->options['ue_job_content_id']['ue_content_group']['ue_content_enabled'] == false)
-        {
-            return true;
-        }
-        return false;
-    }
-
+    
 
     public function instantiate_class()
     {

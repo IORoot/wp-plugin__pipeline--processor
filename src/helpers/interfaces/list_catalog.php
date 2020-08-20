@@ -5,11 +5,11 @@ namespace ue\interfaces;
 trait list_catalog
 {
 
-    public static function list_catalog($type)
+    public static function list_catalog($folder, $type)
     {
         $catalog = null;
 
-        $files = scandir(ANDYP_UE_PATH . '/src/' . $type);
+        $files = scandir(ANDYP_UE_PATH . '/src/' . $folder . '/' . $type);
 
         foreach ($files as $file){
 

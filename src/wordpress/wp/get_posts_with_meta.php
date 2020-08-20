@@ -12,10 +12,11 @@ trait wp_get_posts_with_meta {
 
         foreach($posts as $key => $post)
         {
-            $result[$key]['post'] = $post;
-            $result[$key]['meta'] = get_post_meta($post->ID);
+            // Post
+            $result[$key] = (array) $post;
+            // Meta
+            $result[$key] = array_merge($result[$key], get_post_meta($post->ID));
         }
-
 
         return $result;
     }

@@ -22,8 +22,8 @@ class posts
     {
         foreach ($this->args as $key => $post)
         {
-            $this->result[$key]['post'] = $post;
-            $this->result[$key]['meta'] = $this::wp_get_meta($post->ID);
+            $this->result[$key] = (array) $post;
+            $this->result[$key] = array_merge($this->result[$key], \ue\wp_get_meta($post->ID));
         }
 
         return $this->result;

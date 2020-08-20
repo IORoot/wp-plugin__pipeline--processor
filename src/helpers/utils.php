@@ -30,5 +30,10 @@ trait utils
      */
     use utils\to_pretty_JSON;
 
+    /**
+     * Return true / false if section is disabled or not.
+     */
+    use utils\is_disabled;
+
     
 }

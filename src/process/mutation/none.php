@@ -1,6 +1,6 @@
 <?php
 
-namespace ue\mutations;
+namespace ue\mutation;
 
 use ue\interfaces\mutationInterface;
 
