@@ -43,7 +43,7 @@ class process
         if ($this::is_disabled($this->options, $this->step_type)){ return; }
         
         $this->process_collection();
-        $this->debug('process', $this->results);
+        $this->debug_update('process', $this->results);
 
         return $this->results;
     }
@@ -56,6 +56,7 @@ class process
         foreach ($this->collection[$this->namespace . '\\' . $this->data_source] as $this->_key => $this->_record)
         {
             $this->results[$this->_key] = $this->process_record();
+            $this->debug('process', $this->_record);
         }
 
     }

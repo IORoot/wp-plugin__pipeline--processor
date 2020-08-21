@@ -8,11 +8,9 @@ trait debug
 
     use \ue\utils;
 
-    public $acf_group;
-
     public $acf_textarea;
 
-    public $message;
+    public $title;
 
     public $namespace = "ue";
 
@@ -21,83 +19,89 @@ trait debug
 
 
 
-    public function debug($section, $message){
-
-        $this->message = $message;
-
-        $this->section = $section;
-
-        $this->clear();
-
-        $this->set_acf_group();
-
-        $this->set_acf_textarea();
+    public function debug($section, $message)
+    {
 
         $this->get_character_limit();
 
         $this->set_record_count();
 
-        $this->update();
+        $this->debug_clear();
 
+        $this->debug_update($section, $message);
+    }
+
+
+
+
+    public function set_acf_textarea($section)
+    {
+        $acf_group = $this->namespace . '_' . $section . '_debug_group';
+        $this->acf_textarea = $acf_group . '_' . $this->namespace . '_' . $section . '_debug';
+    }
+
+
+
+
+
+
+    public function debug_clear()
+    {
+        return update_field( $this->acf_textarea, '', 'option');
+    }
+
+
+    public function add_title($section)
+    {
+        $title =  PHP_EOL . '# ====================== # ';
+        $title .= $section . ' - ' . date('r');
+        $title .= ' # ====================== #'. PHP_EOL;
         
+        return $title;
     }
 
 
 
-    
-    public function set_acf_group()
+    public function debug_update($section, $message)
     {
-        $this->acf_group = $this->namespace . '_' . $this->section . '_debug_group';
+        $title = $this->add_title($section);
+
+        $this->set_acf_textarea($section);
+
+        $value = $this::to_pretty_JSON($message);
+
+        $this->set_character_count();
+        $this->set_line_count();
+
+        $current = get_field($this->acf_textarea, 'option');
+
+        $value = $title.$value.$current;
+
+        if ($this->char_limit != 0){
+            $trimmed_string = substr($value, 0, $this->char_limit);
+        }
+
+        $update = update_field($this->acf_textarea, $trimmed_string, 'option');
+
     }
 
-    public function set_acf_textarea()
-    {
-        $this->acf_textarea = $this->acf_group . '_' . $this->namespace . '_' . $this->section . '_debug';
-    }
+
+
+
+
 
     public function get_character_limit()
     {
         $field = $this->acf_textarea . '_limit';
         $this->char_limit = intval(get_field($field, 'options'));
     }
+    
 
-
-
-
-    public function clear()
-    {
-        return update_field( $this->acf_textarea, '', 'option');
-    }
-
-
-
-    public function update()
-    {
-
-        $trim_length = $this->char_limit;
-        $value = $this->message;
-        $field = $this->acf_textarea;
-        
-        $value = $this::to_pretty_JSON($value);
-
-        $this->set_character_count($value);
-        $this->set_line_count($value);
-
-        if ($trim_length != 0){
-            $trimmed_string = substr($value, 0, $trim_length);
-        }
-
-        $update = update_field($field, $trimmed_string, 'option');
-
-    }
-
-
-
-    public function set_character_count($string)
+    public function set_character_count()
     {
         $field = $this->acf_textarea . '_characters';
 
-        $count = strlen($string);
+        $count = strlen($this->message);
 
         return update_field( $field, $count, 'option');
     }
@@ -113,16 +117,13 @@ trait debug
     }
 
 
-    public function set_line_count($string)
+    public function set_line_count()
     {
         $field = $this->acf_textarea . '_lines';
 
-        $count = substr_count( $string, "\n" );
+        $count = substr_count( $this->message, "\n" );
 
         return update_field( $field, $count, 'option');
     }
-
-
-    
 
 }
