@@ -18,17 +18,12 @@ class process
 
     public $collection;
 
-    public $_key;
-    public $_record;
-
     public $results;
-
-    public $class_object;
 
 
     public function set_options($options)
     {
-        $this->options = $options;
+        $this->options = $options['ue_job_process_id'];
     }
 
     public function set_collection($collection)
@@ -43,8 +38,8 @@ class process
         if ($this::is_disabled($this->options, $this->step_type)){ return; }
         
         $this->process_collection();
+        $this->process_combine();
         $this->debug_update('process', $this->results);
-
         return $this->results;
     }
 
@@ -53,26 +48,33 @@ class process
     public function process_collection()
     {
 
-        foreach ($this->collection[$this->namespace . '\\' . $this->data_source] as $this->_key => $this->_record)
+        $dataname = $this->namespace . '_' . $this->step_type . '_collection';
+        $config = $this->options[$dataname];
+
+        $data = $this->collection[$this->namespace . '\\' . $this->data_source];
+
+        $record = new process_records;
+        $record->set_config( $config );
+        $record->set_data( $data );
+        $this->results = $record->run();
+    }
+
+
+
+    public function process_combine()
+    {
+        if ($this->options[$this->namespace . '_' . $this->step_type . '_combine'] != 'combine')
         {
-            $this->results[$this->_key] = $this->process_record();
-            $this->debug('process', $this->_record);
+            return;
         }
 
-    }
-
-
-    public function process_record()
-    {
-        $group = $this->namespace . '_job_' . $this->step_type . '_id';
         $dataname = $this->namespace . '_' . $this->step_type . '_collection';
-        $config = $this->options[$group][$dataname];
+        $config = $this->options[$dataname];
 
-        $record = new process_record;
-        $record->set_config( $config );
-        $record->set_record($this->_record);
-        return $record->run();
+        $combine = new process_combine;
+        $combine->set_config( $config );
+        $combine->set_data( $this->results );
+        $this->results = $combine->run();
     }
-
 
 }

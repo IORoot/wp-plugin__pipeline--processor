@@ -3,91 +3,108 @@
 namespace ue;
 
 
-class process_record
+class process_records
 {
+
+    public $namespace = 'ue';
+
+    public $step_type = 'mutation';
 
     public $prefix = 'ue_mutation_';
 
     public $config;
 
-    public $record;
+    public $data;
 
     public $results;
 
-    public $_field_key;
-    public $_field_value;
+    public $field_to_mutate;
 
+    public $field_name;
 
+    public $mutation_group;
+
+    public $record;
 
     public function set_config($config)
     {
         $this->config = $config;
     }
 
-    public function set_record($record)
+    public function set_data($data)
     {
-        $this->record = $record;
+        $this->data = $data;
     }
 
 
 
     public function run()
     {
-        $this->loop_through_record();
-        
+        $this->results = $this->data;
+        $this->loop_through_each_field_to_mutate();
+        $this->build_result_array();
         return $this->results;
     }
 
 
 
-    public function loop_through_record()
-    {
-        foreach ($this->record as $this->_field_key => $this->_field_value) {
 
-            // Skip if field doesn't need changing.
-            if (!$this->is_field_in_mutation_list()) {
-                continue;
-            }
-
-            $this->run_mutations_on_field();
-
-        }
-    }
-
-
-
-    public function run_mutations_on_field()
+    public function loop_through_each_field_to_mutate()
     {
 
-        $field = new process_field;
-
-        $field->set_data([
-            'key' => $this->_field_key,
-            'value' => $this->_field_value
-        ]);      
-
-        $field->set_config($this->config);
-
-        $return_data = $field->run();          
-
-        $this->results[$return_data['key']] = $return_data['value'];
-    }
-
-
-
-
-
-
-    public function is_field_in_mutation_list()
-    {
-        foreach($this->config as $mutation)
+        foreach ($this->config as $this->field_to_mutate)
         {
-            if ($mutation[$this->prefix . 'input'] == $this->_field_key)
+            $this->field_name = $this->field_to_mutate[$this->prefix.'input'];
+            $this->loop_through_mutation_group();
+        }
+
+    }
+
+
+    public function loop_through_mutation_group()
+    {
+        foreach ($this->field_to_mutate[$this->prefix .'group'] as $this->mutation_group)
+        {
+            $mutation = '\\' . $this->namespace . '\\' . $this->step_type . '\\' . $this->mutation_group[$this->prefix.'type'];
+            $config['params']  = $this->mutation_group[$this->prefix.'parameters'];
+            $config['field'] = $this->field_name;
+            $data  = $this->results;
+
+            $this->results = $this::run_mutation($mutation, $config, $field, $data);
+        }
+    }
+
+
+    public static function run_mutation($mutation, $config, $field, $data)
+    {
+        $mutation = new $mutation;
+
+        $mutation->config($config);
+        $mutation->in($data);
+
+        return $mutation->out();
+    }
+
+
+    public function build_result_array()
+    {
+        
+        foreach($this->results as $record_key => $record_value)
+        {
+            foreach ($record_value as $field_key => $field_value)
             {
-                return true;
+                foreach ($this->config as $mutation)
+                {
+                    if ($field_key == $mutation[$this->prefix.'input'])
+                    {
+                        $new_array[$record_key][$mutation[$this->prefix.'moustache']] = $field_value;
+                    }
+                }
             }
         }
 
-        return false;
+        $this->results = $new_array;
     }
+
+
 }
