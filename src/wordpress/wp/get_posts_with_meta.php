@@ -20,6 +20,7 @@ trait wp_get_posts_with_meta {
             $attachment = get_post_meta($result[$key]['_thumbnail_id'][0]);
             $attachment['_wp_attachment_metadata'] = unserialize($attachment['_wp_attachment_metadata'][0]);
             $result[$key] = array_merge($result[$key], $attachment);
+            
         }
 
         return $result;

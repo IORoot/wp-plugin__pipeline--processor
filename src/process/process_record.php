@@ -24,8 +24,6 @@ class process_records
 
     public $mutation_group;
 
-    public $record;
-
     public function set_config($config)
     {
         $this->config = $config;
@@ -41,7 +39,7 @@ class process_records
     public function run()
     {
         $this->results = $this->data;
-        $this->loop_through_each_field_to_mutate();
+        $this->loop_through_all_mutation_groups();
         $this->build_result_array();
         return $this->results;
     }
@@ -49,20 +47,21 @@ class process_records
 
 
 
-    public function loop_through_each_field_to_mutate()
+    public function loop_through_all_mutation_groups()
     {
 
         foreach ($this->config as $this->field_to_mutate)
         {
             $this->field_name = $this->field_to_mutate[$this->prefix.'input'];
-            $this->loop_through_mutation_group();
+            $this->loop_through_single_mutation_group();
         }
 
     }
 
 
-    public function loop_through_mutation_group()
+    public function loop_through_single_mutation_group()
     {
+        //loop through all the mutations for this group
         foreach ($this->field_to_mutate[$this->prefix .'group'] as $this->mutation_group)
         {
             $mutation = '\\' . $this->namespace . '\\' . $this->step_type . '\\' . $this->mutation_group[$this->prefix.'type'];
@@ -75,10 +74,10 @@ class process_records
     }
 
 
+
     public static function run_mutation($mutation, $config, $field, $data)
     {
         $mutation = new $mutation;
-
         $mutation->config($config);
         $mutation->in($data);
 
@@ -86,9 +85,11 @@ class process_records
     }
 
 
+
+
+
     public function build_result_array()
     {
-        
         foreach($this->results as $record_key => $record_value)
         {
             foreach ($record_value as $field_key => $field_value)

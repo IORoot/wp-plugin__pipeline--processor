@@ -12,21 +12,23 @@ class none implements mutationInterface
     public $parameters = 'None';
 
     public $input;
+
+    public $config;
     
     public function config($config)
     {
-        return;
+        $this->config = $config;
     }
 
     public function in($input)
     {
         $this->input = $input;
-        return;
     }
 
     public function out()
     {
         return $this->input;
     }
+
 
 }

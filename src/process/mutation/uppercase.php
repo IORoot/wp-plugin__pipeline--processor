@@ -22,7 +22,7 @@ class uppercase implements mutationInterface
     public function config($config)
     {
         $this->config = $config;
-        return $this->input;;
+        return $this->input;
     }
 
     public function in($input)
@@ -32,28 +32,37 @@ class uppercase implements mutationInterface
 
     public function out()
     {
-        $this->process_records();
+        $this->loop_through_all_records();
         return $this->input;
     }
 
 
-    private function process_records()
+    private function loop_through_all_records()
     {
         foreach ($this->input as $this->record_key => $this->record_value)
         {
-            $this->process_field();
+            $this->loop_through_each_field();
         }
     }
 
-    private function process_field()
+
+
+    private function loop_through_each_field()
     {
-        foreach($this->record_value as $field_key => $field_value)
+        $field_i_need = $this->config['field'];
+        $array_builder = explode('->', $field_i_need);
+
+        foreach($array_builder as $field_name)
         {
-            if ($field_key == $this->config['field'])
+
+            if (is_string($this->record_value[$field_name]))
             {
-                $this->input[$this->record_key][$field_key] = strtoupper($field_value);
+                $this->input[$this->record_key][$field_i_need] = strtoupper($this->record_value[$field_name]);
             }
+
+            $this->record_value = $this->record_value[$field_name];
         }
     }
+
 
 }

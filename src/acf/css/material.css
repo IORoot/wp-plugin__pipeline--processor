@@ -9,6 +9,7 @@
     color: #EEFFFF;
     min-height:80px;
     height: auto !important;
+    /* max-height: 400px; */
   }
   
   .cm-s-material-darker .CodeMirror-gutters {

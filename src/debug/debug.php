@@ -21,7 +21,8 @@ trait debug
 
     public function debug($section, $message)
     {
-
+        $this->set_acf_textarea($section);
+        
         $this->get_character_limit();
 
         $this->set_record_count();
@@ -65,8 +66,6 @@ trait debug
     public function debug_update($section, $message)
     {
         $title = $this->add_title($section);
-
-        $this->set_acf_textarea($section);
 
         $value = $this::to_pretty_JSON($message);
 

@@ -61,6 +61,8 @@ class process
 
 
 
+    
+
     public function process_combine()
     {
         if ($this->options[$this->namespace . '_' . $this->step_type . '_combine'] != 'combine')
