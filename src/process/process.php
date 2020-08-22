@@ -53,15 +53,15 @@ class process
 
         $data = $this->collection[$this->namespace . '\\' . $this->data_source];
 
-        $record = new process_records;
-        $record->set_config( $config );
-        $record->set_data( $data );
-        $this->results = $record->run();
+        $collection = new process_collection;
+        $collection->set_config( $config );
+        $collection->set_collection( $data );
+        $this->results = $collection->run();
     }
 
 
 
-    
+
 
     public function process_combine()
     {

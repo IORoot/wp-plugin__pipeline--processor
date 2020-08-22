@@ -2,13 +2,15 @@
 
 namespace ue;
 
-class process_record
+
+class process_collection
 {
+
     public $config;
 
-    public $record;
-    public $record_key;
-    public $record_field;
+    public $collection;
+    public $collection_key;
+    public $collection_record;
 
     public $result;
 
@@ -17,43 +19,43 @@ class process_record
         $this->config = $config;
     }
 
-    public function set_record($record)
+    public function set_collection($collection)
     {
-        $this->record = $record;
+        $this->collection = $collection;
     }
 
     public function run()
     {
-        $this->loop_through_all_fields();
-        return $this->result;
+        $this->loop_through_all_records();
+        return $this->results;
     }
 
     //  ┌─────────────────────────────────────────────────────────────────────────┐
     //  │                                                                         │░
     //  │                                                                         │░
-    //  │                         Loop through each field                         │░
+    //  │                         Loop through each record                        │░
     //  │                                                                         │░
     //  │                                                                         │░
     //  └─────────────────────────────────────────────────────────────────────────┘░
     //   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-    public function loop_through_all_fields()
+    public function loop_through_all_records()
     {
 
-        foreach ($this->record as $this->record_key => $this->record_field)
+        foreach ($this->collection as $this->collection_key => $this->collection_record)
         {
-            $this->record_field = $this->process_field();
+            $this->collection_record = $this->process_record();
         }
 
     }
 
     
-    public function process_field()
+    public function process_record()
     {
-        $field = new process_field;
-        $field->set_config($this->config);
-        $field->set_field_key($this->record_key);
-        $field->set_field_value($this->record_field);
-        return $field->run();
+        $record = new process_record;
+        $record->set_config($this->config);
+        $record->set_record($this->collection_record);
+        return $record->run();
     }
+
 }
