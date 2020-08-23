@@ -7,6 +7,8 @@ use ue\interfaces\combineInterface;
 class append implements combineInterface
 {
     
+    use \ue\utils;
+
     public $description = "Returns first record";
 
     public $parameters = 'None';
@@ -37,16 +39,10 @@ class append implements combineInterface
 
     public function process()
     {
-        foreach ($this->input as $record)
-        {
-            foreach ($record as $field_key => $field_value)
-            {
-                if ($field_key == $this->config)
-                {
-                    $this->output[$field_key] .= $field_value . ' ';
-                }
-            }
-        }
+
+        $result = $this::array_flat($this->input);
+        $this->output = $this::array_regex_keys('/^\d+_'.$this->config.'/', $result);
+        
     }
 
 }

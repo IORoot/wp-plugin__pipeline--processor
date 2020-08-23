@@ -8,11 +8,11 @@ class process_combine
 
     public $config;
 
+    public $combine_instance;
+
     public $data;
 
     public $results = [];
-
-    public $combine_instance;
 
 
     public function set_config($config)

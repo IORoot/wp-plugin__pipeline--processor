@@ -6,7 +6,9 @@ use ue\interfaces\combineInterface;
 
 class first implements combineInterface
 {
-    
+
+    use \ue\utils;
+
     public $description = "Returns first record";
 
     public $parameters = 'None';
@@ -36,14 +38,19 @@ class first implements combineInterface
     }
 
     public function process()
-    {
-        if (array_key_exists(0,$this->input))
+    {        
+
+        $result = $this::array_regex_keys('/^'.$this->config.'.*/', $this->input[0]);
+        
+        if (is_array($result))
         {
-            $this->output[$this->config] = $this->input[0][$this->config];
+            $this->output = $result;
             return;
         }
-        
-        $this->output[$this->config] = $this->input[$this->config];
+        $this->output[$this->config] = $result;
     }
+
+
+
 
 }

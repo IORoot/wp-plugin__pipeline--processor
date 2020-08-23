@@ -6,6 +6,8 @@ namespace ue;
 class process_collection
 {
 
+    use utils;
+
     public $config;
 
     public $collection;
@@ -27,26 +29,18 @@ class process_collection
     public function run()
     {
         $this->loop_through_all_records();
-        return $this->results;
+        $this->flatten_data_records();
+        return $this->result;
     }
 
-    //  ┌─────────────────────────────────────────────────────────────────────────┐
-    //  │                                                                         │░
-    //  │                                                                         │░
-    //  │                         Loop through each record                        │░
-    //  │                                                                         │░
-    //  │                                                                         │░
-    //  └─────────────────────────────────────────────────────────────────────────┘░
-    //   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
 
     public function loop_through_all_records()
     {
-
         foreach ($this->collection as $this->collection_key => $this->collection_record)
         {
-            $this->collection_record = $this->process_record();
+            $this->process_record();
         }
-
     }
 
     
@@ -55,7 +49,17 @@ class process_collection
         $record = new process_record;
         $record->set_config($this->config);
         $record->set_record($this->collection_record);
-        return $record->run();
+        $this->result[$this->collection_key] = $record->run();
+    }
+
+
+
+    public function flatten_data_records()
+    {
+        foreach ($this->result as $key => $value)
+        {
+            $this->result[$key] = $this::array_flat($value);
+        }
     }
 
 }

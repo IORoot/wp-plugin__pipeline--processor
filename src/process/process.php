@@ -39,7 +39,7 @@ class process
         
         $this->process_collection();
         $this->process_combine();
-        $this->debug_update('process', $this->results);
+        $this->debug('process', $this->results);
         return $this->results;
     }
 
@@ -70,11 +70,8 @@ class process
             return;
         }
 
-        $dataname = $this->namespace . '_' . $this->step_type . '_collection';
-        $config = $this->options[$dataname];
-
         $combine = new process_combine;
-        $combine->set_config( $config );
+        $combine->set_config( $this->options['ue_process_collection'] );
         $combine->set_data( $this->results );
         $this->results = $combine->run();
     }

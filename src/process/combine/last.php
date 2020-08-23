@@ -7,6 +7,8 @@ use ue\interfaces\combineInterface;
 class last implements combineInterface
 {
     
+    use \ue\utils;
+
     public $description = "Returns first record";
 
     public $parameters = 'None';
@@ -38,15 +40,16 @@ class last implements combineInterface
     public function process()
     {
         
-        if (array_key_exists(0,$this->input))
+        $last_element = end($this->input);
+        $result = $this::array_regex_keys('/^'.$this->config.'.*/', $last_element);
+        
+        if (is_array($result))
         {
-            $last = end($this->input);
-            $this->output[$this->config] = $last[$this->config];
+            $this->output = $result;
             return;
         }
-        
-        // only one row anyway.
-        $this->output[$this->config] = $this->input[$this->config];
+        $this->output[$this->config] = $result;
+
     }
 
 }

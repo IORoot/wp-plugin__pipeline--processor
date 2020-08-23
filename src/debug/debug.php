@@ -16,7 +16,7 @@ trait debug
 
     public $char_limit = 10000;
 
-
+    public $trimmed_string;
 
 
     public function debug($section, $message)
@@ -30,6 +30,9 @@ trait debug
         $this->debug_clear();
 
         $this->debug_update($section, $message);
+
+        $this->set_character_count();
+        $this->set_line_count();
     }
 
 
@@ -77,10 +80,10 @@ trait debug
         $value = $title.$value.$current;
 
         if ($this->char_limit != 0){
-            $trimmed_string = substr($value, 0, $this->char_limit);
+            $this->trimmed_string = substr($value, 0, $this->char_limit);
         }
 
-        $update = update_field($this->acf_textarea, $trimmed_string, 'option');
+        $update = update_field($this->acf_textarea, $this->trimmed_string, 'option');
 
     }
 
@@ -95,32 +98,30 @@ trait debug
         $this->char_limit = intval(get_field($field, 'options'));
     }
     
+    public function set_record_count()
+    {
+        $field = $this->acf_textarea . '_records';
+
+        $count = count($this->results);
+
+        return update_field( $field, $count, 'option');
+    }
 
     public function set_character_count()
     {
         $field = $this->acf_textarea . '_characters';
 
-        $count = strlen($this->message);
+        $count = strlen($this->trimmed_string);
 
         return update_field( $field, $count, 'option');
     }
-
-
-    public function set_record_count()
-    {
-        $field = $this->acf_textarea . '_records';
-
-        $count = count($this->message);
-
-        return update_field( $field, $count, 'option');
-    }
-
 
     public function set_line_count()
     {
         $field = $this->acf_textarea . '_lines';
 
-        $count = substr_count( $this->message, "\n" );
+        if (empty($this->trimmed_string)){ return; }
+        $count = substr_count( $this->trimmed_string, "\n" );
 
         return update_field( $field, $count, 'option');
     }

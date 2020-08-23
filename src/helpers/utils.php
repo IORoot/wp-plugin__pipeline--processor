@@ -26,7 +26,7 @@ trait utils
     use utils\to_utf8_string;
 
     /**
-     * Convert array / string / object to a nice JSON format (for outputting to screen)
+     * Convert array / string / object to a nice JSON format (for outputting to screen).
      */
     use utils\to_pretty_JSON;
 
@@ -34,6 +34,16 @@ trait utils
      * Return true / false if section is disabled or not.
      */
     use utils\is_disabled;
+
+    /**
+     * Flattens a multidimensional associateive array.
+     */
+    use utils\array_flat;
+
+    /**
+     * Does a REGEX on all keys in an array and returns an array with just those elements.
+     */
+    use utils\array_regex_keys;
 
     
 }

@@ -7,7 +7,7 @@ use ue\interfaces\mutationInterface;
 class none implements mutationInterface
 {
     
-    public $description = "Does nothing.";
+    public $description = "[ANY] Does nothing.";
 
     public $parameters = 'None';
 
@@ -17,7 +17,7 @@ class none implements mutationInterface
     
     public function config($config)
     {
-        $this->config = $config;
+        return;
     }
 
     public function in($input)
