@@ -49,6 +49,7 @@ class process_collection
         $record = new process_record;
         $record->set_config($this->config);
         $record->set_record($this->collection_record);
+        $record->set_collection($this->collection); // used for {{collection}} moustache
         $this->result[$this->collection_key] = $record->run();
     }
 

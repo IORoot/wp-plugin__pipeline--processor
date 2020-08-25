@@ -18,7 +18,7 @@ trait utils
     /**
      * Convert a string interpretation of WP_Query into an array.
      */
-    use utils\string_to_wpquery;
+    use utils\string_to_array;
     
     /**
      * Convert array / string to UTF string.

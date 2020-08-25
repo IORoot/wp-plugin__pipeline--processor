@@ -7,6 +7,8 @@ class process_record
     public $config;
     public $current_config;
 
+    public $collection;
+
     public $record;
     public $smaller_record;
 
@@ -25,6 +27,19 @@ class process_record
         $this->record = $record;
     }
 
+    /**
+     * set_collection
+     * 
+     * Used for {{collection}} moustache
+     *
+     * @param array $collection
+     * @return void
+     */
+    public function set_collection($collection)
+    {
+        $this->collection = $collection;
+    }
+
     public function run()
     {
         $this->remove_all_unneeded_fields();
@@ -36,7 +51,7 @@ class process_record
 
     public function loop_through_all_fields()
     {
-        foreach ($this->record as $this->field_key => $this->field_value)
+        foreach ($this->smaller_record as $this->field_key => $this->field_value)
         {
             $this->get_moustache_value();
             $this->process_field();
@@ -72,7 +87,7 @@ class process_record
             
             $smaller_record[$this->current_config['ue_mutation_input']] = $field_value;
         }
-        $this->record = $smaller_record;
+        $this->smaller_record = $smaller_record;
     }
 
 
@@ -84,6 +99,8 @@ class process_record
         $field->set_config($this->config);
         $field->set_field_key($this->field_key);
         $field->set_field_value($this->field_value);
+        $field->set_record($this->record);          // used for {{record}} moustache
+        $field->set_collection($this->collection);  // used for {{collection}} moustache
         $this->result[$this->moustache] = $field->run();
     }
 }

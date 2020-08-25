@@ -13,7 +13,7 @@ class query
 
     public function set_args($query)
     {
-        $this->args = $this::string_to_wpquery($query);
+        $this->args = $this::string_to_array($query);
     }
 
 

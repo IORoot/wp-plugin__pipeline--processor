@@ -5,7 +5,13 @@ namespace ue;
 
 class process_field
 {
+
+    use utils;
+
     public $config;
+
+    public $record;
+    public $collection;
 
     public $field_key;
     public $field_value;
@@ -19,6 +25,32 @@ class process_field
     public function set_config($config)
     {
         $this->config = $config;
+    }
+
+    /**
+     * set_record
+     * 
+     * Used for {{record}} moustache
+     *
+     * @param array $record
+     * @return void
+     */
+    public function set_record($record)
+    {
+        $this->record = $record;
+    }
+
+    /**
+     * set_collection
+     * 
+     * Used for {{collection}} moustache
+     *
+     * @param array $collection
+     * @return void
+     */
+    public function set_collection($collection)
+    {
+        $this->collection = $collection;
     }
 
     public function set_field_key($field_key)
@@ -58,11 +90,34 @@ class process_field
     {
         foreach ($this->mutation_group['ue_mutation_group'] as $this->mutation_single)
         {
+            $this->args_to_array();
+            $this->replace_moustaches();
             $this->run_mutation();
         }
     }
 
 
+
+    private function args_to_array()
+    {
+        $config = $this->mutation_single['ue_mutation_parameters'];
+        $this->mutation_single['ue_mutation_parameters'] = $this::string_to_array($config);
+    }
+
+
+    private function replace_moustaches()
+    {
+        foreach($this->mutation_single['ue_mutation_parameters'] as $arg_key => $args)
+        {
+            preg_match_all("/{{([\w|\d|_|:]+)}}/", $args, $matches);
+
+            foreach ($matches[1] as $match_key => $match) 
+            {
+                $this->mutation_single['ue_mutation_parameters'][$arg_key] = $this->$match;
+            }
+        }
+    }
+    
 
     private function run_mutation()
     {
@@ -73,9 +128,8 @@ class process_field
             return;
         }
 
-        $mut = 'ue_mutation_';
-        $mutation_name = '\ue\mutation\\' . $this->mutation_single[$mut.'type'];
-        $mutation_args = $this->mutation_single[$mut.'parameters'];
+        $mutation_name = '\ue\mutation\\' . $this->mutation_single['ue_mutation_type'];
+        $mutation_args = $this->mutation_single['ue_mutation_parameters'];
         $mutation_data = $this->field_value;
 
         $mutation = new $mutation_name;

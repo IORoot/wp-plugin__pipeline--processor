@@ -2,9 +2,9 @@
 
 namespace ue\utils;
 
-trait string_to_wpquery {
+trait string_to_array {
 
-    public static function string_to_wpquery($query)
+    public static function string_to_array($query)
     {
         
         $wp_query = preg_replace("/\r|\n/", "", $query);
