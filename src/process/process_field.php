@@ -115,6 +115,8 @@ class process_field
             {
                 $this->mutation_single['ue_mutation_parameters'][$arg_key] = $this->$match;
             }
+
+            unset($matches);
         }
     }
     

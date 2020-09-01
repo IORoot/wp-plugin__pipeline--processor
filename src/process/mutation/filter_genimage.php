@@ -8,16 +8,18 @@ class filter_genimage implements mutationInterface
 {
     
     public $description = "Runs the GENIMAGE Filter to generate and convert files. Requires three settings:
-filter_slug  : The Name of the filter group in genimage you wish to run.
-images_array : An array of images to process.
-saves_array  : An array of formats you wish to save as.
+filter_slug  :  The Name of the filter group in genimage you wish to run.
+images_array :  An array of WP_Posts or a casted array of WP_Post. The Image generator will look for the post['id']
+                field to convert to a real WP_Post object if the WP_Post/WP_Term is not found. see the src/wp/wp_get_image.php
+                in the generative images plugin.
+saves_array  :  An array of formats you wish to save as.
     ";
 
     public $parameters = "
     [
         'filter_slug'  => 'corner_dots',
-        'images_array' => '{{collection}}',
         'saves_array'  => [ 'jpg', 'png', 'svg' ]
+        'images_array' => '{{collection}}',
     ]
     ";
 
@@ -42,6 +44,7 @@ saves_array  : An array of formats you wish to save as.
         $this->set_filter_slug();
         $this->set_images_array();
         $this->set_saveas_array();
+        $this->set_dimensions();
         $this->run_filter();
 
         return $this->filter_result;
@@ -81,13 +84,12 @@ saves_array  : An array of formats you wish to save as.
             return;
         }
 
-        foreach ($this->config['images_array'] as $key => $record)
-        {
-            $image_group[$key] = $record['_wp_attachment_src'];
-        }
+        // foreach ($this->config['images_array'] as $key => $record)
+        // {
+        //     $image_group[$key] = $record['_wp_attachment_src'];
+        // }
 
-        // Set the second argument to result.images_array
-        $this->filter_args[1] = $image_group;
+        $this->filter_args[1] = $this->config['images_array'];
         
     }
 
@@ -119,6 +121,13 @@ saves_array  : An array of formats you wish to save as.
     }
 
 
+    private function set_dimensions()
+    {
+        if (isset($this->config['resize'])) {
+            $this->filter_args[3] = $this->config['resize'];
+        }
+    }
+
 
     private function run_filter()
     {
@@ -126,8 +135,8 @@ saves_array  : An array of formats you wish to save as.
         {
             return;
         }
-        
-        $this->filter_result = apply_filters_ref_array('genimage_get_svgdata', $this->filter_args);
+
+        $this->filter_result = apply_filters_ref_array('genimage_get_instance', $this->filter_args);
     }
 
 
