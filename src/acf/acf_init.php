@@ -28,3 +28,7 @@ require __DIR__.'/selects/populate_ue_job_schedule.php';
 // process
 require __DIR__.'/selects/populate_ue_mutation_type.php';
 require __DIR__.'/selects/populate_ue_mutation_catalog.php';
+
+// save
+require __DIR__.'/selects/populate_ue_save_post_type.php';
+require __DIR__.'/selects/populate_ue_save_taxonomy_type.php';
