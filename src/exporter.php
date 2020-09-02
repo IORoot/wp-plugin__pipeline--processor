@@ -56,6 +56,8 @@ class exporter
 
         $this->run_class('ue\process');
 
+        $this->run_class('ue\mappings');
+
         $this->run_class('ue\save');
     }
 

@@ -30,7 +30,7 @@ class process_combine
     public function run()
     {
         $this->process_each_combine();
-        return $this->results;
+        return [$this->results];
     }
 
 
