@@ -99,7 +99,6 @@ class mappings
     }
 
 
-
     private function swap_dates()
     {
         preg_match_all("/{{date:([\w|\s]+)}}/", $this->map_value['ue_save_mapping_template'], $matches);
@@ -133,8 +132,8 @@ class mappings
     private function process_mapping()
     {
         $template           = $this->map_value['ue_save_mapping_template'];
-        $destination_type   = $this->map_value['ue_save_mapping_destination'];
-        $destination_field  = $this->map_value['ue_save_mapping_field'];
+        $destination_type   = $this->map_value['ue_save_mapping_group']['ue_save_mapping_destination'];
+        $destination_field  = $this->map_value['ue_save_mapping_group']['ue_save_mapping_field'];
 
         $this->results[$this->process_key][$destination_type][$destination_field] = $template;
     }

@@ -6,8 +6,8 @@ use \ue\import\exists;
 use \ue\import\taxonomy;
 use \ue\import\post;
 use \ue\import\image;
-use \ue\import\meta;
 use \ue\import\attach;
+use \ue\import\realmedia;
 
 class save
 {
@@ -21,8 +21,6 @@ class save
     public $post;
 
     public $image;
-
-    public $meta;
 
     public $attach;
     
@@ -67,9 +65,9 @@ class save
 
         $this->image = new image;
 
-        $this->meta = new meta;
-
         $this->attach = new attach;
+
+        $this->realmedia = new realmedia;
 
     }
 
@@ -159,26 +157,87 @@ class save
     private function loop_over_post_parts()
     {
         $this->create_post();
-        $this->attach_image();
+        $this->create_and_attach_image();
+        $this->attach_meta();
+        $this->attach_taxonomy();
+        $this->put_image_in_folder();
         
     }
 
-
+    // ┌─────────────────────────────────────────────────────────────────────────┐
+    // │                                                                         │
+    // │                                Create                                   │
+    // │                                                                         │
+    // └─────────────────────────────────────────────────────────────────────────┘
 
     private function create_post()
     {
+        $this->set_default_post_type();
         $this->post->set_args($this->post_value['post']);
         $this->post->add();
         $this->results['post'] = $this->post->result();
     }
 
 
-    private function attach_image()
+    private function create_and_attach_image()
     {
         $this->image->set_args($this->post_value['image']);
         $this->image->set_postid($this->results['post']);
         $this->image->add();
         $this->results['image'] = $this->image->result();
+    }
+
+
+    // ┌─────────────────────────────────────────────────────────────────────────┐
+    // │                                                                         │
+    // │                                  Attach                                 │
+    // │                                                                         │
+    // └─────────────────────────────────────────────────────────────────────────┘
+
+
+    private function attach_meta()
+    {
+        $this->attach->meta_to_post($this->post_value['meta'], $this->results['post']);
+    }
+
+
+    private function attach_taxonomy()
+    {
+        $this->set_default_tax_term();
+        $this->attach->tax_to_post(
+            $this->options['ue_save_taxonomy'], 
+            $this->options['ue_save_taxonomy_term'], 
+            $this->results['post']
+        );
+        return;
+    }
+
+
+    private function put_image_in_folder()
+    {
+        $this->realmedia->move_into_RML_folder($this->results['image'], 'genimage');
+    }
+
+
+
+    // ┌─────────────────────────────────────────────────────────────────────────┐
+    // │                                                                         │
+    // │                              Set Defaults                               │
+    // │                                                                         │
+    // └─────────────────────────────────────────────────────────────────────────┘
+
+
+    private function set_default_post_type()
+    {
+        $this->post_value['post']['post_type'] = $this->options['ue_save_posttype'];
+    }
+
+    private function set_default_tax_term()
+    {
+        if ($this->options['ue_save_taxonomy_term'] == "")
+        {
+            $this->options['ue_save_taxonomy_term'] = "exporting";
+        }
     }
 
 
