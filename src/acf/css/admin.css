@@ -46,3 +46,7 @@
 #acf-group_5f3961dfdb25b .ui-datepicker-calendar a {
     text-align: center;
 }
+#acf-group_5f3961dfdb25b .ui-timepicker-div.ui-timepicker-oneLine dl dd 
+{
+    margin-right: 4px;
+}

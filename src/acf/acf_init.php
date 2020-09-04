@@ -32,3 +32,6 @@ require __DIR__.'/selects/populate_ue_mutation_catalog.php';
 // save
 require __DIR__.'/selects/populate_ue_save_post_type.php';
 require __DIR__.'/selects/populate_ue_save_taxonomy_type.php';
+
+// Schedule
+require __DIR__.'/selects/populate_ue_schedule_repeat.php';
