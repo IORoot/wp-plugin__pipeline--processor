@@ -31,12 +31,3 @@ require __DIR__.'/src/cpt/exporter_cpt.php';
 //  │                          The ACF Admin Page                             │
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/src/acf/acf_init.php';
-
-
-// // ACF
-// define( 'SCRIPT_DEBUG', true );
-// function my_datepicker_admin_enqueue_scripts() {
-// 	wp_enqueue_script( 'date-picker-js', '/wp-content/plugins/andyp_universal_exporter/src/acf/js/custom_date_picker.js', array(), '1.0.0', true );
-// }
-
-// add_action('admin_enqueue_scripts', 'my_datepicker_admin_enqueue_scripts');

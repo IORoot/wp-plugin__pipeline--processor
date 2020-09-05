@@ -107,8 +107,15 @@ class process_field
 
     private function replace_moustaches()
     {
+        if (!isset($this->mutation_single['ue_mutation_parameters'])){ return; }
+        if ($this->mutation_single['ue_mutation_parameters'] == null){ return; }
+
         foreach($this->mutation_single['ue_mutation_parameters'] as $arg_key => $args)
         {
+            if (is_array($args)){
+                return;
+            }
+
             preg_match_all("/{{([\w|\d|_|:]+)}}/", $args, $matches);
 
             foreach ($matches[1] as $match_key => $match) 

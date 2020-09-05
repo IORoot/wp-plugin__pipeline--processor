@@ -144,10 +144,13 @@ class options
         // remove job_ from ue_job_content_id
         $this->get_key($field_id);
 
-
+        if (!isset($this->fields[$this->instance_name]))
+        { 
+            return; 
+        }
         // loop over each field in the instance array
-        foreach ($this->fields[$this->instance_name] as $instance) {
-
+        foreach ($this->fields[$this->instance_name] as $instance) 
+        {
             // if the instance ID matches the name of the selection
             // we've specified...
             if ($instance[$this->group][$this->key] == $field_value) {

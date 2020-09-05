@@ -198,6 +198,7 @@ class save
 
     private function attach_meta()
     {
+        if (!isset($this->post_value['meta'])){ return; }
         $this->attach->meta_to_post($this->post_value['meta'], $this->results['post']);
     }
 

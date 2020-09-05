@@ -121,6 +121,7 @@ class mappings
         foreach ($matches[1] as $match)
         {
             $key = $this->process_key;
+            if (!isset($this->collection['ue\process'][$key][$match])){ continue; }
             $replace_value = $this->collection['ue\process'][$key][$match];
             $match = '{{'.$match.'}}';
             $this->map_value['ue_save_mapping_template'] = str_replace($match, $replace_value, $this->map_value['ue_save_mapping_template']);

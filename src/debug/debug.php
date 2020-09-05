@@ -102,6 +102,8 @@ trait debug
     {
         $field = $this->acf_textarea . '_records';
 
+        if (!isset($this->results)){ return; }
+
         $count = count($this->results);
 
         return update_field( $field, $count, 'option');
