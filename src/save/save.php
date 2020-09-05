@@ -157,9 +157,9 @@ class save
     private function loop_over_post_parts()
     {
         $this->create_post();
-        $this->create_and_attach_image();
         $this->attach_meta();
         $this->attach_taxonomy();
+        $this->create_and_attach_image();
         $this->put_image_in_folder();
         
     }
@@ -181,6 +181,7 @@ class save
 
     private function create_and_attach_image()
     {
+        if (!$this->is_there_an_image()){ return; }
         $this->image->set_args($this->post_value['image']);
         $this->image->set_postid($this->results['post']);
         $this->image->add();
@@ -215,6 +216,7 @@ class save
 
     private function put_image_in_folder()
     {
+        if (!$this->is_there_an_image()){ return; }
         $this->realmedia->move_into_RML_folder($this->results['image'], 'genimage');
     }
 
@@ -222,7 +224,7 @@ class save
 
     // ┌─────────────────────────────────────────────────────────────────────────┐
     // │                                                                         │
-    // │                              Set Defaults                               │
+    // │                           Set Defaults / Checks                         │
     // │                                                                         │
     // └─────────────────────────────────────────────────────────────────────────┘
 
@@ -231,6 +233,8 @@ class save
     {
         $this->post_value['post']['post_type'] = $this->options['ue_save_posttype'];
     }
+
+
 
     private function set_default_tax_term()
     {
@@ -241,5 +245,19 @@ class save
     }
 
 
+    private function is_there_an_image()
+    {
+        if (!isset($this->post_value['image']['path'])) 
+        {
+            return false;
+        }
+
+        if ($this->post_value['image']['path'] == "")
+        {
+            return false;
+        }
+        
+        return true;
+    }
 
 }
