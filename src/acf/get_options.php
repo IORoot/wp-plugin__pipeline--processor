@@ -17,7 +17,6 @@ class options
 
     public function __construct()
     {
-
         $this->get_all_options();
         $this->move_all_instances_to($this->main_repeater);
         return;
@@ -53,6 +52,7 @@ class options
 
     public function get_repeater_options($repeater_field_name, $result_parameter)
     {
+        $result = have_rows($repeater_field_name, 'option');
         // If field exists as an option
         if (have_rows($repeater_field_name, 'option')) {
 

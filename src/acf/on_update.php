@@ -15,6 +15,8 @@ function save_ue_options()
     // │                           Kick off the program                          │
     // └─────────────────────────────────────────────────────────────────────────┘
     $ue = new \ue\exporter;
+    $options = (new \ue\options)->get_options();
+    $ue->set_options($options);
     $ue->run();
     
     return;

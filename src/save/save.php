@@ -85,6 +85,7 @@ class save
 
     public function run()
     {
+        if ($this->is_disabled()){ return; }
         $this->loop_over_mappings();
         return $this->results;
     }
@@ -225,7 +226,7 @@ class save
 
     // ┌─────────────────────────────────────────────────────────────────────────┐
     // │                                                                         │
-    // │                           Set Defaults / Checks                         │
+    // │                                Set Defaults                             │
     // │                                                                         │
     // └─────────────────────────────────────────────────────────────────────────┘
 
@@ -246,6 +247,13 @@ class save
     }
 
 
+
+    // ┌─────────────────────────────────────────────────────────────────────────┐
+    // │                                                                         │
+    // │                                    Checks                               │
+    // │                                                                         │
+    // └─────────────────────────────────────────────────────────────────────────┘
+
     private function is_there_an_image()
     {
         if (!isset($this->post_value['image']['path'])) 
@@ -259,6 +267,16 @@ class save
         }
         
         return true;
+    }
+
+
+    private function is_disabled()
+    {
+        if ($this->options['ue_save_group']['ue_save_enabled'] == false)
+        {
+            return true;
+        }
+        return false;
     }
 
 }

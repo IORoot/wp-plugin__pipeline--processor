@@ -19,13 +19,14 @@ class exporter
     {
         set_time_limit(600); // 10 mins - apache Timeout = 300 (5 mins)
 
-        $this->options = (new options)->get_options();
-
         return;
     }
 
 
-
+    public function set_options($options)
+    {
+        $this->options = $options;
+    }
 
 
     public function run()
@@ -50,7 +51,7 @@ class exporter
 
 
 
-    public function process_single_export()
+    private function process_single_export()
     {
         $this->run_class('ue\content');
 
@@ -59,20 +60,18 @@ class exporter
         $this->run_class('ue\mappings');
 
         $this->run_class('ue\save');
+
+        $this->run_class('ue\schedule');
     }
 
 
 
-
-
-    public function run_class($classname)
+    private function run_class($classname)
     {
         $class = new $classname;
         $class->set_options($this->options[$this->_export_key]);
         $class->set_collection($this->results);
         $this->results[$classname] = $class->run();
     }
-
-
 
 }
