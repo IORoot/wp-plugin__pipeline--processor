@@ -71,7 +71,15 @@ class process_record
         }
     }
 
-
+    /**
+     * remove_all_unneeded_fields function
+     *
+     * This will only keep the fields in the record that there are
+     * defined mutation rules for. This will become 
+     * $this->smaller_record;
+     * 
+     * @return void
+     */
     public function remove_all_unneeded_fields()
     {
         // check against each config field.

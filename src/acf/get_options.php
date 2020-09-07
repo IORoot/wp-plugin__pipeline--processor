@@ -5,7 +5,7 @@ namespace ue;
 class options
 {
 
-    public $repeaters = [ 'job', 'content', 'process', 'save', 'schedule', 'auth', 'export', 'housekeep'];
+    public $repeaters = [ 'job', 'content', 'process', 'save', 'schedule', 'export', 'housekeep'];
     public $prefix = 'ue';
     public $main_repeater = 'job';
 

@@ -7,6 +7,8 @@ use ue\interfaces\mutationInterface;
 class filter implements mutationInterface
 {
     
+    use \ue\utils;
+
     public $description = "Runs a Wordpress Filter. Requires an array with 'filter' and 'args'. 
     '{{field_key}}' = current input field.
     '{{field_value}}' = current input field result value.
@@ -35,7 +37,7 @@ class filter implements mutationInterface
     private $filter_args;
     private $filter_result;
     
-    public function config($config)
+    public function config($config) 
     {
         $this->config = $config;
         return;
@@ -59,9 +61,9 @@ class filter implements mutationInterface
 
     private function get_filter_name()
     {
-        if (isset($this->config['filter']))
+        if (isset($this->config['filter_name']))
         {
-            $this->filter_name = $this->config['filter'];
+            $this->filter_name = $this->config['filter_name'];
         }
     }
 
@@ -69,9 +71,9 @@ class filter implements mutationInterface
 
     private function get_filter_args()
     {
-        if (isset($this->config['args']))
+        if (isset($this->config['filter_arguments']))
         {
-            $this->filter_args = $this->config['args'];
+            $this->filter_name = $this->config['filter_arguments'];
         }
     }
 

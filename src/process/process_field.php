@@ -81,14 +81,21 @@ class process_field
                 continue;
             }
 
-            $this->loop_through_matched_group();
+            $this->loop_through_matched_stack();
         }
     }
 
 
-    private function loop_through_matched_group()
+    /**
+     * loop_through_matched_stack function
+     * 
+     * This is the flexible content section.
+     * 
+     * @return void
+     */
+    private function loop_through_matched_stack()
     {
-        foreach ($this->mutation_group['ue_mutation_group'] as $this->mutation_single)
+        foreach ($this->mutation_group['ue_mutation_stack'] as $this->mutation_single)
         {
             $this->args_to_array();
             $this->replace_moustaches();
@@ -100,18 +107,24 @@ class process_field
 
     private function args_to_array()
     {
-        $config = $this->mutation_single['ue_mutation_parameters'];
-        $this->mutation_single['ue_mutation_parameters'] = $this::string_to_array($config);
+        if(!isset($this->mutation_single['filter_arguments'])){ return; }
+        $arguments = $this->mutation_single['filter_arguments'];
+        $this->mutation_single['filter_arguments'] = $this::string_to_array($arguments);
     }
 
 
     private function replace_moustaches()
     {
-        if (!isset($this->mutation_single['ue_mutation_parameters'])){ return; }
-        if ($this->mutation_single['ue_mutation_parameters'] == null){ return; }
+        if (!isset($this->mutation_single['acf_fc_layout'])){ return; }
+        if ($this->mutation_single['enabled'] == false){ return; }
 
-        foreach($this->mutation_single['ue_mutation_parameters'] as $arg_key => $args)
+        foreach($this->mutation_single as $arg_key => $args)
         {
+
+            /**
+             * ANDYP TODO
+             * Needs to be recursive, otherwise nested args are not moustache processed.
+             */
             if (is_array($args)){
                 return;
             }
@@ -120,7 +133,7 @@ class process_field
 
             foreach ($matches[1] as $match_key => $match) 
             {
-                $this->mutation_single['ue_mutation_parameters'][$arg_key] = $this->$match;
+                $this->mutation_single[$arg_key] = $this->$match;
             }
 
             unset($matches);
@@ -137,13 +150,10 @@ class process_field
             return;
         }
 
-        $mutation_name = '\ue\mutation\\' . $this->mutation_single['ue_mutation_type'];
-        $mutation_args = $this->mutation_single['ue_mutation_parameters'];
-        $mutation_data = $this->field_value;
-
+        $mutation_name = '\ue\mutation\\' . $this->mutation_single['acf_fc_layout'];
         $mutation = new $mutation_name;
-        $mutation->config($mutation_args);
-        $mutation->in($mutation_data);
+        $mutation->config($this->mutation_single);
+        $mutation->in($this->field_value);
 
         $this->result = $mutation->out();
 

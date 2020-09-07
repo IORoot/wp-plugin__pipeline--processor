@@ -4,10 +4,10 @@ namespace ue\mutation;
 
 use ue\interfaces\mutationInterface;
 
-class filter_genimage implements mutationInterface
+class generator_image implements mutationInterface
 {
     
-    public $description = "Runs the GENIMAGE Filter to generate and convert files. Requires three settings:
+    public $description = "Runs the Generator-Image Plugin to generate and convert files. Requires three settings:
 filter_slug  :  The Name of the filter group in genimage you wish to run.
 images_array :  An array of WP_Posts or a casted array of WP_Post. The Image generator will look for the post['id']
                 field to convert to a real WP_Post object if the WP_Post/WP_Term is not found. see the src/wp/wp_get_image.php
@@ -41,6 +41,7 @@ saves_array  :  An array of formats you wish to save as.
 
     public function out()
     {
+        if ($this->is_disabled()){ return; }
         $this->set_filter_slug();
         $this->set_images_array();
         $this->set_saveas_array();
@@ -108,11 +109,11 @@ saves_array  :  An array of formats you wish to save as.
      */
     private function set_saveas_array()
     {
-        if (!isset($this->config['saves_array'])) {
+        if (!isset($this->config['save_as'])) {
             return;
         }
 
-        foreach($this->config['saves_array'] as $savetype)
+        foreach($this->config['save_as'] as $savetype)
         {
             $save_array[$savetype] = true;
         }
@@ -121,10 +122,26 @@ saves_array  :  An array of formats you wish to save as.
     }
 
 
+
+    /**
+     * set_dimensions function
+     *
+     * [
+     *      width = '600',
+     *      height = '600',
+     * ]
+     * @return void
+     */
     private function set_dimensions()
     {
-        if (isset($this->config['resize'])) {
-            $this->filter_args[3] = $this->config['resize'];
+        if ($this->config['image_width'] != '') {
+            $resize['width'] = $this->config['image_width'];
+        }
+        if ($this->config['image_height']  != '') {
+            $resize['height'] = $this->config['image_height'];
+        }
+        if ($this->config['image_width']  != '' || $this->config['image_height']  != '') {
+            $this->filter_args[3] = $resize;
         }
     }
 
@@ -140,4 +157,19 @@ saves_array  :  An array of formats you wish to save as.
     }
 
 
+    /**
+     * is_disabled function
+     *
+     * Check to see if enabled or not.
+     * 
+     * @return boolean
+     */
+    private function is_disabled()
+    {
+        if ($this->config['enabled'] == false)
+        {
+            return true;
+        }
+        return false;
+    }
 }
