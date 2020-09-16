@@ -166,6 +166,8 @@ class ue_youtube
         ];
 
         $this->results = $this->service->channels->listChannels( 'snippet,contentDetails,statistics', $queryParams );
+
+        $this->debug_update('export', $this->results);
     }
 
 

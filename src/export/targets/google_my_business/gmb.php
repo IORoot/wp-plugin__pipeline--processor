@@ -15,6 +15,9 @@
 
 class ue_google_my_business
 {
+    
+    use \ue\debug;
+    
     private $options;
 
     private $data;
@@ -163,6 +166,8 @@ class ue_google_my_business
          */
 
         $this->results = $this->service->accounts->listAccounts();
+
+        $this->debug('export', $this->results);
     }
 
 

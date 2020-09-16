@@ -22,17 +22,10 @@ trait debug
     public function debug($section, $message)
     {
         $this->set_acf_textarea($section);
-        
-        $this->get_character_limit();
-
-        $this->set_record_count();
 
         $this->debug_clear();
 
         $this->debug_update($section, $message);
-
-        $this->set_character_count();
-        $this->set_line_count();
     }
 
 
@@ -68,12 +61,15 @@ trait debug
 
     public function debug_update($section, $message)
     {
+        $this->set_acf_textarea($section);
+
+        $this->get_character_limit();
+
+        $this->set_record_count();
+        
         $title = $this->add_title($section);
 
-        $value = $this::to_pretty_JSON($message);
-
-        $this->set_character_count();
-        $this->set_line_count();
+        $value = $this::to_print_r($message);
 
         $current = get_field($this->acf_textarea, 'option');
 
@@ -82,6 +78,9 @@ trait debug
         if ($this->char_limit != 0){
             $this->trimmed_string = substr($value, 0, $this->char_limit);
         }
+
+        $this->set_character_count();
+        $this->set_line_count();
 
         $update = update_field($this->acf_textarea, $this->trimmed_string, 'option');
 

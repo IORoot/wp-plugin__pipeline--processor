@@ -31,6 +31,11 @@ trait utils
     use utils\to_pretty_JSON;
 
     /**
+     * Convert array / string / object to a nice printable format (for outputting to screen).
+     */
+    use utils\to_print_r;
+
+    /**
      * Return true / false if section is disabled or not.
      */
     use utils\is_disabled;
