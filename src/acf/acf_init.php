@@ -11,7 +11,6 @@ require __DIR__.'/acf_codemirror.php';
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/on_update.php';
 
-
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │            Populate all of the 'select' types automatically             │
 //  └─────────────────────────────────────────────────────────────────────────┘
@@ -35,3 +34,10 @@ require __DIR__.'/selects/populate_ue_save_taxonomy_type.php';
 
 // Schedule
 require __DIR__.'/selects/populate_ue_schedule_repeat.php';
+
+
+//  ┌─────────────────────────────────────────────────────────────────────────┐
+//  │                           OAUTH Buttons                                 │
+//  └─────────────────────────────────────────────────────────────────────────┘
+require __DIR__.'/buttons/update_youtube_oauth_button.php';
+require __DIR__.'/buttons/update_gmb_oauth_button.php';

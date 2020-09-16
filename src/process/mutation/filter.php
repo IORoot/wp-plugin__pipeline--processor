@@ -84,11 +84,13 @@ class filter implements mutationInterface
         if ($this->filter_name == null)
         {
             $this->filter_result = "No filter Name given.";
+            return;
         }
         
         if ($this->filter_args == null)
         {
             $this->filter_result = "No filter Args given.";
+            return;
         }
 
         $this->filter_result = apply_filters_ref_array($this->filter_name, $this->filter_args);

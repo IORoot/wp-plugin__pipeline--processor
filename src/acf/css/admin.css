@@ -59,3 +59,16 @@
 #acf-group_5f3961dfdb25b .acf-field-group {
     padding: 0px;
 }
+
+/*  ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                         │
+    │                              OAUTH Button                               │
+    │                                                                         │
+    └─────────────────────────────────────────────────────────────────────────┘ */
+.acf-field-message.enabled #acf__youtube-oauth,
+.acf-field-message.enabled #acf__gmb-oauth {
+    background-color: #38EF7D;
+    color: #fff;
+    border: none;
+    opacity: 0.5;
+}

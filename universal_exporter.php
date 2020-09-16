@@ -14,12 +14,19 @@
 define( 'ANDYP_UE_URL', plugins_url( '/', __FILE__ ) );
 define( 'ANDYP_UE_PATH', __DIR__ );
 
+define('GOOGLE_APPLICATION_CREDENTIALS', __DIR__.'/client_secret.json');
 
 // ┌─────────────────────────────────────────────────────────────────────────┐
 // │                         Use composer autoloader                         │
 // └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/vendor/autoload.php';
-    
+
+//  ┌─────────────────────────────────────────────────────────────────────────┐
+//  │                                 OAUTH                                   │
+//  └─────────────────────────────────────────────────────────────────────────┘
+require __DIR__.'/src/export/targets/google/decode_state.php';
+require __DIR__.'/src/export/targets/youtube/youtube_oauth.php';
+require __DIR__.'/src/export/targets/google_my_business/gmb_oauth.php';
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │                               The CPT                                   │
@@ -31,3 +38,4 @@ require __DIR__.'/src/cpt/exporter_cpt.php';
 //  │                          The ACF Admin Page                             │
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/src/acf/acf_init.php';
+
