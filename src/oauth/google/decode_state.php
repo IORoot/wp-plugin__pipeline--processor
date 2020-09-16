@@ -6,7 +6,7 @@
 add_action( 'init',	'_decode_state', 9 );
 
 /* 
- * This is speicfically for the GOOGLE OAUTH SERVER.
+ * This is specifically for the GOOGLE OAUTH SERVER.
  * 
  * It returns a 'state' parameter with a base64, json encoded array
  * of key-pairs that need to be added to the $_REQUEST array.

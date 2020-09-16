@@ -22,13 +22,6 @@ define('GOOGLE_APPLICATION_CREDENTIALS', __DIR__.'/client_secret.json');
 require __DIR__.'/vendor/autoload.php';
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
-//  │                                 OAUTH                                   │
-//  └─────────────────────────────────────────────────────────────────────────┘
-require __DIR__.'/src/export/targets/google/decode_state.php';
-require __DIR__.'/src/export/targets/youtube/youtube_oauth.php';
-require __DIR__.'/src/export/targets/google_my_business/gmb_oauth.php';
-
-//  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │                               The CPT                                   │
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/src/cpt/add_image_column.php';
