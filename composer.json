@@ -12,8 +12,7 @@
     },
     "extra": {
         "google/apiclient-services": [
-            "YouTube",
-            "MyBusiness"
+            "YouTube"
         ]
     }
 }
