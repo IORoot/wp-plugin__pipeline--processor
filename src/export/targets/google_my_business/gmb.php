@@ -90,33 +90,5 @@ class ue_google_my_business
         }
         return false;
     }
-
-
-            
-    // /**
-    //  * List all location details for account ID
-    //  * 
-    //  * LondonParkour Account = 'accounts/106324301700393434193'
-    // */
-    // private function get_account_locations()
-    // {
-    //     $account = 'accounts/106324301700393434193';
-    //     $this->results = $this->service->accounts_locations->listAccountsLocations($account);
-    //     $this->debug('export', $this->results);
-    // }
-
-
-    // /**
-    //  * List all LocalPosts for specific location.
-    //  * 
-    //  * LondonParkour Location = 'accounts/106324301700393434193/locations/13389130540797665003'
-    //  */
-    // private function get_location_localposts()
-    // {
-    //     $location = 'accounts/106324301700393434193/locations/13389130540797665003';
-    //     $this->results = $this->service->accounts_locations_localPosts->listAccountsLocationsLocalPosts($location);
-    //     $this->debug('export', $this->results);
-    // }
-
     
 }

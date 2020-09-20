@@ -97,22 +97,40 @@ class process_field
     {
         foreach ($this->mutation_group['ue_mutation_stack'] as $this->mutation_single)
         {
-            $this->args_to_array();
             $this->replace_moustaches();
+            $this->args_to_array();
             $this->run_mutation();
         }
     }
 
 
-
+    /**
+     * args_to_array
+     *
+     * Converts a string to an array.
+     * Useful for converting the input values in the arguments
+     * textarea fields into proper arrays.
+     * 
+     * @return void
+     */
     private function args_to_array()
     {
         if(!isset($this->mutation_single['filter_arguments'])){ return; }
+        if(is_array($this->mutation_single['filter_arguments'])){ return; }
+
         $arguments = $this->mutation_single['filter_arguments'];
         $this->mutation_single['filter_arguments'] = $this::string_to_array($arguments);
     }
 
 
+    /**
+     * replace_moustaches
+     * 
+     * Look for any {{moustache}} brackets
+     * and swap them for the $this->moustache value.
+     *
+     * @return void
+     */
     private function replace_moustaches()
     {
         if (!isset($this->mutation_single['acf_fc_layout'])){ return; }
@@ -133,7 +151,9 @@ class process_field
 
             foreach ($matches[1] as $match_key => $match) 
             {
-                $this->mutation_single[$arg_key] = $this->$match;
+                $value = '{{'.$match.'}}';
+                $replace_with = $this->$match;
+                $this->mutation_single[$arg_key] = str_replace($value, $replace_with, $this->mutation_single[$arg_key]);
             }
 
             unset($matches);
@@ -141,14 +161,15 @@ class process_field
     }
     
 
+    /**
+     * run_mutation
+     * 
+     * Find the mutation selected and run it.
+     *
+     * @return void
+     */
     private function run_mutation()
     {
-
-        if (!is_string($this->field_value))
-        {
-            $this->result = $this->field_value;
-            return;
-        }
 
         $mutation_name = '\ue\mutation\\' . $this->mutation_single['acf_fc_layout'];
         $mutation = new $mutation_name;

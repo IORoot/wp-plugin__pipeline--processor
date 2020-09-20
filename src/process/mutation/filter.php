@@ -73,7 +73,7 @@ class filter implements mutationInterface
     {
         if (isset($this->config['filter_arguments']))
         {
-            $this->filter_name = $this->config['filter_arguments'];
+            $this->filter_args = $this->config['filter_arguments'];
         }
     }
 
@@ -93,7 +93,7 @@ class filter implements mutationInterface
             return;
         }
 
-        $this->filter_result = apply_filters_ref_array($this->filter_name, $this->filter_args);
+        $this->filter_result[] = apply_filters_ref_array($this->filter_name, $this->filter_args);
 
         return;
     }

@@ -2,7 +2,7 @@
 
 namespace ue\exporter\gmb;
 
-class call_to_action
+class events
 {
 
     use \ue\debug;
@@ -44,12 +44,25 @@ class call_to_action
     public function run()
     {
         if ($this->isDisabled()){ return; }
-        
+
         $this->parse_moustaches();
-        $this->build_CTA();
+        $this->parse_datetimes();
+
+        $this->build_startDate();
+        $this->build_startTime();
+        $this->build_endDate();
+        $this->build_endTime();
+        $this->build_schedule();
+        $this->build_event();
+
         $this->build_mediaItem();
+
+        $this->build_CTA();
+
         $this->build_localPost();
+
         $this->create_localPost();
+
         $this->debug('export', $this->results);
     }
     
@@ -87,9 +100,70 @@ class call_to_action
             $parse = new \ue\parse\replace_moustaches_in_array($postid, $this->options);
             $this->options = $parse->get_results();
         }
-        
     }
 
+    private function parse_datetimes()
+    {
+        $this->start_datetime = explode(',', $this->options['event_settings']['gmb_event_start_datetime']);
+        $this->end_datetime = explode(',', $this->options['event_settings']['gmb_event_end_datetime']);
+    }
+
+    /**
+     * build_event
+     * 
+     * Generate a Event object.
+     *
+     * @return void
+     */
+    private function build_event()
+    {
+        $this->event = new \Google_Service_MyBusiness_LocalPostEvent();
+        $this->event->setTitle($this->options['event_settings']['gmb_event_title']);
+        $this->event->setSchedule($this->schedule);
+    }
+
+    private function build_schedule()
+    {
+        $this->schedule = new \Google_Service_MyBusiness_TimeInterval();
+        $this->schedule->setStartDate($this->startdate);
+        $this->schedule->setStartTime($this->starttime);
+        $this->schedule->setEndDate($this->enddate);
+        $this->schedule->setEndTime($this->endtime);
+    }
+
+    private function build_startDate()
+    {
+        $this->startdate = new \Google_Service_MyBusiness_Date();
+        $this->startdate->setYear((int)$this->start_datetime[0]);
+        $this->startdate->setMonth((int)$this->start_datetime[1]);
+        $this->startdate->setDay((int)$this->start_datetime[2]);
+    }
+
+    private function build_startTime()
+    {
+        $this->starttime = new \Google_Service_MyBusiness_TimeOfDay();
+        $this->starttime->setHours((int)$this->start_datetime[3]);
+        $this->starttime->setMinutes((int)$this->start_datetime[4]);
+        $this->starttime->setSeconds((int)$this->start_datetime[5]);
+        $this->starttime->setNanos(0);
+    }
+
+    private function build_endDate()
+    {
+        $this->enddate = new \Google_Service_MyBusiness_Date();
+        $this->enddate->setYear((int)$this->end_datetime[0]);
+        $this->enddate->setMonth((int)$this->end_datetime[1]);
+        $this->enddate->setDay((int)$this->end_datetime[2]);
+    }
+
+    private function build_endTime()
+    {
+        $this->endtime = new \Google_Service_MyBusiness_TimeOfDay();
+        $this->endtime->setHours((int)$this->end_datetime[3]);
+        $this->endtime->setMinutes((int)$this->end_datetime[4]);
+        $this->endtime->setSeconds((int)$this->end_datetime[5]);
+        $this->endtime->setNanos(0);
+    }
 
     /**
      * build_CTA
@@ -101,8 +175,8 @@ class call_to_action
     private function build_CTA()
     {
         $this->CTA = new \Google_Service_MyBusiness_CallToAction();
-        $this->CTA->setActionType($this->options['cta_settings']['gmb_cta_action_type']);
-        $this->CTA->setUrl($this->options['cta_settings']['gmb_cta_url']);
+        $this->CTA->setActionType($this->options['event_settings']['gmb_event_button_action_type']);
+        $this->CTA->setUrl($this->options['event_settings']['gmb_event_button_url']);
     }
 
     /**
@@ -115,8 +189,8 @@ class call_to_action
     private function build_mediaItem()
     {
         $this->media = new \Google_Service_MyBusiness_MediaItem();
-        $this->media->setMediaFormat($this->options['cta_settings']['gmb_cta_media_type']);
-        $this->media->setSourceUrl($this->options['cta_settings']['gmb_cta_media_source_url']);
+        $this->media->setMediaFormat($this->options['event_settings']['gmb_event_media_type']);
+        $this->media->setSourceUrl($this->options['event_settings']['gmb_event_media_source_url']);
     }
 
     /**
@@ -130,8 +204,9 @@ class call_to_action
     private function build_localPost()
     {
         $this->localPost = new \Google_Service_MyBusiness_LocalPost();
-        $this->localPost->setSummary(substr($this->options['gmb_cta_summary'],0,1500));
+        $this->localPost->setSummary(substr($this->options['gmb_event_summary'],0,1500));
         $this->localPost->setLanguageCode('en-GB');
+        $this->localPost->setEvent($this->event);
         $this->localPost->setCallToAction($this->CTA);
         $this->localPost->setMedia($this->media);
     }
@@ -148,7 +223,7 @@ class call_to_action
 
         try {
             $this->results = $this->service->accounts_locations_localPosts->create(
-                $this->options['gmb_cta_locationid'],
+                $this->options['gmb_event_locationid'],
                 $this->localPost
             );
         } 
@@ -166,4 +241,5 @@ class call_to_action
         }
         return false;
     }
+
 }
