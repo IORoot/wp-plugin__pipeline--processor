@@ -45,8 +45,3 @@ class ue_oauth
     }
 
 }
-
-/**
- * Initialise to setup all actions.
- */
-new ue_oauth();

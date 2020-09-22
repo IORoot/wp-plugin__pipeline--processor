@@ -56,7 +56,7 @@ function enqueue_gmb_oauth() {
      * ajax_object.ajax_url
      * ajax_object.auth_url
      */
-    wp_localize_script( 'gmb-ajax-script', 'ajax_object', 
+    wp_localize_script( 'gmb-ajax-script', 'gmb_ajax_object', 
         [
             'ajax_url' => admin_url( 'admin-ajax.php' ), 
             'auth_url' => $auth_url

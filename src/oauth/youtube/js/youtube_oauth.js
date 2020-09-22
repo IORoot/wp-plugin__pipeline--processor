@@ -48,7 +48,7 @@
      * ajax_object.auth_url contains the URL from PHP.
      */
     function oauth_do_request() {
-        var win = window.open( ajax_object.auth_url, "_blank", "width=600,height=600" );
+        var win = window.open( youtube_ajax_object.auth_url, "_blank", "width=600,height=600" );
     }
 
     /**
@@ -64,7 +64,7 @@
 
             dataType : "json",
 
-            url : ajax_object.ajax_url,
+            url : youtube_ajax_object.ajax_url,
 
             data : { action: "delete_youtube_oauth_transients" },
 

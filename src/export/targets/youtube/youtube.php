@@ -42,7 +42,7 @@ class ue_youtube
     {
         $this->set_client();
         if ($this->noClient()){ return; }
-        $this->run_youtube_request();
+        $this->do_requests();
     }
 
 
@@ -54,35 +54,24 @@ class ue_youtube
     }
 
 
-    /**
-     * Get a new YouTube Object.
-     * 
-     * Services are called through queries to service specific objects. 
-     * These are created by constructing the service object, and passing an 
-     * instance of Google_Client to it. Google_Client contains the IO, authentication 
-     * and other classes required by the service to function, and the service informs 
-     * the client which scopes it uses to provide a default when authenticating a user.
-     */
-    private function run_youtube_request()
+    private function do_requests()
     {
-
-        $this->service = new \Google_Service_YouTube($this->client);
-
-        /**
-         * Each API provides resources and methods, usually in a chain. These can be 
-         * accessed from the service object in the form $service->resource->method(args). 
-         * Most method require some arguments, then accept a final parameter of an array 
-         * containing optional parameters.
-         */
-        $queryParams = [
-            'mine' => true
-        ];
-
-        $this->results = $this->service->channels->listChannels( 'snippet,contentDetails,statistics', $queryParams );
-
-        $this->debug_update('export', $this->results);
+        foreach ($this->options["ue_cta_universal_exporter_google_my_business_posts"] as $this->request_type)
+        {
+            $this->run_youtube_request();
+        }
     }
 
+    private function run_youtube_request()
+    {
+        $request_name = '\\ue\\exporter\\youtube\\' . $this->request_type['acf_fc_layout'];
+        $this->request = new $request_name;
+        $this->request->set_options($this->request_type);
+        $this->request->set_data($this->data);
+        $this->request->set_client($this->client);
+        $this->request->run();
+        $this->results[] = $this->request->get_result();
+    }
 
     /**
      * noTokens function

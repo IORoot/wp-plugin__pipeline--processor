@@ -20,7 +20,7 @@ function enqueue_youtube_oauth() {
     /**
      * Add script to footer.
      */
-	wp_enqueue_script( 'youtube-ajax-script', plugins_url( '../js/youtube_oauth.js', __FILE__ ), array('acf-input'), '5.8.7');
+	wp_enqueue_script( 'youtube-oauth-ajax-script', plugins_url( '../js/youtube_oauth.js', __FILE__ ), array('acf-input'), '5.8.7');
 
     /**
      * Generate AUTH URL
@@ -57,7 +57,7 @@ function enqueue_youtube_oauth() {
      * ajax_object.ajax_url
      * ajax_object.auth_url
      */
-    wp_localize_script( 'youtube-ajax-script', 'ajax_object', 
+    wp_localize_script( 'youtube-oauth-ajax-script', 'youtube_ajax_object', 
         [
             'ajax_url' => admin_url( 'admin-ajax.php' ), 
             'auth_url' => $auth_url
