@@ -51,7 +51,11 @@ saves_array  :  An array of formats you wish to save as.
         return $this->filter_result;
     }
 
-
+    public function out_collection()
+    {
+        return $this->out();
+    }
+    
     /**
      * filter_slug variable
      * 

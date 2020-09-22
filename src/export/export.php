@@ -5,7 +5,9 @@ namespace ue;
 class export
 {
 
-/**
+    use debug;
+    
+    /**
      * options variable
      * 
      * Contains all of the "save" options for this instance.
@@ -48,6 +50,7 @@ class export
     public function run()
     {
         if ($this->is_disabled()){ return; }
+        $this->debug_clear('export');
         $this->loop_through_exporters();
         return $this->results;
     }

@@ -50,7 +50,7 @@ class call_to_action
         $this->build_mediaItem();
         $this->build_localPost();
         $this->create_localPost();
-        $this->debug('export', $this->results);
+        $this->debug_update('export', $this->results);
     }
     
 
@@ -152,8 +152,11 @@ class call_to_action
                 $this->localPost
             );
         } 
-        catch (Exception $e) {
-            $this->results = 'Caught exception: ' .  $e->getMessage() . "\n" . 'Request was: ' . $this->localPost;
+        catch (\Google_Service_Exception $e) {
+            $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
+        }
+        catch (\Exception $e) {
+            $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
         }
 
     }

@@ -8,7 +8,7 @@ class process_record
     public $current_config;
 
     public $collection;
-
+    public $previous_results;
     public $record;
     public $smaller_record;
 
@@ -27,17 +27,14 @@ class process_record
         $this->record = $record;
     }
 
-    /**
-     * set_collection
-     * 
-     * Used for {{collection}} moustache
-     *
-     * @param array $collection
-     * @return void
-     */
     public function set_collection($collection)
     {
         $this->collection = $collection;
+    }
+
+    public function set_previous_results($previous_results)
+    {
+        $this->previous_results = $previous_results;
     }
 
     public function run()
@@ -48,8 +45,7 @@ class process_record
     }
 
 
-
-    public function loop_through_all_fields()
+    private function loop_through_all_fields()
     {
         foreach ($this->smaller_record as $this->field_key => $this->field_value)
         {
@@ -60,7 +56,7 @@ class process_record
     }
 
 
-    public function get_moustache_value()
+    private function get_moustache_value()
     {
         foreach ($this->config as $key => $value)
         {
@@ -80,7 +76,7 @@ class process_record
      * 
      * @return void
      */
-    public function remove_all_unneeded_fields()
+    private function remove_all_unneeded_fields()
     {
         // check against each config field.
         foreach ($this->config as $this->current_config) {
@@ -101,14 +97,15 @@ class process_record
 
 
     
-    public function process_field()
+    private function process_field()
     {
         $field = new process_field;
         $field->set_config($this->config);
         $field->set_field_key($this->field_key);
         $field->set_field_value($this->field_value);
-        $field->set_record($this->record);          // used for {{record}} moustache
-        $field->set_collection($this->collection);  // used for {{collection}} moustache
+        $field->set_record($this->record);                      // used for {{record}} moustache
+        $field->set_collection($this->collection);              // used for {{collection}} moustache
+        $field->set_previous_results($this->previous_results);  // used for {{previous_result}} moustache
         $this->result[$this->moustache] = $field->run();
     }
 }

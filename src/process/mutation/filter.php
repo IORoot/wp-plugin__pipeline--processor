@@ -57,6 +57,10 @@ class filter implements mutationInterface
         return $this->filter_result;
     }
 
+    public function out_collection()
+    {
+        return $this->out();
+    }
 
 
     private function get_filter_name()

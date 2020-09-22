@@ -12,6 +12,7 @@ class process_field
 
     public $record;
     public $collection;
+    public $previous_results;
 
     public $field_key;
     public $field_value;
@@ -27,30 +28,19 @@ class process_field
         $this->config = $config;
     }
 
-    /**
-     * set_record
-     * 
-     * Used for {{record}} moustache
-     *
-     * @param array $record
-     * @return void
-     */
     public function set_record($record)
     {
         $this->record = $record;
     }
 
-    /**
-     * set_collection
-     * 
-     * Used for {{collection}} moustache
-     *
-     * @param array $collection
-     * @return void
-     */
     public function set_collection($collection)
     {
         $this->collection = $collection;
+    }
+
+    public function set_previous_results($previous_results)
+    {
+        $this->previous_results = $previous_results;
     }
 
     public function set_field_key($field_key)
@@ -66,7 +56,6 @@ class process_field
     public function run()
     {
         $this->match_mutation_group();
-
         return $this->result;
     }
 
@@ -82,8 +71,11 @@ class process_field
             }
 
             $this->loop_through_matched_stack();
+            
+            
         }
     }
+
 
 
     /**
@@ -95,14 +87,37 @@ class process_field
      */
     private function loop_through_matched_stack()
     {
-        foreach ($this->mutation_group['ue_mutation_stack'] as $this->mutation_single)
+        foreach ($this->mutation_group['ue_mutation_stack_mutation_stack'] as $this->mutation_single)
         {
             $this->replace_moustaches();
             $this->args_to_array();
-            $this->run_mutation();
+            $this->add_extras_to_config();
+            $this->run_processing_type();
         }
     }
 
+    /**
+     * check_processing_type
+     * 
+     * Should we run normally through all of the records
+     * or do it only once on entire collection?
+     * 
+     * Collection only works on mutations setup for it.
+     * - ffmpeg youtube downloader
+     * - ffmpeg multi processor
+     *
+     * @return void
+     */
+    private function run_processing_type()
+    {
+        if ($this->mutation_group['ue_process_method'] == 'collection')
+        {
+            $this->run_mutation_collection();
+            return;
+        }
+
+        $this->run_mutation();
+    }
 
     /**
      * args_to_array
@@ -162,6 +177,23 @@ class process_field
     
 
     /**
+     * add_extras_to_config
+     * 
+     * Include all the other bits and pieces incase the
+     * mutation needs it.
+     *
+     * @return void
+     */
+    private function add_extras_to_config()
+    {
+        $this->mutation_single['record'] = $this->record;
+        $this->mutation_single['collection'] = $this->collection;
+        $this->mutation_single['previous_results'] = $this->previous_results;
+        $this->mutation_single['field_key'] = $this->field_key;
+        $this->mutation_single['field_value'] = $this->field_value;
+    }
+
+    /**
      * run_mutation
      * 
      * Find the mutation selected and run it.
@@ -176,10 +208,36 @@ class process_field
         $mutation->config($this->mutation_single);
         $mutation->in($this->field_value);
 
-        $this->result = $mutation->out();
+        $this->result[] = $mutation->out();
 
     }
 
+    /**
+     * run_mutation_collection
+     * 
+     * Only run once on the first record, but do the entire
+     * collection at the same time. (Only if mutation can do it).
+     *
+     * @return void
+     */
+    private function run_mutation_collection()
+    {
+        // Is this the first record?
+        if ($this->record['ID'] != $this->collection[0]['ID'])
+        {
+            $key = $this->mutation_group['ue_mutation_moustache'];
+            $this->result = $this->previous_results[0][$key];
+            return;
+        }
 
+        $mutation_name = '\ue\mutation\\' . $this->mutation_single['acf_fc_layout'];
+        $mutation = new $mutation_name;
+        $mutation->config($this->mutation_single);
+        $mutation->in($this->field_value);
+
+        // Alternative method to run entire collection.
+        $this->result = $mutation->out_collection();
+
+    }
     
 }

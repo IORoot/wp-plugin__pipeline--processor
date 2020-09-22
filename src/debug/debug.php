@@ -23,7 +23,7 @@ trait debug
     {
         $this->set_acf_textarea($section);
 
-        $this->debug_clear();
+        $this->debug_clear($section);
 
         $this->debug_update($section, $message);
     }
@@ -42,8 +42,9 @@ trait debug
 
 
 
-    public function debug_clear()
+    public function debug_clear($section)
     {
+        $this->set_acf_textarea($section);
         return update_field( $this->acf_textarea, '', 'option');
     }
 

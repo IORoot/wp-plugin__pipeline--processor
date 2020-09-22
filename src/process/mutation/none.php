@@ -30,5 +30,8 @@ class none implements mutationInterface
         return $this->input;
     }
 
-
+    public function out_collection()
+    {
+        return $this->out();
+    }
 }

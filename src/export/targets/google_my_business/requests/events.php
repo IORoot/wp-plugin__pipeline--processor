@@ -63,7 +63,7 @@ class events
 
         $this->create_localPost();
 
-        $this->debug('export', $this->results);
+        $this->debug_update('export', $this->results);
     }
     
 
@@ -227,8 +227,11 @@ class events
                 $this->localPost
             );
         } 
-        catch (Exception $e) {
-            $this->results = 'Caught exception: ' .  $e->getMessage() . "\n" . 'Request was: ' . $this->localPost;
+        catch (\Google_Service_Exception $e) {
+            $this->results = 'Caught \Google_Service_Exception: ' .  $e->getMessage() . "\n" . 'Request was: ' . $this->localPost;
+        }
+        catch (\Exception $e) {
+            $this->results = 'Caught \Exception: ' .  $e->getMessage() . "\n" . 'Request was: ' . $this->localPost;
         }
 
     }

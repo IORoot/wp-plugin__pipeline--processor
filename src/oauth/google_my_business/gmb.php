@@ -65,7 +65,9 @@ class oauth_gmb_client
      */
     private function create_client()
     {
-        $this->client = new Google_Client();
+        $this->client = new Google_Client([
+            'api_format_v2' => true
+        ]);
         
         $this->client->setAuthConfigFile(GOOGLE_APPLICATION_CREDENTIALS);
 

@@ -43,13 +43,15 @@ class process_collection
         }
     }
 
+
     
     public function process_record()
     {
         $record = new process_record;
         $record->set_config($this->config);
-        $record->set_record($this->collection_record);
-        $record->set_collection($this->collection); // used for {{collection}} moustache
+        $record->set_record($this->collection_record);       // used for {{record}} moustache
+        $record->set_collection($this->collection);          // used for {{collection}} moustache
+        $record->set_previous_results($this->result);        // used for {{previous_result}} moustache
         $this->result[$this->collection_key] = $record->run();
     }
 
