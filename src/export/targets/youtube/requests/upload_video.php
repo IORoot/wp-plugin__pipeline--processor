@@ -2,7 +2,7 @@
 
 namespace ue\exporter\youtube;
 
-class insert_video
+class upload_video
 {
 
     use \ue\debug;
@@ -32,24 +32,20 @@ class insert_video
         $this->client = $client;
     }
 
-    /**
-     * Get a new gmb Object.
-     * 
-     * Services are called through queries to service specific objects. 
-     * These are created by constructing the service object, and passing an 
-     * instance of Google_Client to it. Google_Client contains the IO, authentication 
-     * and other classes required by the service to function, and the service informs 
-     * the client which scopes it uses to provide a default when authenticating a user.
-     */
     public function run()
     {
         if ($this->isDisabled()){ return; }
         $this->parse_moustaches();
+        if ($this->isBadVideo()){ return; }
+        $this->build_video_path();
+        $this->build_video_snippet();
+        $this->build_video_tags();
+        $this->build_video_status();
+        $this->build_video();
+        $this->build_reliable_settings();
         $this->insert_video();
-        $this->debug_update('export', $this->results);
+        $this->update_thumbnail();
     }
-    
-
     
     public function get_result()
     {
@@ -86,6 +82,64 @@ class insert_video
         
     }
 
+    private function build_video_path()
+    {
+        $videoPath = trim($this->options['details']['video_path']);
+        $this->videoPath = $videoPath;
+    }
+
+
+    private function build_video_snippet()
+    {
+        $this->snippet = new \Google_Service_YouTube_VideoSnippet();
+        $this->snippet->setTitle($this->options['title']);
+        $this->snippet->setDescription($this->options['snippet']['description']);
+        $this->snippet->setCategoryId($this->options['details']['category']);
+    }
+
+    private function build_video_tags()
+    {
+        $tags = explode(',', trim($this->options['details']['tags']));
+        $this->snippet->setTags($tags);
+    }
+
+
+
+    private function build_video_status()
+    {
+        $this->status = new \Google_Service_YouTube_VideoStatus();
+        $this->status->privacyStatus = "public";
+        $this->status->setEmbeddable($this->options['details']['embeddable']) ;
+
+        if ($this->options['details']['privacy_status'] != "")
+        {
+            $this->status->setPrivacyStatus($this->options['details']['privacy_status']);
+        }
+
+        if ($this->options['details']['licence'] != "")
+        {
+            $this->status->setLicense($this->options['details']['licence']) ;
+        }
+
+        if ($this->options['details']['publishat'] != "")
+        {
+            $this->status->setPublishAt($this->options['details']['publishat']);
+        }
+    }
+
+    private function build_video()
+    {
+        $this->video = new \Google_Service_YouTube_Video();
+        $this->video->setSnippet($this->snippet);
+    }
+
+    private function build_reliable_settings()
+    {
+        $this->chunkSizeBytes = 1 * 1024 * 1024;
+        $this->client->setDefer(true);
+    }
+
+
     /**
      * Each API provides resources and methods, usually in a chain. These can be 
      * accessed from the service object in the form $service->resource->method(args). 
@@ -114,21 +168,65 @@ class insert_video
          */
         try {
 
-            $this->results = $this->service->channels->listChannels( 
-                'snippet,contentDetails,statistics', 
-                [
-                    'mine' => true
-                ]
+            // Create a request for the API's videos.insert method to create and upload the video.
+            $this->insertRequest = $this->service->videos->insert("status,snippet", $this->video);
+
+            // Create a MediaFileUpload object for resumable uploads.
+            $this->media = new \Google_Http_MediaFileUpload(
+                $this->client,
+                $this->insertRequest,
+                'video/*',
+                null,
+                true,
+                $this->chunkSizeBytes
             );
+
+            $this->media->setFileSize(filesize($this->videoPath));
+
+            // Read the media file and upload it chunk by chunk.
+            $this->status = false;
+            $this->handle = fopen($this->videoPath, "rb");
+
+            while (!$this->status && !feof($this->handle)) {
+                $this->chunk = fread($this->handle, $this->chunkSizeBytes);
+                $this->status = $this->media->nextChunk($this->chunk);
+            }
+
+            fclose($this->handle);
+
+            // If you want to make other calls after the file upload, set setDefer back to false
+            $this->client->setDefer(false);
+
+            // send to debugger.
+            $this->debug_update('export', $this->status);
+
+            $this->result['video'] = $this->status;
         } 
         catch (\Google_Service_Exception $e) {
             $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
+            $this->debug_update('export', $e->getMessage());
         }
         catch (\Exception $e) {
             $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
+            $this->debug_update('export', $e->getMessage());
         }
 
     }
+
+
+
+    private function update_thumbnail()
+    {
+        $this->thumbnail = new upload_thumbnail();
+        $this->thumbnail->set_imageURL(trim($this->options['details']['thumbnail_path']));
+        $this->thumbnail->set_videoId($this->status['id']);
+        $this->thumbnail->set_client($this->client);
+
+        $this->result['thumbnail'] = $this->thumbnail->run();
+    }
+
+
+
 
     private function isDisabled()
     {
@@ -138,4 +236,17 @@ class insert_video
         }
         return false;
     }
+
+
+    private function isBadVideo()
+    {
+        $filesize = filesize(trim($this->options['details']['video_path']));
+        if ($filesize < 100)
+        {
+            $this->debug_update('export', 'Bad Video File. < 100 bytes.');
+            return true;
+        }
+        return false;
+    }
+
 }

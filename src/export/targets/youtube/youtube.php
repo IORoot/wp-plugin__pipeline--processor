@@ -56,7 +56,7 @@ class ue_youtube
 
     private function do_requests()
     {
-        foreach ($this->options["ue_cta_universal_exporter_google_my_business_posts"] as $this->request_type)
+        foreach ($this->options["ue_video_universal_exporter_youtube_posts"] as $this->request_type)
         {
             $this->run_youtube_request();
         }

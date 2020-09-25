@@ -35,6 +35,7 @@ class ytdl_ffmpeg implements mutationInterface
 
     public function out()
     {
+        if ($this->is_disabled()){ return; }
         $this->get_filter_args();
         $this->run_filter();
 
@@ -43,6 +44,7 @@ class ytdl_ffmpeg implements mutationInterface
 
     public function out_collection()
     {
+        if ($this->is_disabled()){ return; }
         foreach ($this->config['collection'] as $this->current_key => $this->current_record)
         {
             $this->get_field();
@@ -89,6 +91,22 @@ class ytdl_ffmpeg implements mutationInterface
     private function run_filter_collection()
     {
         $this->filter_result[] = apply_filters_ref_array('ytdl_ffmpeg', $this->filter_args);
+    }
+
+    /**
+     * is_disabled function
+     *
+     * Check to see if enabled or not.
+     * 
+     * @return boolean
+     */
+    private function is_disabled()
+    {
+        if ($this->config['enabled'] == false)
+        {
+            return true;
+        }
+        return false;
     }
 
 }
