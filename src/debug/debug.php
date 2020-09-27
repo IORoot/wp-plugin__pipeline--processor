@@ -70,7 +70,8 @@ trait debug
         
         $title = $this->add_title($section);
 
-        $value = $this::to_print_r($message);
+        $value = $this::to_pretty_JSON($message);
+        // $value = $this::to_print_r($message);
 
         $current = get_field($this->acf_textarea, 'option');
 

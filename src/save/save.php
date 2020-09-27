@@ -266,6 +266,11 @@ class save
         {
             return false;
         }
+
+        if (filter_var($this->imageURL, FILTER_VALIDATE_URL) === FALSE)
+        {
+            return false;
+        }
         
         return true;
     }

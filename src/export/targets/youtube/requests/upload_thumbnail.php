@@ -22,7 +22,7 @@ class upload_thumbnail
     public function set_imageURL($imageURL)
     {
         $this->imageURL = $imageURL;
-        $this->imagePath = trim(str_replace(WP_HOME, ABSPATH, $imageURL));
+        $this->imagePath = trim(str_replace(WP_HOME.'/', ABSPATH, $imageURL));
     }
 
     public function set_videoId($videoId)
@@ -162,6 +162,7 @@ class upload_thumbnail
         catch (\Google_Service_Exception $e) {
             $this->result = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
             $this->debug_update('export', $e->getMessage());
+            $this->debug_update('export', 'CHECK - Has channel got custom thumbnails enabled?');
         }
         catch (\Exception $e) {
             $this->result = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);

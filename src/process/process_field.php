@@ -225,8 +225,7 @@ class process_field
         // Is this the first record?
         if ($this->record['ID'] != $this->collection[0]['ID'])
         {
-            $key = $this->mutation_group['ue_mutation_moustache'];
-            $this->result = $this->previous_results[0][$key];
+            $this->result = null;
             return;
         }
 

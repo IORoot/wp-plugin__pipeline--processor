@@ -44,6 +44,7 @@ class upload_video
         $this->build_video();
         $this->build_reliable_settings();
         $this->insert_video();
+        if ($this->isFailed()){ return; }
         $this->update_thumbnail();
     }
     
@@ -131,6 +132,7 @@ class upload_video
     {
         $this->video = new \Google_Service_YouTube_Video();
         $this->video->setSnippet($this->snippet);
+        $this->video->setStatus($this->status);
     }
 
     private function build_reliable_settings()
@@ -184,12 +186,12 @@ class upload_video
             $this->media->setFileSize(filesize($this->videoPath));
 
             // Read the media file and upload it chunk by chunk.
-            $this->status = false;
+            $this->returned = false;
             $this->handle = fopen($this->videoPath, "rb");
 
-            while (!$this->status && !feof($this->handle)) {
+            while (!$this->returned && !feof($this->handle)) {
                 $this->chunk = fread($this->handle, $this->chunkSizeBytes);
-                $this->status = $this->media->nextChunk($this->chunk);
+                $this->returned = $this->media->nextChunk($this->chunk);
             }
 
             fclose($this->handle);
@@ -198,13 +200,14 @@ class upload_video
             $this->client->setDefer(false);
 
             // send to debugger.
-            $this->debug_update('export', $this->status);
+            $this->debug_update('export', $this->returned);
 
-            $this->result['video'] = $this->status;
+            $this->result['video'] = $this->returned;
         } 
         catch (\Google_Service_Exception $e) {
             $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
             $this->debug_update('export', $e->getMessage());
+            $this->debug_update('export', 'CHECK - Have you run out of quota? INSERTS are 1600 credits! (only about 8 per day).');
         }
         catch (\Exception $e) {
             $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
@@ -219,7 +222,7 @@ class upload_video
     {
         $this->thumbnail = new upload_thumbnail();
         $this->thumbnail->set_imageURL(trim($this->options['details']['thumbnail_path']));
-        $this->thumbnail->set_videoId($this->status['id']);
+        $this->thumbnail->set_videoId($this->returned['id']);
         $this->thumbnail->set_client($this->client);
 
         $this->result['thumbnail'] = $this->thumbnail->run();
@@ -244,6 +247,15 @@ class upload_video
         if ($filesize < 100)
         {
             $this->debug_update('export', 'Bad Video File. < 100 bytes.');
+            return true;
+        }
+        return false;
+    }
+
+    private function isFailed()
+    {
+        if (!isset($this->returned['id']))
+        {
             return true;
         }
         return false;

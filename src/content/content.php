@@ -6,13 +6,13 @@ class content
 {
 
     use utils;   
+    use debug;
 
     public $options;
 
     public $results;
 
     public $class_object;
-
 
     public function set_options($options)
     {
@@ -28,10 +28,11 @@ class content
     public function run()
     {
         if ($this::is_disabled($this->options['ue_job_content_id'], 'content')){ return; }
+        $this->debug_clear('content');
+
         $this->instantiate_class();
         $this->set_args();
         $this->execute();
-
         return $this->results;
     }
 
@@ -39,9 +40,7 @@ class content
 
     public function instantiate_class()
     {
-
         $this->class_object = $this::class_instantiate('ue\content', $this->input_type());
-
         return;
 
     }
@@ -65,6 +64,8 @@ class content
     public function execute()
     {
         $this->results = $this->class_object->run();
+        $this->debug_update('content', $this->results);
+        
     }
 
 
