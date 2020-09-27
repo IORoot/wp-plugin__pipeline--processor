@@ -11,6 +11,9 @@ use \ue\import\realmedia;
 
 class save
 {
+
+    use debug;
+
     /**
      * variables containing import objects.
      *
@@ -80,13 +83,14 @@ class save
 
     public function set_collection($collection)
     {
-        $this->collection = $collection;
+        $this->collection = $collection['ue\mappings'];
     }
 
     public function run()
     {
         if ($this->is_disabled()){ return; }
         $this->loop_over_mappings();
+        $this->debug('save', $this->results);
         return $this->results;
     }
 
@@ -125,7 +129,7 @@ class save
      */
     private function loop_over_mappings()
     {
-        foreach($this->collection['ue\mappings'] as $this->post_key => $this->post_value )
+        foreach($this->collection as $this->post_key => $this->post_value )
         {
             $this->loop_over_post_parts();
         }
@@ -263,11 +267,6 @@ class save
         }
 
         if ($this->post_value['image']['path'] == "")
-        {
-            return false;
-        }
-
-        if (filter_var($this->imageURL, FILTER_VALIDATE_URL) === FALSE)
         {
             return false;
         }

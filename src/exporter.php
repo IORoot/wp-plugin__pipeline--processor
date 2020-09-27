@@ -31,6 +31,9 @@ class exporter
 
     public function run()
     {
+
+        if ($this->is_save_only()){ return; }
+
         // loop over each export instance.
         foreach ($this->options as $this->_export_key => $current_export) {
 
@@ -57,6 +60,8 @@ class exporter
 
         $this->run_class('ue\process'); 
 
+        $this->run_class('ue\combine'); 
+
         $this->run_class('ue\mappings');
 
         $this->run_class('ue\save');
@@ -76,6 +81,12 @@ class exporter
         $class->set_options($this->options[$this->_export_key]);
         $class->set_collection($this->results);
         $this->results[$classname] = $class->run();
+    }
+
+
+    private function is_save_only()
+    {
+        return $this->options['saveonly'];
     }
 
 }

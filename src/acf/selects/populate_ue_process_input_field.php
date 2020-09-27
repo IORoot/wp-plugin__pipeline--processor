@@ -1,6 +1,6 @@
 <?php
 
-class mutation_input_choices 
+class field_input_choices 
 {
 
     use \ue\utils;
@@ -42,7 +42,7 @@ class mutation_input_choices
             foreach ($flattened_record as $key => $value)
             {
                 if (in_array($key, $this->result)){ continue; }
-                $this->result[] = $key; 
+                $this->result[$key] = $key; 
             }
         }
     }
@@ -51,7 +51,7 @@ class mutation_input_choices
 
 function acf_populate_ue_mutation_input_select_choices($field)
 {
-    $options = new mutation_input_choices();
+    $options = new field_input_choices();
     
     $field['choices'] = $options->get_result();
 

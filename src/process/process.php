@@ -36,9 +36,7 @@ class process
     {
 
         if ($this::is_disabled($this->options, $this->step_type)){ return; }
-        
         $this->process_collection();
-        $this->process_combine();
         $this->debug('process', $this->results);
         return $this->results;
     }
@@ -59,21 +57,5 @@ class process
         $this->results = $collection->run();
     }
 
-
-
-
-
-    public function process_combine()
-    {
-        if ($this->options[$this->namespace . '_' . $this->step_type . '_combine'] != 'combine')
-        {
-            return;
-        }
-
-        $combine = new process_combine;
-        $combine->set_config( $this->options['ue_process_collection'] );
-        $combine->set_data( $this->results );
-        $this->results = $combine->run();
-    }
 
 }

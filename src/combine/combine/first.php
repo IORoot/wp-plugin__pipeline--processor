@@ -4,9 +4,9 @@ namespace ue\combine;
 
 use ue\interfaces\combineInterface;
 
-class last implements combineInterface
+class first implements combineInterface
 {
-    
+
     use \ue\utils;
 
     public $description = "Returns first record";
@@ -38,18 +38,14 @@ class last implements combineInterface
     }
 
     public function process()
-    {
-        
-        $last_element = end($this->input);
-        $result = $this::array_regex_keys('/^'.$this->config.'.*/', $last_element);
-        
-        if (is_array($result))
-        {
-            $this->output = $result;
-            return;
-        }
-        $this->output[$this->config] = $result;
+    {        
+
+        $value = $this->input[0][$this->config['ue_combine_input_select']];
+        $this->output[$this->config['ue_combine_input_select']] = $value;
 
     }
+
+
+
 
 }

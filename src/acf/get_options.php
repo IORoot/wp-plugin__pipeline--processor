@@ -5,7 +5,7 @@ namespace ue;
 class options
 {
 
-    public $repeaters = [ 'job', 'content', 'process', 'save', 'schedule', 'export', 'housekeep'];
+    public $repeaters = [ 'job', 'content', 'process', 'combine', 'mapping', 'save', 'schedule', 'export', 'housekeep'];
     public $prefix = 'ue';
     public $main_repeater = 'job';
 
@@ -19,12 +19,18 @@ class options
     {
         $this->get_all_options();
         $this->move_all_instances_to($this->main_repeater);
+        $this->add_randoms();
         return;
     }
 
     public function get_options()
     {
         return $this->fields[$this->main_repeater];
+    }
+
+    private function add_randoms()
+    {
+        $this->fields[$this->main_repeater]['saveonly'] = get_field('ue_save_settings_only', 'option');
     }
 
 

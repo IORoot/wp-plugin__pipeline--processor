@@ -4,6 +4,9 @@ namespace ue;
 
 class mappings
 {
+    
+    use debug;
+
     public $options;
 
     /**
@@ -53,17 +56,18 @@ class mappings
 
     public function set_options($options)
     {
-        $this->options = $options['ue_job_save_id'];
+        $this->options = $options['ue_job_mapping_id'];
     }
 
     public function set_collection($collection)
     {
-        $this->collection = $collection;
+        $this->collection = $collection['ue\combine'];
     }
 
     public function run()
     {
-        $this->loop_all_process_objects();
+        $this->loop_all_process_objects();  
+        $this->debug('mapping', $this->results);
         return $this->results;
     }
 
@@ -81,7 +85,7 @@ class mappings
 
     private function loop_all_process_objects()
     {
-        foreach ($this->collection['ue\process'] as $this->process_key => $this->process_value)
+        foreach ($this->collection as $this->process_key => $this->process_value)
         {
             $this->process_all_mappings();
         }
@@ -90,7 +94,7 @@ class mappings
 
     private function process_all_mappings()
     {
-        foreach($this->options['ue_save_mapping'] as $this->map_key => $this->map_value)
+        foreach($this->options['ue_mapping_collection'] as $this->map_key => $this->map_value)
         {
             $this->swap_dates();
             $this->swap_fields();
@@ -101,14 +105,14 @@ class mappings
 
     private function swap_dates()
     {
-        preg_match_all("/{{date:([\w|\s]+)}}/", $this->map_value['ue_save_mapping_template'], $matches);
+        preg_match_all("/{{date:([\w|\s]+)}}/", $this->map_value['ue_mapping_template'], $matches);
 
         foreach ($matches[1] as $key => $match) {
 
             $key = $this->process_key;
             $replace_value = date($match);
             $match = '{{date:'.$match.'}}';
-            $this->map_value['ue_save_mapping_template'] = str_replace($match, $replace_value, $this->map_value['ue_save_mapping_template']);
+            $this->map_value['ue_mapping_template'] = str_replace($match, $replace_value, $this->map_value['ue_mapping_template']);
         }
 
     }
@@ -116,15 +120,15 @@ class mappings
 
     private function swap_fields()
     {
-        preg_match_all("/{{([\w|\d|_|:]+)}}/", $this->map_value['ue_save_mapping_template'], $matches);
+        preg_match_all("/{{([\w|\d|_|:|\-|\>]+)}}/", $this->map_value['ue_mapping_template'], $matches);
 
         foreach ($matches[1] as $match)
         {
             $key = $this->process_key;
-            if (!isset($this->collection['ue\process'][$key][$match])){ continue; }
-            $replace_value = $this->collection['ue\process'][$key][$match];
+            if (!isset($this->collection[$key][$match])){ continue; }
+            $replace_value = $this->collection[$key][$match];
             $match = '{{'.$match.'}}';
-            $this->map_value['ue_save_mapping_template'] = str_replace($match, $replace_value, $this->map_value['ue_save_mapping_template']);
+            $this->map_value['ue_mapping_template'] = str_replace($match, $replace_value, $this->map_value['ue_mapping_template']);
         }
     }
 
@@ -132,9 +136,11 @@ class mappings
 
     private function process_mapping()
     {
-        $template           = $this->map_value['ue_save_mapping_template'];
-        $destination_type   = $this->map_value['ue_save_mapping_group']['ue_save_mapping_destination'];
-        $destination_field  = $this->map_value['ue_save_mapping_group']['ue_save_mapping_field'];
+        $output_field = 'ue_mapping_'.$this->map_value['ue_mapping_destination'].'_field';
+        
+        $template           = $this->map_value['ue_mapping_template'];
+        $destination_type   = $this->map_value['ue_mapping_destination'];
+        $destination_field  = $this->map_value[$output_field];
 
         $this->results[$this->process_key][$destination_type][$destination_field] = $template;
     }

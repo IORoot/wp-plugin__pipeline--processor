@@ -21,6 +21,8 @@ require __DIR__.'/selects/populate_ue_job_content.php';
 require __DIR__.'/selects/populate_ue_job_export.php';
 require __DIR__.'/selects/populate_ue_job_housekeep.php';
 require __DIR__.'/selects/populate_ue_job_process.php';
+require __DIR__.'/selects/populate_ue_job_combine.php';
+require __DIR__.'/selects/populate_ue_job_mapping.php';
 require __DIR__.'/selects/populate_ue_job_save.php';
 require __DIR__.'/selects/populate_ue_job_schedule.php';
 
@@ -28,6 +30,9 @@ require __DIR__.'/selects/populate_ue_job_schedule.php';
 require __DIR__.'/selects/populate_ue_process_input_field.php';
 require __DIR__.'/selects/populate_ue_mutation_type.php';
 require __DIR__.'/selects/populate_ue_mutation_catalog.php';
+
+// combine
+require __DIR__.'/selects/populate_ue_combine_input_field.php';
 
 // save
 require __DIR__.'/selects/populate_ue_save_post_type.php';

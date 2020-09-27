@@ -4,7 +4,7 @@ namespace ue\combine;
 
 use ue\interfaces\combineInterface;
 
-class append implements combineInterface
+class last implements combineInterface
 {
     
     use \ue\utils;
@@ -12,7 +12,7 @@ class append implements combineInterface
     public $description = "Returns first record";
 
     public $parameters = 'None';
-
+    
     public $config;
 
     public $input;
@@ -28,7 +28,7 @@ class append implements combineInterface
     public function in($input)
     {
         $this->input = $input;
-        return;
+        return $this->output;
     }
 
     public function out()
@@ -39,10 +39,13 @@ class append implements combineInterface
 
     public function process()
     {
-
-        $result = $this::array_flat($this->input);
-        $this->output = $this::array_regex_keys('/^\d+_'.$this->config.'/', $result);
         
+        $count = count($this->input) - 1;
+
+        $value = $this->input[$count][$this->config['ue_combine_input_select']];
+
+        $this->output[$this->config['ue_combine_input_select']] = $value;
+
     }
 
 }

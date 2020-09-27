@@ -65,7 +65,7 @@ class process_field
 
         foreach ($this->config as $this->mutation_group)
         {
-            if ($this->mutation_group['ue_mutation_input'] != $this->field_key)
+            if ($this->mutation_group['ue_mutation_input_select'] != $this->field_key)
             {
                 continue;
             }
@@ -168,7 +168,16 @@ class process_field
             {
                 $value = '{{'.$match.'}}';
                 $replace_with = $this->$match;
-                $this->mutation_single[$arg_key] = str_replace($value, $replace_with, $this->mutation_single[$arg_key]);
+
+                if (is_string($replace_with))
+                {
+                    $this->mutation_single[$arg_key] = str_replace($value, $replace_with, $this->mutation_single[$arg_key]);
+                }
+
+                if (is_array($replace_with))
+                {
+                    $this->mutation_single[$arg_key] = $replace_with;
+                }
             }
 
             unset($matches);
@@ -208,7 +217,7 @@ class process_field
         $mutation->config($this->mutation_single);
         $mutation->in($this->field_value);
 
-        $this->result[] = $mutation->out();
+        $this->result = $mutation->out();
 
     }
 

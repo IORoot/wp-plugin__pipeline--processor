@@ -49,23 +49,11 @@ class process_record
     {
         foreach ($this->smaller_record as $this->field_key => $this->field_value)
         {
-            $this->get_moustache_value();
             $this->process_field();
         }
         return;
     }
 
-
-    private function get_moustache_value()
-    {
-        foreach ($this->config as $key => $value)
-        {
-            if ($value['ue_mutation_input'] == $this->field_key)
-            {
-                $this->moustache = $value['ue_mutation_moustache'];
-            }
-        }
-    }
 
     /**
      * remove_all_unneeded_fields function
@@ -81,7 +69,7 @@ class process_record
         // check against each config field.
         foreach ($this->config as $this->current_config) {
 
-            $exploded_field = explode('->', $this->current_config['ue_mutation_input']);
+            $exploded_field = explode('->', $this->current_config['ue_mutation_input_select']);
             $field_value = $this->record;
 
             foreach ($exploded_field as $field_depth)
@@ -89,7 +77,7 @@ class process_record
                 $field_value = $field_value[$field_depth];
             }
             
-            $smaller_record[$this->current_config['ue_mutation_input']] = $field_value;
+            $smaller_record[$this->current_config['ue_mutation_input_select']] = $field_value;
         }
         $this->smaller_record = $smaller_record;
     }
@@ -106,6 +94,6 @@ class process_record
         $field->set_record($this->record);                      // used for {{record}} moustache
         $field->set_collection($this->collection);              // used for {{collection}} moustache
         $field->set_previous_results($this->previous_results);  // used for {{previous_result}} moustache
-        $this->result[$this->moustache] = $field->run();
+        $this->result[$this->field_key] = $field->run();
     }
 }

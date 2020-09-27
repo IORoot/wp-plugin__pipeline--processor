@@ -46,10 +46,10 @@ class process_combine
 
     public function combine()
     {
-        $combine_type = '\\ue\\combine\\' . $this->combine_instance['ue_mutation_combine'];
+        $combine_type = '\\ue\\combine\\' . $this->combine_instance['ue_combine_method'];
 
         $combine = new $combine_type;
-        $combine->config($this->combine_instance['ue_mutation_moustache']);
+        $combine->config($this->combine_instance);
         $combine->in($this->data);
         return $combine->out();
     }
