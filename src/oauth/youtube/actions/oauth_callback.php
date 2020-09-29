@@ -1,5 +1,9 @@
 <?php
 
+
+/**
+ * AJAX Callback for completion of OAUTH.
+ */
 add_action( 'wp_ajax_youtube_oauth', 'youtube_oauth' );
 
 function youtube_oauth() {
@@ -13,6 +17,8 @@ function youtube_oauth() {
     wp_die(); // this is required to return a proper response
     
 }
+
+
 
 /**
  * AJAX Callback used to clear all tokens.

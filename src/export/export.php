@@ -5,6 +5,7 @@ namespace ue;
 class export
 {
 
+    use utils;
     use debug;
     
     /**
@@ -49,6 +50,7 @@ class export
 
     public function run()
     {
+        $this->get_moustaches();
         if ($this->is_disabled()){ return; }
         $this->debug_clear('export');
         $this->loop_through_exporters();
@@ -79,9 +81,14 @@ class export
         $exporterName = $this->current_exporter['acf_fc_layout'];
         $exporterClass = 'ue_'.$exporterName;
 
+        foreach ($this->collection as $key => $collection)
+        {
+            $collection_ids[$key] = $collection['ID'];
+        }
+
         $exporter = new $exporterClass;
         $exporter->set_options($this->current_exporter);
-        $exporter->set_data($this->collection);
+        $exporter->set_data($collection_ids);
         $this->results = $exporter->run();
     }
 
@@ -103,6 +110,30 @@ class export
             return true;
         }
         return false;
+    }
+
+
+    private function get_moustaches()
+    {
+        $moustache_array = array();
+
+        $flattened_array = $this::array_flat($this->collection);
+        $all_keys = array_keys($flattened_array);
+        
+        foreach($all_keys as $key => $value)
+        {
+            $new_key = preg_replace('/^image_/', 'image:', $value);
+            $moustache_array[] = preg_replace('/^post_/', '', $new_key);
+        }
+
+        $moustache_array = implode('}}</div> <div class="ue__moustache">{{',$moustache_array);
+        $moustache_array = '<div class="ue__moustache">{{'.$moustache_array.'}}</div>';
+
+        $field = new \update_acf_options_field;
+        $field->set_field('field_5f72e75c0f92c');
+        $field->set_value('message', $moustache_array);
+        $field->run();
+    
     }
 
 }

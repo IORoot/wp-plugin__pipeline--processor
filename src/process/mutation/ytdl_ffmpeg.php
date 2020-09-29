@@ -78,6 +78,7 @@ class ytdl_ffmpeg implements mutationInterface
             $this->config['youtube_video_code'],
             $this->config['video_seek_start_point'],
             $this->config['video_seek_duration'],
+            '_video',
         ];
     }
 

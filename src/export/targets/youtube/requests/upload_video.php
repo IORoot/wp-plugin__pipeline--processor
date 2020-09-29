@@ -93,8 +93,8 @@ class upload_video
     private function build_video_snippet()
     {
         $this->snippet = new \Google_Service_YouTube_VideoSnippet();
-        $this->snippet->setTitle($this->options['title']);
-        $this->snippet->setDescription($this->options['snippet']['description']);
+        $this->snippet->setTitle(substr($this->options['title'],0,70));
+        $this->snippet->setDescription(substr($this->options['snippet']['description'],0,5000));
         $this->snippet->setCategoryId($this->options['details']['category']);
     }
 

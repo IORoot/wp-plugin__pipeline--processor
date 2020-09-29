@@ -51,6 +51,9 @@
         var win = window.open( youtube_ajax_object.auth_url, "_blank", "width=600,height=600" );
     }
 
+
+
+    
     /**
      * Run AJAX request onto the delete_youtube_oauth_transients endpoint
      * 

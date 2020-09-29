@@ -37,7 +37,7 @@ class process
         if ($this::is_disabled($this->options, $this->step_type)){ return; }
         $this->process_collection();
         $this->update_combine_selects();
-        $this->debug('process', $this->results);
+        $this->debug_update('process', $this->results);
         return $this->results;
     }
 

@@ -12,7 +12,6 @@ use \ue\import\realmedia;
 class save
 {
 
-    use utils;
     use debug;
 
     /**

@@ -76,6 +76,8 @@ class oauth_youtube_client
         $this->client->setPrompt('consent');  // Needed to get refresh_token every time.
 
         $this->client->setAccessType('offline');
+
+        $this->client->setApiFormatV2(TRUE);
     }
 
 

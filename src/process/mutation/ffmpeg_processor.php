@@ -7,6 +7,7 @@ use ue\interfaces\mutationInterface;
 class ffmpeg_processor implements mutationInterface
 {
     use \ue\utils;
+    use \ue\debug;
 
     public $description =   "Uses the andyp_youtube_downloader plugin." .PHP_EOL .
                             "This is a PARTIAL youtube video downloader. " . PHP_EOL.
@@ -79,7 +80,7 @@ class ffmpeg_processor implements mutationInterface
             $this->match_concat_file();
             $this->match_inputs_line();
             $this->build_ffmpeg_command();
-            $this->run_ffmpeg();
+            $this->run_ffmpeg();    
             $this->output_file_in_results();
         }
     }
@@ -100,6 +101,23 @@ class ffmpeg_processor implements mutationInterface
 
         // get all files in directory.
         $this->files_in_dir = scandir($this->upload_dir);
+
+        // Remove images
+        foreach ($this->files_in_dir as $key => $file)
+        {
+            // remove .DS_Store
+            if (preg_match('/DS_Store/', $file) == 1)
+            {
+                unset($this->files_in_dir[$key]);
+            }
+
+            if (preg_match('/[mp4|flv|mov|avi|webm|mkv]$/', $file) == 1)
+            {
+                continue;
+            }
+            
+            unset($this->files_in_dir[$key]);
+        }
 
         // concat file to create.
         $this->concat_file = $this->upload_dir . '/concat_file.txt';
@@ -250,12 +268,15 @@ class ffmpeg_processor implements mutationInterface
     {
         $this->command = $this->ffmpeg . ' ';
         $this->command .= $this->step_value['ffmpeg_arguments'];
+        // $this->command .= ' 2>&1 ';
     }
 
 
     private function run_ffmpeg()
     {
-        exec($this->command);
+        exec($this->command, $output_of_command, $return_var);
+        $this::debug_update('process', $output_of_command);
+        $this::debug_update('process', $return_var);
         $this->results = $this->filelist;
     }
 
