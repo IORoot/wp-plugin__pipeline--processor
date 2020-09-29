@@ -32,7 +32,7 @@ require __DIR__.'/selects/populate_ue_mutation_type.php';
 require __DIR__.'/selects/populate_ue_mutation_catalog.php';
 
 // combine
-require __DIR__.'/selects/populate_ue_combine_input_field.php';
+// require __DIR__.'/selects/populate_ue_combine_input_field.php';
 
 // save
 require __DIR__.'/selects/populate_ue_save_post_type.php';
@@ -41,6 +41,10 @@ require __DIR__.'/selects/populate_ue_save_taxonomy_type.php';
 // Schedule
 require __DIR__.'/selects/populate_ue_schedule_repeat.php';
 
+//  ┌─────────────────────────────────────────────────────────────────────────┐
+//  │                        ACF Options Update                               │
+//  └─────────────────────────────────────────────────────────────────────────┘
+require __DIR__.'/acf_update_options_field.php';
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │                           OAUTH Buttons                                 │

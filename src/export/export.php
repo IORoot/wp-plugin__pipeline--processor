@@ -44,7 +44,7 @@ class export
 
     public function set_collection($collection)
     {
-        $this->collection = $collection;
+        $this->collection = $collection['ue\save'];
     }
 
     public function run()
@@ -81,7 +81,7 @@ class export
 
         $exporter = new $exporterClass;
         $exporter->set_options($this->current_exporter);
-        $exporter->set_data($this->collection['ue\save']);
+        $exporter->set_data($this->collection);
         $this->results = $exporter->run();
     }
 

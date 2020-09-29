@@ -34,16 +34,16 @@ class process
 
     public function run()
     {
-
         if ($this::is_disabled($this->options, $this->step_type)){ return; }
         $this->process_collection();
+        $this->update_combine_selects();
         $this->debug('process', $this->results);
         return $this->results;
     }
 
 
 
-    public function process_collection()
+    private function process_collection()
     {
 
         $dataname = $this->namespace . '_' . $this->step_type . '_collection';
@@ -57,5 +57,22 @@ class process
         $this->results = $collection->run();
     }
 
+
+    private function update_combine_selects()
+    {
+
+        // Get all choices
+        $all_choices = array();
+        foreach($this->results as $key => $choices)
+        {
+            $all_choices = array_merge($all_choices, array_keys($choices));
+        }
+        $all_choices = array_unique($all_choices);
+
+        $field = new \update_acf_options_field;
+        $field->set_field('field_5f70506e00672');
+        $field->set_value('choices', $all_choices);
+        $field->run();
+    }
 
 }

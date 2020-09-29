@@ -6,7 +6,7 @@ class post
 {
     public $args;
 
-    public $result;
+    public $result_id;
 
     public function __construct()
     {
@@ -26,7 +26,7 @@ class post
 
     public function add()
     {
-        $this->result = wp_insert_post(
+        $this->result_id = wp_insert_post(
             $this->args
         );
 
@@ -36,7 +36,7 @@ class post
 
     public function result()
     {
-        return $this->result;
+        return $this->result_id;
     }
 
     

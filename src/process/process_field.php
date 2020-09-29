@@ -153,15 +153,6 @@ class process_field
 
         foreach($this->mutation_single as $arg_key => $args)
         {
-
-            /**
-             * ANDYP TODO
-             * Needs to be recursive, otherwise nested args are not moustache processed.
-             */
-            if (is_array($args)){
-                return;
-            }
-
             preg_match_all("/{{([\w|\d|_|:]+)}}/", $args, $matches);
 
             foreach ($matches[1] as $match_key => $match) 
@@ -231,7 +222,7 @@ class process_field
      */
     private function run_mutation_collection()
     {
-        // Is this the first record?
+        // Is this the first record in the collection?
         if ($this->record['ID'] != $this->collection[0]['ID'])
         {
             $this->result = null;

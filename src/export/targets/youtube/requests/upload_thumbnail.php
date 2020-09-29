@@ -21,8 +21,15 @@ class upload_thumbnail
 
     public function set_imageURL($imageURL)
     {
-        $this->imageURL = $imageURL;
-        $this->imagePath = trim(str_replace(WP_HOME.'/', ABSPATH, $imageURL));
+        // Normalise path - Need FULL Absolute /var/www path.
+        $imagepath = str_replace(WP_HOME, '', trim($imageURL));
+        $imagepath = str_replace(ABSPATH, '', $imageURL);
+        $imagepath = preg_replace('/.*wp-content/', '', $imagepath);
+        $imageurl = WP_HOME . '/wp-content' . $imagepath;
+        $imagepath = ABSPATH . 'wp-content' . $imagepath;
+
+        $this->imageURL = $imageurl;
+        $this->imagePath = $imagepath;
     }
 
     public function set_videoId($videoId)
@@ -70,13 +77,11 @@ class upload_thumbnail
     {
         // Empty string
         if ($this->imageURL == ""){ return; }
-        // not a valid URL
-        if (filter_var($this->imageURL, FILTER_VALIDATE_URL) === FALSE) { return; }
+
+        $image_info = getimagesize($this->imagePath);
 
         $this->thumbnail = new \Google_Service_YouTube_Thumbnail();
         $this->thumbnail->setUrl($this->imageURL);
-
-        $image_info = getimagesize(str_replace(WP_HOME, ABSPATH, $this->imageURL));
         $this->thumbnail->setWidth($image_info[0]);
         $this->thumbnail->setHeight($image_info[1]);
         $this->mimeType = $image_info['mime'];
@@ -103,17 +108,7 @@ class upload_thumbnail
      */
     private function insert_thumbnail()
     {
-        
-        /**
-         * Get a new YouTube Object.
-         * 
-         * Services are called through queries to service specific objects. 
-         * These are created by constructing the service object, and passing an 
-         * instance of Google_Client to it. Google_Client contains the IO, authentication 
-         * and other classes required by the service to function, and the service informs 
-         * the client which scopes it uses to provide a default when authenticating a user.
-         */
-        $this->service = new \Google_Service_YouTube($this->client);
+
 
         /**
          * Each API provides resources and methods, usually in a chain. These can be 
@@ -122,7 +117,19 @@ class upload_thumbnail
          * containing optional parameters.
          */
         try {
+        
+            /**
+             * Get a new YouTube Object.
+             * 
+             * Services are called through queries to service specific objects. 
+             * These are created by constructing the service object, and passing an 
+             * instance of Google_Client to it. Google_Client contains the IO, authentication 
+             * and other classes required by the service to function, and the service informs 
+             * the client which scopes it uses to provide a default when authenticating a user.
+             */
+            $this->service = new \Google_Service_YouTube($this->client);
 
+            
             /**
              * Which video are we going to update?
              */
@@ -162,6 +169,7 @@ class upload_thumbnail
         catch (\Google_Service_Exception $e) {
             $this->result = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
             $this->debug_update('export', $e->getMessage());
+            $this->debug_update('export', $this->result);
             $this->debug_update('export', 'CHECK - Has channel got custom thumbnails enabled?');
         }
         catch (\Exception $e) {

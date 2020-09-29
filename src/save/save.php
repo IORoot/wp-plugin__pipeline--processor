@@ -12,6 +12,7 @@ use \ue\import\realmedia;
 class save
 {
 
+    use utils;
     use debug;
 
     /**
@@ -90,6 +91,7 @@ class save
     {
         if ($this->is_disabled()){ return; }
         $this->loop_over_mappings();
+        $this->get_result_objects();
         $this->debug('save', $this->results);
         return $this->results;
     }
@@ -166,7 +168,18 @@ class save
         $this->attach_taxonomy();
         $this->create_and_attach_image();
         $this->put_image_in_folder();
-        
+    }
+
+    private function get_result_objects()
+    {
+        foreach ($this->results as $key => $result_id)
+        {
+            $post = (array) get_post($result_id);
+            $meta = (array) get_post_meta($result_id);
+            $post = array_merge($post, $meta);
+
+            $this->results[$key] = $post;
+        }
     }
 
     // ┌─────────────────────────────────────────────────────────────────────────┐

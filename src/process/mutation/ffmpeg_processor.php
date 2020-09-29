@@ -57,6 +57,7 @@ class ffmpeg_processor implements mutationInterface
         return $this->results;
     }
 
+
     public function out_collection()
     {
         return $this->out();
@@ -66,6 +67,7 @@ class ffmpeg_processor implements mutationInterface
     private function process_collection()
     {
         foreach ($this->config['ffmpeg_steps'] as $this->step_key => $this->step_value) {
+
             if ($this->step_value['enabled'] == false) {
                 continue;
             }
@@ -115,7 +117,7 @@ class ffmpeg_processor implements mutationInterface
     /**
      * create_concat_file
      *
-     * Creates a concat_file.txt witha  list of all input videos.
+     * Creates a concat_file.txt with a list of all input videos.
      * Then makes this file the input to the ffmpeg command.
      *
      * @return void
@@ -253,7 +255,7 @@ class ffmpeg_processor implements mutationInterface
 
     private function run_ffmpeg()
     {
-        shell_exec($this->command);
+        exec($this->command);
         $this->results = $this->filelist;
     }
 
@@ -265,8 +267,8 @@ class ffmpeg_processor implements mutationInterface
     // └─────────────────────────────────────────────────────────────────────────┘
     private function output_file_in_results()
     {
-        $regex = '/\s\S*$/m';
+        $regex = '/\s(\S*\.\S{3,4})$/s'; // File at the end with 3 character extension.
         preg_match($regex, $this->command, $match);
-        $this->results['output_file'] = $match[0];
+        $this->results['output_file'] = trim($match[1]);
     }
 }

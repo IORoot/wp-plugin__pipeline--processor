@@ -72,3 +72,18 @@
     border: none;
     opacity: 0.5;
 }
+
+/*  ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                         │
+    │                            Moustache Blocks                             │
+    │                                                                         │
+    └─────────────────────────────────────────────────────────────────────────┘ */
+.ue__moustache {
+    background: #38EF7D;
+    color: #242424;
+    display: inline-block;
+    margin: 2px;
+    padding: 2px 6px;
+    border-radius: 20px;
+    font-size: 10px;
+}

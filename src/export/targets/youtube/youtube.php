@@ -48,9 +48,14 @@ class ue_youtube
 
     private function set_client()
     {
-        $client = new oauth_youtube_client();
-        $client->run();
-        $this->client = $client->get_client();
+        try {
+            $client = new oauth_youtube_client();
+            $client->run();
+            $this->client = $client->get_client();
+        } catch (Exception $e) {
+            $this->debug('export', $e->getMessage());
+        }
+        
     }
 
 

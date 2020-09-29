@@ -150,7 +150,15 @@ class upload_video
      */
     private function insert_video()
     {
-        
+
+        /**
+         * Each API provides resources and methods, usually in a chain. These can be 
+         * accessed from the service object in the form $service->resource->method(args). 
+         * Most method require some arguments, then accept a final parameter of an array 
+         * containing optional parameters.
+         */
+        try {
+
         /**
          * Get a new YouTube Object.
          * 
@@ -161,14 +169,6 @@ class upload_video
          * the client which scopes it uses to provide a default when authenticating a user.
          */
         $this->service = new \Google_Service_YouTube($this->client);
-
-        /**
-         * Each API provides resources and methods, usually in a chain. These can be 
-         * accessed from the service object in the form $service->resource->method(args). 
-         * Most method require some arguments, then accept a final parameter of an array 
-         * containing optional parameters.
-         */
-        try {
 
             // Create a request for the API's videos.insert method to create and upload the video.
             $this->insertRequest = $this->service->videos->insert("status,snippet", $this->video);
@@ -206,12 +206,12 @@ class upload_video
         } 
         catch (\Google_Service_Exception $e) {
             $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
-            $this->debug_update('export', $e->getMessage());
+            $this->debug('export', $e->getMessage());
             $this->debug_update('export', 'CHECK - Have you run out of quota? INSERTS are 1600 credits! (only about 8 per day).');
         }
         catch (\Exception $e) {
             $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
-            $this->debug_update('export', $e->getMessage());
+            $this->debug('export', $e->getMessage());
         }
 
     }
