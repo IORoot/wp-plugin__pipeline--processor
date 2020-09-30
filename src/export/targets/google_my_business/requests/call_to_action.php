@@ -82,9 +82,9 @@ class call_to_action
      */
     private function parse_moustaches()
     {
-        foreach($this->data as $posttype => $postid)
+        foreach($this->data as $posttype => $post)
         {
-            $parse = new \ue\parse\replace_moustaches_in_array($postid, $this->options);
+            $parse = new \ue\parse\replace_moustaches_in_array($post['ID'], $this->options);
             $this->options = $parse->get_results();
         }
         

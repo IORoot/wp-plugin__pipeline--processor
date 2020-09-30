@@ -35,7 +35,8 @@
         });
 
         $el.find('#acf__youtube-oauth--delete').on( 'click', function(){
-            delete_transient_tokens();
+            delete_transient_tokens();   
+            $(this).closest('.enabled').siblings().removeClass('enabled');
         });
         
     }

@@ -88,9 +88,13 @@ class export
 
         $exporter = new $exporterClass;
         $exporter->set_options($this->current_exporter);
-        $exporter->set_data($collection_ids);
+        $exporter->set_data($this->collection);
+
         $this->results = $exporter->run();
+
     }
+
+
 
 
     // ┌─────────────────────────────────────────────────────────────────────────┐
@@ -112,6 +116,15 @@ class export
         return false;
     }
 
+
+    //  ┌─────────────────────────────────────────────────────────────────────────┐
+    //  │                                                                         │░
+    //  │                                                                         │░
+    //  │                            Render Moustaches                            │░
+    //  │                                                                         │░
+    //  │                                                                         │░
+    //  └─────────────────────────────────────────────────────────────────────────┘░
+    //   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
     private function get_moustaches()
     {
