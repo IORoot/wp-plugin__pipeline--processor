@@ -47,7 +47,9 @@ class ue_google_my_business
 
     private function set_client()
     {
-        $client = new oauth_gmb_client();
+        $client = new oauth_google_client();
+        $client->set_token_name('GMB_OAUTH_REFRESH_TOKEN');
+        $client->set_scope('https://www.googleapis.com/auth/business.manage');
         $client->run();
         $this->client = $client->get_client();
     }

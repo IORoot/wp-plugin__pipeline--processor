@@ -208,6 +208,7 @@ class process_field
         $mutation->config($this->mutation_single);
         $mutation->in($this->field_value);
 
+        // $this->result[$this->mutation_single['acf_fc_layout']] = $mutation->out();
         $this->result = $mutation->out();
 
     }
@@ -235,6 +236,7 @@ class process_field
         $mutation->in($this->field_value);
 
         // Alternative method to run entire collection.
+        // $this->result[$this->mutation_single['acf_fc_layout']] = $mutation->out_collection();
         $this->result = $mutation->out_collection();
 
     }

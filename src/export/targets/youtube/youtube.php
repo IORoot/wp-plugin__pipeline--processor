@@ -49,7 +49,9 @@ class ue_youtube
     private function set_client()
     {
         try {
-            $client = new oauth_youtube_client();
+            $client = new oauth_google_client();
+            $client->set_token_name('YT_OAUTH_REFRESH_TOKEN');
+            $client->set_scope(Google_Service_YouTube::YOUTUBE_FORCE_SSL);
             $client->run();
             $this->client = $client->get_client();
         } catch (Exception $e) {
