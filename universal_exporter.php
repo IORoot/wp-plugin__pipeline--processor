@@ -22,7 +22,6 @@ define('GOOGLE_APPLICATION_CREDENTIALS', __DIR__.'/client_secret.json');
 // │                         Use composer autoloader                         │
 // └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/vendor/autoload.php';
-require __DIR__.'/vendor/GMB/MyBusiness.php';
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │                               The CPT                                   │
@@ -34,4 +33,3 @@ require __DIR__.'/src/cpt/exporter_cpt.php';
 //  │                          The ACF Admin Page                             │
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/src/acf/acf_init.php';
-

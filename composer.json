@@ -3,16 +3,5 @@
         "classmap": [
             "src"
         ]
-    },
-    "require": {
-        "google/apiclient": "^2.7"
-    },
-    "scripts": {
-        "post-update-cmd": "Google_Task_Composer::cleanup"
-    },
-    "extra": {
-        "google/apiclient-services": [
-            "YouTube"
-        ]
     }
 }

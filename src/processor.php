@@ -5,7 +5,7 @@ namespace ue;
 use \ue\options;
 use \ue\content;
 
-class exporter
+class processor
 {
     
     public $options;
@@ -66,7 +66,7 @@ class exporter
 
         $this->run_class('ue\save');
 
-        $this->run_class('ue\export');
+        // $this->run_class('ue\export');
 
     }
 

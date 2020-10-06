@@ -7,14 +7,14 @@ function save_ue_options()
 {
     $screen = get_current_screen();
 
-    if ($screen->id != "andyp_page_universalexporter") {
+    if ($screen->id != "pipeline_page_processors") {
         return;
     }
         
     // ┌─────────────────────────────────────────────────────────────────────────┐
     // │                           Kick off the program                          │
     // └─────────────────────────────────────────────────────────────────────────┘
-    $ue = new \ue\exporter;
+    $ue = new \ue\processor;
     $options = (new \ue\options)->get_options();
     $ue->set_options($options);
     $ue->run();

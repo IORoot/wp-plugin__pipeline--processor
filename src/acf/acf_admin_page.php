@@ -10,13 +10,13 @@
 if( function_exists('acf_add_options_page') ) {
     
     $argsparent = array(
-        'page_title' => 'ANDYP',
-        'menu_title' => 'ANDYP',
-        'menu_slug' => 'andyp',
+        'page_title' => 'Pipeline',
+        'menu_title' => 'Pipeline',
+        'menu_slug' => 'pipeline',
         'capability' => 'manage_options',
         'position' => '1',
         'parent_slug' => '',
-        'icon_url' => 'dashicons-screenoptions',
+        'icon_url' => 'dashicons-marker',
         'redirect' => true,
         'post_id' => 'options',
         'autoload' => false,
@@ -25,8 +25,7 @@ if( function_exists('acf_add_options_page') ) {
     );
 	acf_add_options_page($argsparent);
 	acf_add_options_sub_page(array(
-        'menu_title'	=> 'AndyP Plugins',
-        'parent_slug'	=> 'andyp',
+        'parent_slug'	=> 'pipeline',
         )
     );
 }
@@ -38,12 +37,12 @@ if( function_exists('acf_add_options_page') ) {
     
     $args = array(
 
-        'page_title' => 'Universal Exporter',
-        'menu_title' => '🚛 Universal Exporter',
-        'menu_slug' => 'universalexporter',
+        'page_title' => 'The Processor',
+        'menu_title' => '🎛 The Processor',
+        'menu_slug' => 'processor',
         'capability' => 'manage_options',
-        'position' => '1',
-        'parent_slug' => 'andyp',
+        'position' => '3',
+        'parent_slug' => 'pipeline',
         'icon_url' => 'dashicons-screenoptions',
         'redirect' => true,
         'post_id' => 'options',
