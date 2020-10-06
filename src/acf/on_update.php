@@ -7,7 +7,7 @@ function save_ue_options()
 {
     $screen = get_current_screen();
 
-    if ($screen->id != "pipeline_page_processors") {
+    if ($screen->id != "pipeline_page_processor") {
         return;
     }
         
