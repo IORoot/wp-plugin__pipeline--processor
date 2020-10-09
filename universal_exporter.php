@@ -14,10 +14,6 @@
 define( 'ANDYP_UE_URL', plugins_url( '/', __FILE__ ) );
 define( 'ANDYP_UE_PATH', __DIR__ );
 
-define('GOOGLE_APPLICATION_CREDENTIALS', __DIR__.'/client_secret.json');
-
-
-
 // ┌─────────────────────────────────────────────────────────────────────────┐
 // │                         Use composer autoloader                         │
 // └─────────────────────────────────────────────────────────────────────────┘
