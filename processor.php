@@ -2,9 +2,9 @@
 /*
  * 
  * @wordpress-plugin
- * Plugin Name:       _ANDYP - Universal Exporter
+ * Plugin Name:       _ANDYP - Processor
  * Plugin URI:        http://londonparkour.com
- * Description:       <strong>🔌PLUGIN</strong> | <em>ANDYP > Universal Exporter</em> | Automatically export posts to targets.
+ * Description:       <strong>🔌PLUGIN</strong> | <em>Pipeline > Processor</em> | Automatically process posts to new posts
  * Version:           1.0.0
  * Author:            Andy Pearson
  * Author URI:        https://londonparkour.com
