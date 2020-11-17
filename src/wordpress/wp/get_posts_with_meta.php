@@ -10,6 +10,8 @@ trait wp_get_posts_with_meta {
 
         $posts = get_posts($args);
 
+        if (empty($posts)){ return; }
+
         foreach($posts as $key => $post)
         {
             // Post
@@ -19,6 +21,7 @@ trait wp_get_posts_with_meta {
             $result[$key] = array_merge($result[$key], get_post_meta($post->ID));
 
             // Attachment
+            $id = $result[$key]['_thumbnail_id'][0];
             $attachment = get_post_meta($result[$key]['_thumbnail_id'][0]);
             $attachment['_wp_attachment_metadata'] = unserialize($attachment['_wp_attachment_metadata'][0]);
             $result[$key] = array_merge($result[$key], $attachment);

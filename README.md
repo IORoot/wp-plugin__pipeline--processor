@@ -23,7 +23,7 @@ Idea is to have a universal API to export content to various third parties.
 ## Examples
 
 1. Take the top 3 curated videos in the 'pulse' CPT. 
-2. Create a  combinded 'stack' graphic with all tree featured images.
+2. Create a  combined 'stack' graphic with all tree featured images.
 3. Use FFMPEG to combine clips from all three videos. Combine, grade, add trailing video.
 4. Generate content / tags / title / other info.
 5. Combine all data to export and add to schedule.

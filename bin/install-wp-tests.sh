@@ -134,7 +134,7 @@ install_db() {
 	local PARTS=(${DB_HOST//\:/ })
 	local DB_HOSTNAME=${PARTS[0]};
 	local DB_SOCK_OR_PORT=${PARTS[1]};
-	local EXTRA=""
+	local EXTRA=" --dbprefix=wp_"
 
 	if ! [ -z $DB_HOSTNAME ] ; then
 		if [ $(echo $DB_SOCK_OR_PORT | grep -e '^[0-9]\{1,\}$') ]; then

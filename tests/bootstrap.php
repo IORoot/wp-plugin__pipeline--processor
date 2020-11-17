@@ -24,8 +24,9 @@ require_once $_tests_dir . '/includes/functions.php';
  */
 function _manually_load_plugin() {
 
+	require dirname( dirname( __FILE__ ) ) . '/vendor/autoload.php'; // Composer autoloader
 	require dirname( dirname( __FILE__ ) ) . '/vendor/advanced-custom-fields/acf.php';
-	require dirname( dirname( __FILE__ ) ) . '/universal_exporter.php';
+	require dirname( dirname( __FILE__ ) ) . '/processor.php';
 }
 
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
