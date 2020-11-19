@@ -7,7 +7,7 @@ use ue\interfaces\mutationInterface;
 class single_image implements mutationInterface
 {
     
-    public $description = "Overrides with a single image.";
+    public $description = "Allows you to rewrite the contents of a field with the URL of a specified image. Helpful if you want to pass through a consistent image like a watermark.";
 
     public $parameters = 'None';
 

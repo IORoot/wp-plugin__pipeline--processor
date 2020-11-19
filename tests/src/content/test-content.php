@@ -3,7 +3,7 @@
 /**
  * Class contentTest
  *
- * @package Andyp_universal_exporter
+ * @package Andyp_processor
  */
 
 /**
@@ -33,6 +33,31 @@ class contentTest extends WP_UnitTestCase {
 
 		$this->assertIsObject($got);
     }
+
+
+	/** 
+	 * @test
+     * 
+     * Just for code coverage, run the set_collection()
+     * method, but this class doesn't use it.
+     * 
+     * @testdox Testing the set_collection() method
+     * 
+	 */
+	public function test_set_collection() {
+
+        $input = "collection";
+
+        $return = $this->class_instance->set_collection($input);
+
+        $expected = null;
+
+        $got = $return;
+
+        $this->assertEquals($expected, $got );
+
+    }
+
 
 	/** 
 	 * @test
@@ -133,5 +158,6 @@ class contentTest extends WP_UnitTestCase {
         $this->assertEquals($expected, $got );
 
     }
+
 
 }

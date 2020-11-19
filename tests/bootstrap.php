@@ -19,6 +19,10 @@ if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
 // Give access to tests_add_filter() function.
 require_once $_tests_dir . '/includes/functions.php';
 
+
+define( 'DIR_DATA', dirname( __FILE__ ) . '/data' );
+define( 'WP_HOME', 'http://example.org' );
+
 /**
  * Manually load the plugin being tested.
  */

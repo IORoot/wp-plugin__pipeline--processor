@@ -7,12 +7,6 @@ class process
 
     use utils;
     use debug;
-    
-    public $namespace = 'ue';
-    
-    public $data_source = 'content';
-
-    public $step_type = 'process';
 
     public $options;
 
@@ -34,7 +28,7 @@ class process
 
     public function run()
     {
-        if ($this::is_disabled($this->options, $this->step_type)){ return; }
+        if ($this::is_disabled($this->options, 'process')){ return; }
         $this->process_collection();
         $this->update_combine_selects();
         $this->debug_update('process', $this->results);
@@ -45,19 +39,22 @@ class process
 
     private function process_collection()
     {
-
-        $dataname = $this->namespace . '_' . $this->step_type . '_collection';
-        $config = $this->options[$dataname];
-
-        $data = $this->collection[$this->namespace . '\\' . $this->data_source];
-
         $collection = new process_collection;
-        $collection->set_config( $config );
-        $collection->set_collection( $data );
+        $collection->set_config( $this->options['ue_process_collection'] );
+        $collection->set_collection( $this->collection['ue\\content'] );
         $this->results = $collection->run();
     }
 
 
+
+    /**
+     * This updates the ACF dropdowns on the 'combine'
+     * tab to contain all fields that are referenced
+     * in this 'process' tab. 
+     * Basically, if you add a field to process, it 
+     * will be added in the 'combine' input field
+     * dropdown.
+     */
     private function update_combine_selects()
     {
 
