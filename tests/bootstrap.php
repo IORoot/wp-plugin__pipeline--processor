@@ -28,9 +28,10 @@ define( 'WP_HOME', 'http://example.org' );
  */
 function _manually_load_plugin() {
 
-	require dirname( dirname( __FILE__ ) ) . '/vendor/autoload.php'; // Composer autoloader
-	require dirname( dirname( __FILE__ ) ) . '/vendor/advanced-custom-fields/acf.php';
-	require dirname( dirname( __FILE__ ) ) . '/processor.php';
+	require dirname( dirname( __FILE__ ) ) . '/../andyp_pipeline_generative_images/generative_images.php'; 	// needed to test generator_image mutation
+	require dirname( dirname( __FILE__ ) ) . '/../advanced-custom-fields-pro/acf.php';						// ACF
+	require dirname( dirname( __FILE__ ) ) . '/processor.php';												// this plugin.
+	
 }
 
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );

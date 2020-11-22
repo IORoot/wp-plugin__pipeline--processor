@@ -31,7 +31,6 @@ saves_array  :  An array of formats you wish to save as.
     public function config($config)
     {
         $this->config = $config;
-        return;
     }
 
     public function in($input)
@@ -138,12 +137,23 @@ saves_array  :  An array of formats you wish to save as.
      */
     private function set_dimensions()
     {
+        // Default if not set.
+        if (!isset($this->config['image_width'])){
+            $this->config['image_width'] = '';
+        }
+
+        // Default if not set.
+        if (!isset($this->config['image_height'])){
+            $this->config['image_height'] = '';
+        }
+
         if ($this->config['image_width'] != '') {
             $resize['width'] = $this->config['image_width'];
         }
         if ($this->config['image_height']  != '') {
             $resize['height'] = $this->config['image_height'];
         }
+
         if ($this->config['image_width']  != '' || $this->config['image_height']  != '') {
             $this->filter_args[3] = $resize;
         }
