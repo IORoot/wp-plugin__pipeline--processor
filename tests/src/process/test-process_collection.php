@@ -18,7 +18,12 @@ class processCollectionTest extends WP_UnitTestCase
         $this->class_instance = new \ue\process_collection;
     }
 
-
+    public function tearDown()
+    {
+        $this->remove_added_uploads();
+        parent::tearDown();
+    }
+    
     /**
      * @test
      *

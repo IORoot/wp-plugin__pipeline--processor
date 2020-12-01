@@ -18,7 +18,12 @@ class mutationUppercaseTest extends WP_UnitTestCase
         $this->class_instance = new \ue\mutation\uppercase;
     }
 
-
+    public function tearDown()
+    {
+        $this->remove_added_uploads();
+        parent::tearDown();
+    }
+    
     /**
      * @test
      *

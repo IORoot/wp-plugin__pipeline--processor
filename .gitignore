@@ -1,1 +1,3 @@
-phpunitreport
+tests/report/
+.DS_Store
+vendor/

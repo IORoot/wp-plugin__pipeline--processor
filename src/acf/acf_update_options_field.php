@@ -13,17 +13,16 @@ class update_acf_options_field
 
     private $field;
 
-    private $value;
-
-    private $response;
+    private $param;
 
     public function set_field($field)
-    {
+    { 
         $this->field = get_field_object($field);
     }
 
     public function set_value($param, $value)
     {
+        $this->param = [$param];
         $this->field[$param] = $value;
     }
 

@@ -21,6 +21,12 @@ class contentTest extends WP_UnitTestCase {
 
     }
 
+    public function tearDown()
+    {
+        $this->remove_added_uploads();
+        parent::tearDown();
+    }
+    
 	/** 
 	 * @test
      * 

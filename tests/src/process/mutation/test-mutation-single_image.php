@@ -18,7 +18,9 @@ class mutationSingleImageTest extends WP_UnitTestCase
         $this->class_instance = new \ue\mutation\single_image;
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
+        $this->remove_added_uploads();
         parent::tearDown();
     }
 
