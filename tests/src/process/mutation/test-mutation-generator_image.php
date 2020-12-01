@@ -1,11 +1,10 @@
 <?php
 
-
 /**
  * Class mutationGeneratorImageTest
  * 
  * This class allows us to run another plugin:
- * the andyp_generative_images.
+ * the andyp_pipeline_generative_images.
  *
  * @package Andyp_processor
  */
@@ -15,6 +14,7 @@
  */
 class mutationGeneratorImageTest extends WP_UnitTestCase
 {
+
     public function setUp()
     {
         parent::setUp();
@@ -24,6 +24,23 @@ class mutationGeneratorImageTest extends WP_UnitTestCase
     public function tearDown() {
         $this->remove_added_uploads();
         parent::tearDown();
+    }
+
+    /**
+     * Create a post, attachment and thumbnail.
+     * 
+     * int $number is the number of posts you want.
+     */
+    public $input;
+    public function util_make_post_with_thumbnail(int $number = 1)
+    {
+        for ($i = 0; $i < $number; $i++) {
+            $in['post']            = $this->factory->post->create_and_get();
+            $in['attachment_id']   = $this->factory->attachment->create_upload_object( DIR_DATA . '/test_image.jpg', $in['post']->ID );
+            $in['thumbnail']       = set_post_thumbnail( $in['post']->ID, $in['attachment_id'] );
+            $in['post_attachment'] = get_attached_media( 'image', $in['post']->ID );
+            $this->input[$i] = $in;
+        }
     }
 
 
@@ -93,40 +110,82 @@ class mutationGeneratorImageTest extends WP_UnitTestCase
      */
     public function test_out_method_with_single_source_image()
     {
-        /**
-         * Create an image attachment
-         */
-        $filename = ( DIR_DATA . '/test_image.jpg' );
-        $contents = file_get_contents( $filename );
-        $upload = wp_upload_bits( wp_basename( $filename ), null, $contents );
-        $this->assertTrue( empty( $upload['error'] ) );
-        $id = $this->_make_attachment( $upload );
 
         /**
-         * Create a post
+         * Setup - Create a post in db
          */
-        $attached_file = get_post_meta( $id, '_wp_attached_file', true );
-        $post = get_post( $id );
+        $this->util_make_post_with_thumbnail();
 
         /**
-         * Set config
+         *  Setup - Generative Images - Source 'phpunit_test_source'
          */
-        $config['enabled']      = true;
-        $config['filter_slug']  = 'corner_dots';
-        $config['save_as']      = [ 'jpg' ];        // array
-        $config['image_width']  = '';
-        $config['image_height'] = '';
-        $config['images_array'] = [ 'ID' => $post->ID ];    // single ID.
+        $source = [
+            'genimage_source_slug' => 'phpunit_test_source',
+            'genimage_source_type' => 'get_query',
+            'genimage_post'        => null,
+            'genimage_taxonomy'    => null,
+            'genimage_query'       => "[
+                'post_type' => 'post',
+                'post_status' => 'publish',
+                'numberposts' => 1,
+            ]",
+        ];
+        $result1 = add_row('genimage_source', $source, 'option');
+
+
+
+        /**
+         * Setup - Generative Images - Filter group
+         */
+        $filter_group = [
+            'genimage_filter_group' => [
+                'genimage_filter_preview' => '',
+                'genimage_filter_slug' => 'phpunit_generative_images_test',
+            ],
+            'genimage_filter_description' => 'testing generator image',
+            'genimage_filter_resize_width' => null,
+            'genimage_filter_resize_height' => null,
+            'genimage_filter' => [
+                [
+                    'filter_name' => "image",
+                    'filter_parameters' => 'filter="url(#phpunit)"',
+                ],
+                [
+                    'filter_name' => "text",
+                    'filter_parameters' => '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-size: 42px; fill:#fafafa;" >PHPUNIT GENERATOR IMAGE FOR THE PROCESSOR</text>',
+                ]
+            ]
+        ];
+        $result2 = add_row('genimage_filters', $filter_group, 'option');
+
+
+
+        /**
+         * Setup -  config
+         */
+        $config = [
+            'enabled'       => true,
+            'filter_slug'   => 'phpunit_generative_images_test',
+            'save_as'       => [ 'jpg' ],
+            'image_width'   => '',
+            'image_height'  => '',
+            'images_array'  => [ 
+                [ 'ID' => $this->input[0]['post']->ID ]
+            ],
+        ];
 
         $this->class_instance->config($config);
 
-        $result = $this->class_instance->out();
+        $upload_dir = wp_upload_dir();
+        $expected = [
+            [
+                "wp-content/uploads".$upload_dir['subdir']."/test_image_gi.jpg"
+            ]
+        ];
 
-        $expected = null;
+        $received = $this->class_instance->out();
 
-        $got = $result;
-
-        $this->assertEquals($expected, $got);
+        $this->assertEquals($expected, $received);
     }
 
 

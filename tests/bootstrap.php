@@ -12,7 +12,7 @@ if ( ! $_tests_dir ) {
 }
 
 if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
-	echo "Could not find $_tests_dir/includes/functions.php, have you run bin/install-wp-tests.sh ?" . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo "Could not find $_tests_dir/includes/functions.php, have you run bin/install-wp-tests.sh ?" . PHP_EOL;
 	exit( 1 );
 }
 
@@ -28,9 +28,18 @@ define( 'WP_HOME', 'http://example.org' );
  */
 function _manually_load_plugin() {
 
-	require dirname( dirname( __FILE__ ) ) . '/../andyp_pipeline_generative_images/generative_images.php'; 	// needed to test generator_image mutation
-	require dirname( dirname( __FILE__ ) ) . '/../advanced-custom-fields-pro/acf.php';						// ACF
-	require dirname( dirname( __FILE__ ) ) . '/processor.php';												// this plugin.
+	/**
+     * selectively use ACF in plugins directory or in current directory,
+     * depending on GITHUB CI or regular PHPUNIT
+     */
+    $path = '';
+    if (!is_dir(dirname(dirname(__FILE__)) . '/advanced-custom-fields-pro'))
+    {
+        $path = '../';
+    }
+    require dirname(dirname(__FILE__)) . '/'.$path.'advanced-custom-fields-pro/acf.php';						// ACF
+	require dirname(dirname(__FILE__)) . '/'.$path.'andyp_pipeline_generative_images/generative_images.php';	// needed to test generator_image mutation
+	require dirname( dirname( __FILE__ ) ) . '/processor.php';													// this plugin.
 	
 }
 

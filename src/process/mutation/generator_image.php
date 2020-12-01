@@ -20,6 +20,7 @@ saves_array  :  An array of formats you wish to save as.
         'filter_slug'  => 'corner_dots',
         'saves_array'  => [ 'jpg', 'png', 'svg' ]
         'images_array' => '{{collection}}',
+        'dimensions'   => [400,400],
     ]
     ";
 
@@ -35,7 +36,7 @@ saves_array  :  An array of formats you wish to save as.
 
     public function in($input)
     {
-        $this->input = $input;
+        return;
     }
 
     public function out()
