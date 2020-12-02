@@ -97,6 +97,25 @@ class mutationGeneratorImageTest extends WP_UnitTestCase
         $this->assertEquals($expected, $got);
     }
 
+    
+    /**
+     * @test
+     *
+     * @testdox Testing the out_collection() method.
+     * 
+     * Does nothing.
+     *
+     */
+    public function test_out_collection_method()
+    {
+
+        $expected = null;
+
+        $got = $this->class_instance->out_collection();
+
+        $this->assertEquals($expected, $got);
+    }
+
 
     /**
      * @test
@@ -189,5 +208,92 @@ class mutationGeneratorImageTest extends WP_UnitTestCase
     }
 
 
+
+    /**
+     * @test
+     *
+     * @testdox Testing the out() method while disabled
+     *
+     */
+    public function test_out_with_disabled_mutation()
+    {
+
+        /**
+         * Setup -  config
+         */
+        $config = [
+            'enabled'       => false,
+            'filter_slug'   => 'phpunit_generative_images_test',
+            'save_as'       => [ 'jpg' ],
+            'image_width'   => '',
+            'image_height'  => '',
+            'images_array'  => [ 
+                [ 'ID' => 1 ]
+            ],
+        ];
+
+        $this->class_instance->config($config);
+
+        $expected = null;
+
+        $received = $this->class_instance->out();
+
+        $this->assertEquals($expected, $received);
+    }
+
+
+
+    /**
+     * @test
+     *
+     * @testdox Testing the out() method with no data
+     *
+     */
+    public function test_out_with_no_data()
+    {
+
+        /**
+         * Setup -  config
+         */
+        $config = [
+            'enabled'       => true
+        ];
+
+        $this->class_instance->config($config);
+
+        $expected = null;
+
+        $received = $this->class_instance->out();
+
+        $this->assertEquals($expected, $received);
+    }
+
+
+    /**
+     * @test
+     *
+     * @testdox Testing the out() method with custom dimensions
+     *
+     */
+    public function test_out_with_custom_dimensions()
+    {
+
+        /**
+         * Setup -  config
+         */
+        $config = [
+            'enabled'       => true,
+            'image_width'   => '400',
+            'image_height'  => '400',
+        ];
+
+        $this->class_instance->config($config);
+
+        $expected = null;
+
+        $received = $this->class_instance->out();
+
+        $this->assertEquals($expected, $received);
+    }
     
 }

@@ -27,6 +27,8 @@ saves_array  :  An array of formats you wish to save as.
     public $input;
 
     public $config;
+    
+    public $filter_result;
 
     
     public function config($config)
@@ -163,7 +165,8 @@ saves_array  :  An array of formats you wish to save as.
 
     private function run_filter()
     {
-        if ($this->filter_args[0] == null || $this->filter_args[1] == null || $this->filter_args[2] == null)
+        
+        if (!isset($this->filter_args) || !isset($this->filter_args[0]) || !isset($this->filter_args[1]) || !isset($this->filter_args[2]))
         {
             return;
         }
@@ -181,6 +184,10 @@ saves_array  :  An array of formats you wish to save as.
      */
     private function is_disabled()
     {
+        if (!isset($this->config)){
+            return true;
+        }
+
         if ($this->config['enabled'] == false)
         {
             return true;
