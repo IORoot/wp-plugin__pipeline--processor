@@ -7,22 +7,9 @@ use ue\interfaces\mutationInterface;
 class generator_image implements mutationInterface
 {
     
-    public $description = "Runs the Generator-Image Plugin to generate and convert files. Requires three settings:
-filter_slug  :  The Name of the filter group in genimage you wish to run.
-images_array :  An array of WP_Posts or a casted array of WP_Post. The Image generator will look for the post['id']
-                field to convert to a real WP_Post object if the WP_Post/WP_Term is not found. see the src/wp/wp_get_image.php
-                in the generative images plugin.
-saves_array  :  An array of formats you wish to save as.
-    ";
+    public $description = "";
 
-    public $parameters = "
-    [
-        'filter_slug'  => 'corner_dots',
-        'saves_array'  => [ 'jpg', 'png', 'svg' ]
-        'images_array' => '{{collection}}',
-        'dimensions'   => [400,400],
-    ]
-    ";
+    public $parameters = "";
 
     public $input;
 
@@ -171,6 +158,15 @@ saves_array  :  An array of formats you wish to save as.
             return;
         }
 
+        /**
+         * 
+            [
+                'filter_slug'  => 'corner_dots',
+                'saves_array'  => [ 'jpg', 'png', 'svg' ]
+                'images_array' => '{{collection}}',
+                'dimensions'   => [400,400],
+            ]
+         */
         $this->filter_result = apply_filters_ref_array('genimage_get_instance', $this->filter_args);
     }
 

@@ -9,11 +9,7 @@ class ytdl_ffmpeg implements mutationInterface
     
     use \ue\utils;
 
-    public $description =   "Uses the andyp_youtube_downloader plugin." .PHP_EOL .
-                            "This is a PARTIAL youtube video downloader. " . PHP_EOL.
-                            "Must have FFMPEG installed on system to run" . PHP_EOL.
-                            "Requires a youtube video code, a starttime and duration." . PHP_EOL.
-                            "Downloaded videos are put in the /uploads directory." . PHP_EOL;
+    public $description = "";
 
     public $parameters = "";
 
@@ -36,15 +32,21 @@ class ytdl_ffmpeg implements mutationInterface
     public function out()
     {
         if ($this->is_disabled()){ return; }
+        
         $this->get_filter_args();
         $this->run_filter();
 
         return $this->filter_result;
     }
 
+
+    /**
+     * Used to run against multiple records
+     */
     public function out_collection()
     {
         if ($this->is_disabled()){ return; }
+
         foreach ($this->config['collection'] as $this->current_key => $this->current_record)
         {
             $this->get_field();
@@ -79,6 +81,7 @@ class ytdl_ffmpeg implements mutationInterface
             $this->config['video_seek_start_point'],
             $this->config['video_seek_duration'],
             '_video',
+            $this->config['override'],
         ];
     }
 

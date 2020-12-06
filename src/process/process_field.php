@@ -153,7 +153,7 @@ class process_field
 
         foreach($this->mutation_single as $arg_key => $args)
         {
-            preg_match_all("/{{([\w|\d|_|:]+)}}/", $args, $matches);
+            preg_match_all("/{{([\w|\d|\_|\:|\-|\>]+)}}/", $args, $matches);
 
             foreach ($matches[1] as $match_key => $match) 
             {
@@ -208,7 +208,6 @@ class process_field
         $mutation->config($this->mutation_single);
         $mutation->in($this->field_value);
 
-        // $this->result[$this->mutation_single['acf_fc_layout']] = $mutation->out();
         $this->result = $mutation->out();
 
     }

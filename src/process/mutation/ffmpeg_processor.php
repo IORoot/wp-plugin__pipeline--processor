@@ -9,11 +9,7 @@ class ffmpeg_processor implements mutationInterface
     use \ue\utils;
     use \ue\debug;
 
-    public $description =   "Uses the andyp_youtube_downloader plugin." .PHP_EOL .
-                            "This is a PARTIAL youtube video downloader. " . PHP_EOL.
-                            "Must have FFMPEG installed on system to run" . PHP_EOL.
-                            "Requires a youtube video code, a starttime and duration." . PHP_EOL.
-                            "Downloaded videos are put in the /uploads directory." . PHP_EOL;
+    public $description =   "";
 
     public $parameters = "";
 

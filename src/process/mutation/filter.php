@@ -9,25 +9,9 @@ class filter implements mutationInterface
     
     use \ue\utils;
 
-    public $description = "Runs a Wordpress Filter. Requires an array with 'filter' and 'args'. 
-    '{{field_key}}' = current input field.
-    '{{field_value}}' = current input field result value.
-    '{{record}}' = current record being processed.
-    '{{collection}}' Entire result set from query";
+    public $description = "";
 
-    public $parameters = "
-    [
-        'filter' => 'genimage_get_filters',
-        'args' => 
-            [
-                'corner_dots',
-                '{{field_key}}',
-                '{{field_value}}',
-                '{{record}}',
-                '{{collection}}',
-            ]
-    ]
-    ";
+    public $parameters = "";
 
     public $input;
 

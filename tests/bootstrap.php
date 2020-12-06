@@ -39,7 +39,8 @@ function _manually_load_plugin() {
     }
     require dirname(dirname(__FILE__)) . '/'.$path.'advanced-custom-fields-pro/acf.php';						// ACF
 	require dirname(dirname(__FILE__)) . '/'.$path.'andyp_pipeline_generative_images/generative_images.php';	// needed to test generator_image mutation
-	require dirname( dirname( __FILE__ ) ) . '/processor.php';													// this plugin.
+	require dirname(dirname(__FILE__)) . '/'.$path.'andyp_pipeline_youtube_downloader/youtube_downloader.php';	// needed to test youtube downloader mutation
+	require dirname(dirname(__FILE__)) . '/processor.php';													    // this plugin.
 	
 }
 

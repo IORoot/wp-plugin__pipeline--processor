@@ -7,9 +7,9 @@ use ue\interfaces\mutationInterface;
 class uppercase implements mutationInterface
 {
     
-    public $description = "[STRING] Changes string to UPPERCASE.";
+    public $description = "";
 
-    public $parameters = 'None';
+    public $parameters = '';
 
     public $config;
 

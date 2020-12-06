@@ -87,3 +87,13 @@
     border-radius: 20px;
     font-size: 10px;
 }
+
+.mutation__help {
+    background: #B4FFFB;
+    line-height: 2em;
+    font-size: 1.1em;
+}
+.mutation__help p {
+    line-height: 2em;
+    font-size: 1.1em;
+}

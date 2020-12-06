@@ -7,9 +7,9 @@ use ue\interfaces\mutationInterface;
 class none implements mutationInterface
 {
     
-    public $description = "[ANY] Does nothing.";
+    public $description = "";
 
-    public $parameters = 'None';
+    public $parameters = '';
 
     public $input;
 
