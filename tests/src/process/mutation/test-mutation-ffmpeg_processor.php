@@ -100,20 +100,127 @@ class mutationFfmpegProcessorTest extends WP_UnitTestCase
      */
     public function test_out_method()
     {
+
+        /**
+         * Setup - Posts
+         */
+        $this->util_make_post_with_videoID(2);
+
         /**
          * Setup - config
          */
         $config = [
+            'field_key' => 'videoId->0',
             'ffmpeg_steps' => [
+                [
+                    'enabled' => true,
+                    'description' => 'phpunit test ffmpeg',
+                    'ffmpeg_arguments' => ' -hide_banner -loglevel panic -n $inputs -filter_complex "[0:v] [0:a] [1:v] [1:a] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" -strict -2 $upload_dir/output.mp4',
+                ]
+            ],
+            'collection' => [
+                $this->input[0],
+                $this->input[1],
+            ],
+        ];
+        $this->class_instance->config($config);
+
+        
+        /**
+         * Expected, Recieved, Asserted
+         */
+        $expected = [
+            "/tmp/wordpress/wp-content/uploads/2020/12/dQw4w9WgXcQ_video.mp4",
+            "/tmp/wordpress/wp-content/uploads/2020/12/dQw4w9WgXcQ_video.mp4",
+            'output_file' => "/tmp/wordpress/wp-content/uploads/2020/12/output.mp4",
+        ];
+
+        $recieved = $this->class_instance->out();
+
+        $this->assertEquals($expected, $recieved);
+    }
+
+
+
+    /**
+     * @test
+     *
+     * @testdox Testing the out_collection() method with standard inputs
+     *
+     */
+    public function test_out_collection_method()
+    {
+
+        /**
+         * Setup - Posts
+         */
+        $this->util_make_post_with_videoID(2);
+
+        /**
+         * Setup - config
+         */
+        $config = [
+            'field_key' => 'videoId->0',
+            'ffmpeg_steps' => [
+                [
+                    'enabled' => true,
+                    'description' => 'phpunit test ffmpeg',
+                    'ffmpeg_arguments' => ' -hide_banner -loglevel panic -n $inputs -filter_complex "[0:v] [0:a] [1:v] [1:a] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" -strict -2 $upload_dir/output.mp4',
+                ]
+            ],
+            'collection' => [
+                $this->input[0],
+                $this->input[1],
             ],
         ];
         $this->class_instance->config($config);
 
 
-        $recieved = $this->class_instance->out();
+        /**
+         * Expected, Recieved, Asserted
+         */
+        $expected = [
+            "/tmp/wordpress/wp-content/uploads/2020/12/dQw4w9WgXcQ_video.mp4",
+            "/tmp/wordpress/wp-content/uploads/2020/12/dQw4w9WgXcQ_video.mp4",
+            'output_file' => "/tmp/wordpress/wp-content/uploads/2020/12/output.mp4",
+        ];
 
-        /** Cannot accurately predict this. */
-        unset($recieved['url']);
+        $recieved = $this->class_instance->out_collection();
+
+        $this->assertEquals($expected, $recieved);
+    }
+
+
+    /**
+     * @test
+     *
+     * @testdox Testing the out() method that is disabled.
+     *
+     */
+    public function test_out_method_disabled()
+    {
+
+        /**
+         * Setup - config
+         */
+        $config = [
+            'field_key' => 'videoId->0',
+            'ffmpeg_steps' => [
+                [
+                    'enabled' => false,
+                    'description' => 'phpunit test ffmpeg',
+                    'ffmpeg_arguments' => ' -hide_banner -loglevel panic -n $inputs -filter_complex "[0:v] [0:a] [1:v] [1:a] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" -strict -2 $upload_dir/output.mp4',
+                ]
+            ]
+        ];
+        $this->class_instance->config($config);
+        
+        /**
+         * Expected, Recieved, Asserted
+         */
+        $expected = null;
+
+        $recieved = $this->class_instance->out();
 
         $this->assertEquals($expected, $recieved);
     }

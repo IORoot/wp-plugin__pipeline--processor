@@ -9,7 +9,7 @@ class ffmpeg_processor implements mutationInterface
     use \ue\utils;
     use \ue\debug;
 
-    public $description =   "";
+    public $description = "";
 
     public $parameters = "";
 
@@ -39,16 +39,10 @@ class ffmpeg_processor implements mutationInterface
     {
         // Is FFMpeg installed?
         $this->is_ffmpeg_installed();
-        if (empty($this->ffmpeg)) {
-            $this->results = false;
-            return;
-        }
+        if (empty($this->ffmpeg)) { $this->results = false; return; }
 
         // Start processing each record.
         $this->process_collection();
-
-        // cleanup.
-        $this->delete_concat_file();
 
         // return result.
         return $this->results;
@@ -68,16 +62,16 @@ class ffmpeg_processor implements mutationInterface
         
         foreach ($this->config['ffmpeg_steps'] as $this->step_key => $this->step_value) {
 
-            if ($this->step_value['enabled'] == false) {
-                continue;
-            }
+            if ($this->step_value['enabled'] == false) { $this::debug_update('process', 'Mutation disabled.'); continue; }
 
             $this->set_directories();
+
+            if (empty($this->files_in_dir)) { $this::debug_update('process', 'No Video Files in Directory.'); continue; }
+
+            $this->match_inputs_line();
             $this->match_upload_dir();
             $this->match_dates();
             $this->match_timestamps();
-            $this->match_concat_file();
-            $this->match_inputs_line();
             $this->build_ffmpeg_command();
             $this->run_ffmpeg();    
             $this->output_file_in_results();
@@ -96,7 +90,6 @@ class ffmpeg_processor implements mutationInterface
      * Sets: 
      *      upload_dir, 
      *      files_in_dir 
-     *      concat_file
      */
     private function set_directories()
     {
@@ -110,75 +103,17 @@ class ffmpeg_processor implements mutationInterface
         // Remove images
         foreach ($this->files_in_dir as $key => $file)
         {
-            // remove .DS_Store
-            if (preg_match('/DS_Store/', $file) == 1)
-            {
-                unset($this->files_in_dir[$key]);
-            }
-
-            // Remove anything not a video file.
+            // Skip Removing video files
             if (preg_match('/[mp4|flv|mov|avi|webm|mkv]$/', $file) == 1)
             {
                 continue;
             }
             
+            // Remove everything else.
             unset($this->files_in_dir[$key]);
         }
 
-        // concat file to create.
-        $this->concat_file = $this->upload_dir . '/concat_file.txt';
     }
-
-
-
-
-    // ┌─────────────────────────────────────────────────────────────────────────┐
-    // │                                                                         │
-    // │                           MATCH FILE INPUTS                             │
-    // │                                                                         │
-    // └─────────────────────────────────────────────────────────────────────────┘
-
-    /**
-     * create_concat_file
-     *
-     * Creates a concat_file.txt with a list of all input videos.
-     * Then makes this file the input to the ffmpeg command.
-     *
-     * @return void
-     */
-    private function match_concat_file()
-    {
-        if (strpos($this->step_value['ffmpeg_arguments'], '$concat_file')  === false) {
-            return;
-        }
-
-        foreach ($this->config['collection'] as $record) {
-
-            // get the filename for this record.
-            $record_field = explode('->', $this->config['field_key']);
-            $filename = $record;
-            foreach ($record_field as $location) {
-                $filename = $filename[$location];
-            }
-
-            // find file and extension in filelist array
-            $regex = '/^'.$filename.'[\s|\S].*/';
-            $file_and_ext = preg_grep($regex, $this->files_in_dir);
-            $file_and_ext = array_pop(array_reverse($file_and_ext));
-            
-            // String to add to file.
-            $string_to_write = 'file \'' . $this->upload_dir . '/' .$file_and_ext . '\'' .PHP_EOL;
-            $this->filelist[] = $this->upload_dir . '/' .$file_and_ext;
-
-            // write to file.
-            file_put_contents($this->concat_file, $string_to_write, FILE_APPEND);
-        }
-
-        // Replace string with real location of concat file.
-        $this->step_value['ffmpeg_arguments'] = str_replace('$concat_file', $this->concat_file, $this->step_value['ffmpeg_arguments']);
-    }
-
-
 
 
 
@@ -197,9 +132,8 @@ class ffmpeg_processor implements mutationInterface
      */
     private function match_inputs_line()
     {
-        if (strpos($this->step_value['ffmpeg_arguments'], '$inputs') === false) {
-            return;
-        }
+        if (strpos($this->step_value['ffmpeg_arguments'], '$inputs') === false) { return; }
+        if (empty($this->config['field_key'])) { return; }
 
         foreach ($this->config['collection'] as $record) {
 
@@ -213,14 +147,16 @@ class ffmpeg_processor implements mutationInterface
             // find file and extension in filelist array
             $regex = '/^'.$filename.'[\s|\S].*/';
             $file_and_ext = preg_grep($regex, $this->files_in_dir);
-            $file_and_ext = array_pop(array_reverse($file_and_ext));
-            
+            $file_and_ext = array_reverse($file_and_ext);
+            $file_and_ext = array_pop($file_and_ext);
+
+            if (empty($file_and_ext)) { $this::debug_update('process', 'No Video File Found for $inputs using Regex : '.$regex); continue; }
+
             // String to add to file.
             $this->input_string .= ' -i ' . $this->upload_dir . '/' .$file_and_ext . ' ';
             $this->filelist[] = $this->upload_dir . '/' .$file_and_ext;
         }
 
-        // Replace string with real location of concat file.
         $this->step_value['ffmpeg_arguments'] = str_replace('$inputs', $this->input_string, $this->step_value['ffmpeg_arguments']);
     }
 
@@ -249,16 +185,6 @@ class ffmpeg_processor implements mutationInterface
         $this->step_value['ffmpeg_arguments'] = str_replace('$timestamp', date('U'), $this->step_value['ffmpeg_arguments']);
     }
 
-
-    // ┌─────────────────────────────────────────────────────────────────────────┐
-    // │                                                                         │
-    // │                             DELETE STUFF                                │
-    // │                                                                         │
-    // └─────────────────────────────────────────────────────────────────────────┘
-    private function delete_concat_file()
-    {
-        unlink($this->concat_file);
-    }
 
 
     // ┌─────────────────────────────────────────────────────────────────────────┐
@@ -290,9 +216,8 @@ class ffmpeg_processor implements mutationInterface
     private function run_ffmpeg()
     {
         exec($this->command, $output_of_command, $return_var);
-        $this::debug_update('process', 'COMMAND:' . $this->command);
-        $this::debug_update('process', 'OUTPUT:' . $output_of_command);
-        $this::debug_update('process', 'RETURN_VARS:' . $return_var);
+        $this::debug_update('process', 'EXIT STATUS: ' . $return_var);
+        $this::debug_update('process', 'COMMAND: ' . $this->command);
         $this->results = $this->filelist;
     }
 
