@@ -63,6 +63,9 @@ class ffmpeg_processor implements mutationInterface
 
     private function process_collection()
     {
+
+        if (empty($this->config['ffmpeg_steps'])){ return; }
+        
         foreach ($this->config['ffmpeg_steps'] as $this->step_key => $this->step_value) {
 
             if ($this->step_value['enabled'] == false) {
@@ -89,6 +92,12 @@ class ffmpeg_processor implements mutationInterface
     // │                                                                         │
     // └─────────────────────────────────────────────────────────────────────────┘
 
+    /**
+     * Sets: 
+     *      upload_dir, 
+     *      files_in_dir 
+     *      concat_file
+     */
     private function set_directories()
     {
         // get the upload directory.
@@ -107,6 +116,7 @@ class ffmpeg_processor implements mutationInterface
                 unset($this->files_in_dir[$key]);
             }
 
+            // Remove anything not a video file.
             if (preg_match('/[mp4|flv|mov|avi|webm|mkv]$/', $file) == 1)
             {
                 continue;
@@ -170,6 +180,14 @@ class ffmpeg_processor implements mutationInterface
 
 
 
+
+
+    // ┌─────────────────────────────────────────────────────────────────────────┐
+    // │                                                                         │
+    // │                          MATCH & REPLACE STUFF                          │
+    // │                                                                         │
+    // └─────────────────────────────────────────────────────────────────────────┘
+
     /**
      * check_for_inputs_line
      *
@@ -207,23 +225,25 @@ class ffmpeg_processor implements mutationInterface
     }
 
 
-
-    // ┌─────────────────────────────────────────────────────────────────────────┐
-    // │                                                                         │
-    // │                          MATCH & REPLACE STUFF                          │
-    // │                                                                         │
-    // └─────────────────────────────────────────────────────────────────────────┘
-
+    /**
+     * Search and replace the $upload_dir string.
+     */
     private function match_upload_dir()
     {
         $this->step_value['ffmpeg_arguments'] = str_replace('$upload_dir', $this->upload_dir, $this->step_value['ffmpeg_arguments']);
     }
 
+    /**
+     * Search and replace the $date string
+     */
     private function match_dates()
     {
         $this->step_value['ffmpeg_arguments'] = str_replace('$date', date('Ymd_Hms'), $this->step_value['ffmpeg_arguments']);
     }
 
+    /**
+     * Search and replace the $timestamp string
+     */
     private function match_timestamps()
     {
         $this->step_value['ffmpeg_arguments'] = str_replace('$timestamp', date('U'), $this->step_value['ffmpeg_arguments']);
@@ -235,7 +255,6 @@ class ffmpeg_processor implements mutationInterface
     // │                             DELETE STUFF                                │
     // │                                                                         │
     // └─────────────────────────────────────────────────────────────────────────┘
-
     private function delete_concat_file()
     {
         unlink($this->concat_file);
@@ -271,8 +290,9 @@ class ffmpeg_processor implements mutationInterface
     private function run_ffmpeg()
     {
         exec($this->command, $output_of_command, $return_var);
-        $this::debug_update('process', $output_of_command);
-        $this::debug_update('process', $return_var);
+        $this::debug_update('process', 'COMMAND:' . $this->command);
+        $this::debug_update('process', 'OUTPUT:' . $output_of_command);
+        $this::debug_update('process', 'RETURN_VARS:' . $return_var);
         $this->results = $this->filelist;
     }
 
