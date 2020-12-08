@@ -12,6 +12,9 @@
  */
 class combineTest extends WP_UnitTestCase
 {
+
+
+
     public function setUp()
     {
         parent::setUp();
@@ -24,6 +27,10 @@ class combineTest extends WP_UnitTestCase
         parent::tearDown();
     }
     
+
+
+
+
     /**
      * @test
      *
@@ -34,6 +41,8 @@ class combineTest extends WP_UnitTestCase
     {
         $this->assertIsObject($this->class_instance);
     }
+
+
 
 
 	/** 
@@ -55,6 +64,8 @@ class combineTest extends WP_UnitTestCase
         $this->assertEquals($expected, $got );
 
     }
+
+
 
 
 	/** 
@@ -79,6 +90,10 @@ class combineTest extends WP_UnitTestCase
 
     }
 
+
+
+
+
 	/** 
 	 * @test
      * 
@@ -88,11 +103,14 @@ class combineTest extends WP_UnitTestCase
 	public function test_run_method_to_keep_records_individual() {
 
         /**
-         * Setup - Collection 2 posts
+         * Setup - Collection
          */
         $posts[] = (array) $this->factory->post->create_and_get();
         $posts[] = (array) $this->factory->post->create_and_get();
-        $this->class_instance->set_collection($posts);
+        $collection = [
+            'ue\process' => $posts
+        ];
+        $this->class_instance->set_collection($collection);
 
         /**
          * Setup - Options
@@ -109,10 +127,192 @@ class combineTest extends WP_UnitTestCase
         ];
         $this->class_instance->set_options($options);
 
+
         /**
          * Expected, Received, Asserted
          */
-        $expected = null;
+        $expected = $posts;
+
+        $received = $this->class_instance->run();
+
+        $this->assertEquals($expected, $received );
+
+    }
+
+
+
+
+	/** 
+	 * @test
+     * 
+     * @testdox Test run() method with a combine on all titles
+     * 
+	 */
+	public function test_run_method_combining_all_titles_together() {
+
+        /**
+         * Setup - Collection
+         */
+        $posts[] = (array) $this->factory->post->create_and_get();
+        $posts[] = (array) $this->factory->post->create_and_get();
+        $collection = [
+            'ue\process' => [
+                [ 'post_title' => 'Title 1' ],
+                [ 'post_title' => 'Title 2' ],
+                [ 'post_title' => 'Title 3' ],
+            ]
+        ];
+        $this->class_instance->set_collection($collection);
+
+        /**
+         * Setup - Options
+         */
+        $options = [
+            'ue_job_combine_id' => [
+                'ue_combine_group' => [
+                    'ue_combine_enabled' => true,
+                    'ue_combine_id' => "PHPUnit Combine Test",
+                ],
+                'ue_process_combine' => 'combine',
+                'ue_combine_collection' => [
+                    [
+                        'ue_combine_input_select' => 'post_title',
+                        'ue_combine_method' => 'all',
+                    ]
+                ]
+            ]
+        ];
+        $this->class_instance->set_options($options);
+
+
+        /**
+         * Expected, Received, Asserted
+         */
+        $expected = [
+            [
+                '0_post_title' => 'Title 1',
+                '1_post_title' => 'Title 2',
+                '2_post_title' => 'Title 3',
+            ],
+        ];
+
+        $received = $this->class_instance->run();
+
+        $this->assertEquals($expected, $received );
+
+    }
+
+
+    /** 
+	 * @test
+     * 
+     * @testdox Test run() method with a combine on first title only
+     * 
+	 */
+	public function test_run_method_combining_first_title_only() {
+
+        /**
+         * Setup - Collection
+         */
+        $posts[] = (array) $this->factory->post->create_and_get();
+        $posts[] = (array) $this->factory->post->create_and_get();
+        $collection = [
+            'ue\process' => [
+                [ 'post_title' => 'Title 1' ],
+                [ 'post_title' => 'Title 2' ],
+                [ 'post_title' => 'Title 3' ],
+            ]
+        ];
+        $this->class_instance->set_collection($collection);
+
+        /**
+         * Setup - Options
+         */
+        $options = [
+            'ue_job_combine_id' => [
+                'ue_combine_group' => [
+                    'ue_combine_enabled' => true,
+                    'ue_combine_id' => "PHPUnit Combine Test",
+                ],
+                'ue_process_combine' => 'combine',
+                'ue_combine_collection' => [
+                    [
+                        'ue_combine_input_select' => 'post_title',
+                        'ue_combine_method' => 'first',
+                    ]
+                ]
+            ]
+        ];
+        $this->class_instance->set_options($options);
+
+
+        /**
+         * Expected, Received, Asserted
+         */
+        $expected = [
+            [
+                'post_title' => 'Title 1',
+            ],
+        ];
+
+        $received = $this->class_instance->run();
+
+        $this->assertEquals($expected, $received );
+
+    }
+
+
+    /** 
+	 * @test
+     * 
+     * @testdox Test run() method with a combine on last title only
+     * 
+	 */
+	public function test_run_method_combining_last_title_only() {
+
+        /**
+         * Setup - Collection
+         */
+        $posts[] = (array) $this->factory->post->create_and_get();
+        $posts[] = (array) $this->factory->post->create_and_get();
+        $collection = [
+            'ue\process' => [
+                [ 'post_title' => 'Title 1' ],
+                [ 'post_title' => 'Title 2' ],
+                [ 'post_title' => 'Title 3' ],
+            ]
+        ];
+        $this->class_instance->set_collection($collection);
+
+        /**
+         * Setup - Options
+         */
+        $options = [
+            'ue_job_combine_id' => [
+                'ue_combine_group' => [
+                    'ue_combine_enabled' => true,
+                    'ue_combine_id' => "PHPUnit Combine Test",
+                ],
+                'ue_process_combine' => 'combine',
+                'ue_combine_collection' => [
+                    [
+                        'ue_combine_input_select' => 'post_title',
+                        'ue_combine_method' => 'last',
+                    ]
+                ]
+            ]
+        ];
+        $this->class_instance->set_options($options);
+
+
+        /**
+         * Expected, Received, Asserted
+         */
+        $expected = [
+            [
+                'post_title' => 'Title 3',
+            ],
+        ];
 
         $received = $this->class_instance->run();
 

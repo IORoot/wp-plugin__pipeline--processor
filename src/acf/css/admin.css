@@ -103,11 +103,13 @@
     font-size: 10px;
 }
 
+.processor__help,
 .mutation__help {
     background: #FCC53B;
     line-height: 2em;
     font-size: 1.1em;
 }
+.processor__help p,
 .mutation__help p {
     line-height: 2em;
     font-size: 1.1em;

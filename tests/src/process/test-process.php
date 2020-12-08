@@ -86,8 +86,9 @@ class processTest extends WP_UnitTestCase
      */
     public function test_process_set_collection()
     {
-        $posts = $this->factory->post->create_many(2);
-
+        $post1 = $this->factory->post->create_and_get(array( 'post_title' => 'Test Post 1' ));
+        $post2 = $this->factory->post->create_and_get(array( 'post_title' => 'Test Post 2' ));
+        $posts = [$post1, $post2];
         $this->class_instance->set_collection($posts);
 
         $expected = count($posts);
@@ -136,8 +137,8 @@ class processTest extends WP_UnitTestCase
         /**
          * Setup - Collection
          */
-        $posts[] = (array) $this->factory->post->create_and_get();
-        $posts[] = (array) $this->factory->post->create_and_get();
+        $posts[] = (array) $this->factory->post->create_and_get(array( 'post_title' => 'Test Post 1' ));
+        $posts[] = (array) $this->factory->post->create_and_get(array( 'post_title' => 'Test Post 2' ));
 
         $content = [
             'ue\\content' => $posts
@@ -151,8 +152,8 @@ class processTest extends WP_UnitTestCase
          * Expected, Recieved, Asserted
          */
         $expected = [
-            [ 'post_title' => "POST TITLE 0000030" ],
-            [ 'post_title' => "POST TITLE 0000031" ],
+            [ 'post_title' => "TEST POST 1" ],
+            [ 'post_title' => "TEST POST 2" ],
         ];
 
         $received = $this->class_instance->run();
@@ -200,8 +201,8 @@ class processTest extends WP_UnitTestCase
         /**
          * Setup - Collection
          */
-        $posts[] = (array) $this->factory->post->create_and_get();
-        $posts[] = (array) $this->factory->post->create_and_get();
+        $posts[] = (array) $this->factory->post->create_and_get(array( 'post_title' => 'Test Post 1' ));
+        $posts[] = (array) $this->factory->post->create_and_get(array( 'post_title' => 'Test Post 2' ));
 
         $content = [
             'ue\\content' => $posts
@@ -213,7 +214,7 @@ class processTest extends WP_UnitTestCase
          * Expected, Recieved, Asserted
          */
         $expected = [
-            [ 'post_title' => "POST TITLE 0000032" ],
+            [ 'post_title' => "TEST POST 1" ],
             [ 'post_title' => null ],
         ];
 
