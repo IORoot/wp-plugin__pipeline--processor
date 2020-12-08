@@ -153,8 +153,6 @@ class combineTest extends WP_UnitTestCase
         /**
          * Setup - Collection
          */
-        $posts[] = (array) $this->factory->post->create_and_get();
-        $posts[] = (array) $this->factory->post->create_and_get();
         $collection = [
             'ue\process' => [
                 [ 'post_title' => 'Title 1' ],
@@ -214,8 +212,6 @@ class combineTest extends WP_UnitTestCase
         /**
          * Setup - Collection
          */
-        $posts[] = (array) $this->factory->post->create_and_get();
-        $posts[] = (array) $this->factory->post->create_and_get();
         $collection = [
             'ue\process' => [
                 [ 'post_title' => 'Title 1' ],
@@ -273,8 +269,6 @@ class combineTest extends WP_UnitTestCase
         /**
          * Setup - Collection
          */
-        $posts[] = (array) $this->factory->post->create_and_get();
-        $posts[] = (array) $this->factory->post->create_and_get();
         $collection = [
             'ue\process' => [
                 [ 'post_title' => 'Title 1' ],
