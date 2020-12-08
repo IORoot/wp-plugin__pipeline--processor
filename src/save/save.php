@@ -3,7 +3,6 @@
 namespace ue;
 
 use \ue\import\exists;
-use \ue\import\taxonomy;
 use \ue\import\post;
 use \ue\import\image;
 use \ue\import\attach;
@@ -19,7 +18,6 @@ class save
      *
      * @var object
      */
-    public $taxonomy;
 
     public $post;
 
@@ -62,7 +60,6 @@ class save
 
     public function __construct()
     {
-        $this->taxonomy = new taxonomy;
 
         $this->post = new post;
 
@@ -123,6 +120,7 @@ class save
      *                      url : "abc123.jpg"
      *                      filename : "The title"
      *                      post_title : "The title"
+     *                      path : "/2020/10/image.jpg"
      *                  ]
      *      ]
      * 
@@ -152,6 +150,7 @@ class save
      *              url : "abc123.jpg"
      *              filename : "The title"
      *              post_title : "The title"
+     *              path : "/2020/10/image.jpg"
      *          ]
      * 
      * 
@@ -224,7 +223,7 @@ class save
     private function attach_taxonomy()
     {
         $this->set_default_tax_term();
-        $this->attach->tax_to_post(
+        $tax = $this->attach->tax_to_post(
             $this->options['ue_save_taxonomy'], 
             $this->options['ue_save_taxonomy_term'], 
             $this->results['post']
