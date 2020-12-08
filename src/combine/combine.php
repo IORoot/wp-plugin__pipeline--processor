@@ -46,6 +46,7 @@ class combine
     {
         if ($this->options['ue_process_combine'] != 'combine')
         {
+            $this->results = $this->collection['ue\process'];
             return;
         }
 

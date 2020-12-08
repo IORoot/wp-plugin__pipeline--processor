@@ -65,14 +65,8 @@ class process_field
 
         foreach ($this->config as $this->mutation_group)
         {
-            if ($this->mutation_group['ue_mutation_input_select'] != $this->field_key)
-            {
-                continue;
-            }
-
+            if ($this->mutation_group['ue_mutation_input_select'] != $this->field_key) { continue; }
             $this->loop_through_matched_stack();
-            
-            
         }
     }
 
@@ -233,9 +227,6 @@ class process_field
         $mutation = new $mutation_name;
         $mutation->config($this->mutation_single);
         $mutation->in($this->field_value);
-
-        // Alternative method to run entire collection.
-        // $this->result[$this->mutation_single['acf_fc_layout']] = $mutation->out_collection();
         $this->result = $mutation->out_collection();
 
     }

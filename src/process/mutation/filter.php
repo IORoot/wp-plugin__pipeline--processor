@@ -24,7 +24,6 @@ class filter implements mutationInterface
     public function config($config) 
     {
         $this->config = $config;
-        return;
     }
 
     public function in($input)
@@ -69,22 +68,13 @@ class filter implements mutationInterface
 
     private function run_filter()
     {
-        if ($this->filter_name == null)
-        {
-            $this->filter_result = "No filter Name given.";
-            return;
-        }
+        if ($this->filter_name == null) { $this->filter_result = "No filter Name given."; return; }
         
-        if ($this->filter_args == null)
-        {
-            $this->filter_result = "No filter Args given.";
-            return;
-        }
+        if ($this->filter_args == null) { $this->filter_result = "No filter Args given."; return; }
 
         $this->filter_result[] = apply_filters_ref_array($this->filter_name, $this->filter_args);
 
         return;
     }
-
 
 }
