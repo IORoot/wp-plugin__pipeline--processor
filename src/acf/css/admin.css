@@ -8,14 +8,10 @@
     └─────────────────────────────────────────────────────────────────────────┘░
      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ */
 
-.wp-admin .mdi{
+.pipeline_page_processor .mdi{
     font-size: 16px;
     vertical-align: bottom;
     color: #11998E;
-}
-
-.wp-admin .acf-field-object-message textarea {
-    height: unset !important;
 }
 
 /*  ┌─────────────────────────────────────────────────────────────────────────┐

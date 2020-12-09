@@ -281,7 +281,7 @@ class saveTest extends WP_UnitTestCase
                         'post_status' => 'publish',
                     ],
                     'image' => [
-                        'path' => '/2020/10/test_image.jpg'
+                        'path' => DIR_DATA.'/test_image.jpg',
                     ]
                 ]
             ]
@@ -429,6 +429,63 @@ class saveTest extends WP_UnitTestCase
         $expected = null;
 
         $received = $run;
+
+        $this->assertEquals($expected, $received);
+
+    }
+
+
+    /** 
+	 * @test
+     * 
+     * @testdox Testing the run() method without taxonomy
+     * 
+	 */
+	public function test_run_without_taxonomy() {
+
+        /**
+         * Setup - Collection
+         */
+        $collection = [
+            'ue\mappings' => [
+                [
+                    'post' => [
+                        'post_title' => 'Post Title',
+                        'post_status' => 'publish',
+                    ],
+                    'image' => [
+                        'path' => DIR_DATA.'/test_image.jpg',
+                    ]
+                ]
+            ]
+        ];
+        $this->class_instance->set_collection($collection);
+
+
+        /**
+         * Setup - Options
+         */
+        $options = [
+            'ue_job_save_id' => [
+                'ue_save_group' => [
+                    'ue_save_enabled' => true,
+                    'ue_save_id' => "PHPUnit Save Test",
+                ],
+                'ue_save_posttype' => 'exporter',
+                'ue_save_taxonomy' => '',
+                'ue_save_taxonomy_term' => 'phpunit_test',
+            ]
+        ];
+        $this->class_instance->set_options($options);
+
+        $run = $this->class_instance->run();
+
+        /**
+         * Expected, Received, Asserted
+         */
+        $expected = $run['post']['_thumbnail_id'][0];
+
+        $received = $run['image']['ID'];
 
         $this->assertEquals($expected, $received);
 
