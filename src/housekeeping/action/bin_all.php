@@ -13,21 +13,19 @@ class bin_all implements housekeepInterface{
 
     public $response;
 
-    
-    public function __construct()
-    {
-        return $this;
-    }
 
+    /**
+     * Convert a string query to an array.
+     */
     public function wp_query($wp_query)
     {
         $config = preg_replace( "/\r|\n/", "", $wp_query );
-        $this->query = eval("return " . $config . ";");
-
+        $this->query = @eval("return " . $config . ";");
         $this->post_list();
 
         return;
     }
+
 
     public function run()
     {
@@ -44,29 +42,18 @@ class bin_all implements housekeepInterface{
         return;
     }
 
-    /**
-     * Report : What WILL happen and what HAS happened.
-     */
+
     public function result()
     {
-        (new \yt\r)->clear('housekeep');
-        if (!isset($this->post_list)){
-            (new \yt\e)->line('housekeep - Category empty, skipping.');
-            return;
-        }
-        if (empty($this->post_list)){
-            (new \yt\e)->line('housekeep - Category not an array, skipping.');
-            return;
-        }
-        (new \yt\e)->line('housekeep - Will bin ' . count($this->post_list) . ' post (and image attachments).'); 
-        (new \yt\e)->line('housekeep - Response : ' . count($this->response) . ' were placed in the bin.'); 
-        return ;
+        if (!isset($this->post_list)){ return false; }
+        if (empty($this->post_list)){ return false; }
+        return true;
     }
 
 
     public function post_list()
     {
-        if (!isset($this->query)){
+        if (!is_array($this->query)){
             return;
         }
         $this->post_list = get_posts($this->query);

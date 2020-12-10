@@ -12,18 +12,12 @@ class delete_all implements housekeepInterface
 
     public $response;
 
-    
-    public function __construct()
-    {
-        return $this;
-    }
 
     public function wp_query($wp_query)
     {
 
         $config = preg_replace("/\r|\n/", "", $wp_query);
-        $this->query = eval("return " . $config . ";");
-
+        $this->query = @eval("return " . $config . ";");
         $this->post_list();
 
         return;
@@ -42,29 +36,17 @@ class delete_all implements housekeepInterface
         return;
     }
 
-    /**
-     * Report : What WILL happen and what HAS happened.
-     */
     public function result()
     {
-        if (!isset($this->post_list)) {
-            (new \yt\e)->line('housekeep - Category does not exist, skipping.');
-            return;
-        }
-        if (empty($this->post_list)) {
-            (new \yt\e)->line('housekeep - Category empty, skipping.');
-            return;
-        }
-
-        (new \yt\e)->line('housekeep - Will delete ' . count($this->post_list) . ' posts (and attachments).');
-        (new \yt\e)->line('housekeep - Response : ' . count($this->response) . ' deleted. (Post objects and Image objects).');
-        return;
+        if (!isset($this->post_list)){ return false; }
+        if (empty($this->post_list)){ return false; }
+        return true;
     }
 
 
     public function post_list()
     {
-        if (!isset($this->query)) {
+        if (!is_array($this->query)){
             return;
         }
         $this->post_list = get_posts($this->query);

@@ -6,10 +6,6 @@ use ue\interfaces\housekeepInterface;
 
 class none implements housekeepInterface {
 
-    public function __construct()
-    {
-        return $this;
-    }
 
     public function wp_query($config)
     {
