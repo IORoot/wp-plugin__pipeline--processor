@@ -177,7 +177,21 @@ class mutationGeneratorImageTest extends WP_UnitTestCase
         ];
         $result2 = add_row('genimage_filters', $filter_group, 'option');
 
-
+        /**
+         * NOTE! IF THESE ARE FAILING, MAKE SURE YOU ARE LOADING THE ADMIN
+         * PAGES THROUGH PHP, NOT THE ACF -> ADMIN FIELD GROUPS PAGE.
+         * 
+         * This is because phpunit will not load them into the test DB 
+         * otherwise.
+         * 
+         * Steps: Uncomment the line in:
+         * andyp_pipeline_generative_images/src/acf/acf_init.php
+         * 
+         * -    // require __DIR__.'/acf_panel.php';
+         * +    require __DIR__.'/acf_panel.php';
+         * 
+         * This will then load the admin options panels via PHP instead.
+         */
 
         /**
          * Setup -  config
@@ -196,13 +210,15 @@ class mutationGeneratorImageTest extends WP_UnitTestCase
         $this->class_instance->config($config);
 
         $upload_dir = wp_upload_dir();
-        $expected = [
-            [
-                "wp-content/uploads".$upload_dir['subdir']."/test_image_gi.jpg"
-            ]
-        ];
 
-        $received = $this->class_instance->out();
+        $out = $this->class_instance->out();
+
+        /**
+         * Expected, Received, Asserted
+         */
+        $expected = 10;
+
+        $received = strpos($out[0][0], "/uploads".$upload_dir['subdir']."/test_image");
 
         $this->assertEquals($expected, $received);
     }

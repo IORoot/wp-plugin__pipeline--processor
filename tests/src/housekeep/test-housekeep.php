@@ -419,15 +419,14 @@ class housekeepTest extends WP_UnitTestCase
 
         $attachment = wp_get_attachment_image($this->input[0]['attachment_id']);
         
-        
         /**
          * Expected, Received, Asserted
          * 
          * Attachment exists.
          */
-        $expected = '<img width="150" height="150" src="http://example.org/wp-content/uploads/2020/12/test_image-1-150x150.jpg" class="attachment-thumbnail size-thumbnail" alt="" loading="lazy" />';
+        $expected = true; 
 
-        $received = $attachment;
+        $received = strpos($attachment, 'http://example.org/wp-content/uploads/2020/12/test_image');
 
         $asserted = $this->assertEquals($expected, $received );
 
@@ -535,14 +534,19 @@ class housekeepTest extends WP_UnitTestCase
 
         $this->class_instance->run();
 
+
+        
+
+        
+        
         /**
          * Expected, Received, Asserted
          * 
          * Attachment is NOT binned.
          */
-        $expected = '<img width="150" height="150" src="http://example.org/wp-content/uploads/2020/12/test_image-1-150x150.jpg" class="attachment-thumbnail size-thumbnail" alt="" loading="lazy" />';
+        $expected = true; 
 
-        $received = wp_get_attachment_image($this->input[0]['attachment_id']);
+        $received = strpos(wp_get_attachment_image($this->input[0]['attachment_id']), 'http://example.org/wp-content/uploads/2020/12/test_image');
 
         $asserted = $this->assertEquals($expected, $received );
 
@@ -741,9 +745,9 @@ class housekeepTest extends WP_UnitTestCase
          * 
          * Attachment IS NOT deleted.
          */
-        $expected = '<img width="150" height="150" src="http://example.org/wp-content/uploads/2020/12/test_image-1-150x150.jpg" class="attachment-thumbnail size-thumbnail" alt="" loading="lazy" />';
+        $expected = true; 
 
-        $received = wp_get_attachment_image($this->input[0]['attachment_id']);
+        $received = strpos(wp_get_attachment_image($this->input[0]['attachment_id']), 'http://example.org/wp-content/uploads/2020/12/test_image');
 
         $asserted = $this->assertEquals($expected, $received );
 

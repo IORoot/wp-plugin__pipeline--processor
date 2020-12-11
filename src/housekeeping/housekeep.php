@@ -47,12 +47,12 @@ class housekeep
     private function check_inputs()
     {
         if ($this->options == 'none') { return false; }
-        if ($this->options['enabled'] == false) { return false; }
         if (!isset($this->options) ) { return false; }
         if (!isset($this->options['enabled'])) { return false; }
         if (!isset($this->options['action'])) { return false; }
         if (!isset($this->options['query'])) { return false; }
-        
+        if ($this->options['enabled'] == false) { return false; }
+
         return true;
     }
 
