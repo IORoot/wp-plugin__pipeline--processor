@@ -1,26 +1,28 @@
 <?php
 
-/**
- * On save of options page, run.
- */
-function save_ue_options()
-{
-    $screen = get_current_screen();
+namespace filter;
 
-    if ($screen->id != "pipeline_page_processor") {
-        return;
+class pipeline_processor {
+
+
+    public function __construct()
+    {
+        add_filter( 'pipeline_processor', array($this,'run_processor'), 10, 1);
     }
-        
+
+    
     // ┌─────────────────────────────────────────────────────────────────────────┐
     // │                           Kick off the program                          │
     // └─────────────────────────────────────────────────────────────────────────┘
-    $ue = new \ue\processor;
-    $options = (new \ue\options)->get_options();
-    $ue->set_options($options);
-    $result = $ue->run();
-    
-    return;
-}
+    public function run_processor($job_id){
 
-// MUST be in a hook
-add_action('acf/save_post', 'save_ue_options', 20);
+        $ue = new \ue\processor;
+        $options = (new \ue\options)->get_options();
+        $ue->set_options($options);
+        $ue->set_job_id($job_id);
+        $results = $ue->run_single_job();
+
+        return $results;
+    }
+    
+}

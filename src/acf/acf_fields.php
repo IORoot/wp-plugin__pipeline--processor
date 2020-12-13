@@ -117,7 +117,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'hide_admin' => 0,
                         'choices' => array(
                             'content 1' => 'content 1',
-                            'content testing for phpunit' => 'content testing for phpunit',
+                            'example content' => 'example content',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -145,7 +145,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'hide_admin' => 0,
                         'choices' => array(
                             'process 1' => 'process 1',
-                            'process testing for phpunit' => 'process testing for phpunit',
+                            'Example Process' => 'Example Process',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -172,8 +172,8 @@ if( function_exists('acf_add_local_field_group') ):
                         ),
                         'hide_admin' => 0,
                         'choices' => array(
+                            'Example Combine' => 'Example Combine',
                             'Combine 1' => 'Combine 1',
-                            'combine testing for phpunit' => 'combine testing for phpunit',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -200,6 +200,7 @@ if( function_exists('acf_add_local_field_group') ):
                         ),
                         'hide_admin' => 0,
                         'choices' => array(
+                            'Example Mapping' => 'Example Mapping',
                             'Mapping 1' => 'Mapping 1',
                             'none' => 'none',
                         ),
@@ -228,6 +229,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'hide_admin' => 0,
                         'choices' => array(
                             'Save 1' => 'Save 1',
+                            'Example Save' => 'Example Save',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -254,8 +256,8 @@ if( function_exists('acf_add_local_field_group') ):
                         ),
                         'hide_admin' => 0,
                         'choices' => array(
-                            'housekeep 1' => 'housekeep 1',
                             'housekeep 2' => 'housekeep 2',
+                            'housekeep 1' => 'housekeep 1',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -283,7 +285,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'hide_admin' => 0,
                         'choices' => array(
                             'schedule 1' => 'schedule 1',
-                            'schedule 2' => 'schedule 2',
+                            'schedule testing for phpunit' => 'schedule testing for phpunit',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -294,6 +296,164 @@ if( function_exists('acf_add_local_field_group') ):
                         'return_format' => 'value',
                         'ajax' => 0,
                         'placeholder' => '',
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_5fcf9c6ec73bc',
+                'label' => '',
+                'name' => '',
+                'type' => 'group',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'hide_admin' => 0,
+                'layout' => 'block',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_5fcf9a914fb80',
+                        'label' => '<span class="mdi mdi-help-rhombus"></span> Help',
+                        'name' => '',
+                        'type' => 'accordion',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'open' => 0,
+                        'multi_expand' => 0,
+                        'endpoint' => 0,
+                    ),
+                    array(
+                        'key' => 'field_5fcf9a9d4fb81',
+                        'label' => '',
+                        'name' => '',
+                        'type' => 'message',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => 'processor__help',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'message' => '<h1><span class="mdi mdi-swap-vertical-bold" style="width: 1em; font-size: 1.4em;"></span> Basic Setup Example</h1>
+    <p>This is an example of how to setup a simple end-to-end processor. The idea is to take three posts out of Wordpress and combine them together to generate a single new post in the Exporter custom post type.</p>
+    
+    <h3>Requirements</h3>
+    <p>Three posts in the <code>posts</code> post type. Each must have a featured image attached.</p>
+    
+    
+    <h3>1. <span class="mdi mdi-database-search"></span> Content</h3>
+    <img src="/wp-content/plugins/andyp_pipeline_processor/files/help_images/example_1_content.png" style="width:100%">
+    <ol>
+    <li>Click > Add new row</li>
+    <li>Enabled : Yes</li>
+    <li>Content ID : "Example Content"</li>
+    <li>Content Input : Query</li>
+    <li>Query :<br/>
+    <pre>[
+            \'post_type\' => \'post\',
+            \'numberposts\' => 3,
+    ]</pre>
+    </li>
+    </ol>
+    
+    <h3>2. <span class="mdi mdi-layers-triple"></span> Process</h3>
+    <img src="/wp-content/plugins/andyp_pipeline_processor/files/help_images/example_2_process.png" style="width:100%">
+    <ol>
+    <li>Click > Add new row</li>
+    <li>Enabled : Yes</li>
+    <li>Process ID : "Example Process"</li>
+    <li>Click > Add Field</li>
+    <li>Input Field : <code>post_title</code></li>
+    <li>Process Method : Loop through each record.</li>
+    <li>Click > Add Mutation</li>
+    <li>Select > Do Nothing</li>
+    <li>Enabled : Yes</li>
+    <li>Description : Raw Title</li>
+    <li>Click > Add Field</li>
+    <li>Input Field : <code>_wp_attached_file->0</code></li>
+    <li>Process Method : Loop through each record.</li>
+    <li>Click > Add Mutation</li>
+    <li>Select > Do Nothing</li>
+    <li>Enabled : Yes</li>
+    <li>Description : Raw Image</li>
+    </ol>
+    
+    <h3>3. <span class="mdi mdi-merge"></span> Combine</h3>
+    <img src="/wp-content/plugins/andyp_pipeline_processor/files/help_images/example_3_combine.png" style="width:100%">
+    <ol>
+    <li>Click > Add Row</li>
+    <li>Enabled : Yes</li>
+    <li>Combine ID : "Example Combine"</li>
+    <li>Combine Records : Combine into one collection</li>
+    <li>Click > Add Input Field Row</li>
+    <li>Input Field : <code>post_title</code></li>
+    <li>Combine Method : Keep all records</li>
+    <li>Click > Add Input Field Row</li>
+    <li>Input Field : <code>_wp_attached_file->0</code></li>
+    <li>Combine Method : Use First Record</li>
+    </ol>
+    
+    <h3>4. <span class="mdi mdi-relation-one-to-one"></span> Mapping</h3>
+    <img src="/wp-content/plugins/andyp_pipeline_processor/files/help_images/example_4_mapping.png" style="width:100%">
+    <ol>
+    <li>Click > Add Row</li>
+    <li>Enabled : Yes</li>
+    <li>Mapping ID : "Example Mapping"</li>
+    <li>Click > Add Mapping</li>
+    <li>Mapping Template : <code>{{0_post_title}} and {{1_post_title}}	and {{2_post_title}}</code></li>
+    <li>Type : Post</li>
+    <li>Post Field : <code>post_title</code></li>
+    <li>Click > Add Mapping</li>
+    <li>Mapping Template : <code>publish</code></li>
+    <li>Type : Post</li>
+    <li>Post Field : <code>post_status</code></li>
+    <li>Click > Add Mapping</li>
+    <li>Mapping Template : <code>{{0__wp_attached_file->0}}</code></li>
+    <li>Type : Image</li>
+    <li>Post Field : <code>path</code></li>
+    </ol>
+    
+    <h3>5. <span class="mdi mdi-content-save"></span> Save</h3>
+    <img src="/wp-content/plugins/andyp_pipeline_processor/files/help_images/example_5_save.png" style="width:100%">
+    <ol>
+    <li>Click > Add Row</li>
+    <li>Enabled : Yes</li>
+    <li>Mapping ID : "Example Save"</li>
+    <li>Save PostType : <code>exporter</code></li>
+    <li>Save Taxonomy : <code>exportercategory</code></li>
+    <li>Save Taxonomy Term: <code>example_save_term</code></li>
+    </ol>
+    
+    
+    <h3>6. <span class="mdi mdi-tune"></span> Job</h3>
+    <img src="/wp-content/plugins/andyp_pipeline_processor/files/help_images/example_6_job.png" style="width:100%">
+    <ol>
+    <li>Content : <code>Example Content</code></li>
+    <li>Process : <code>Example Process</code></li>
+    <li>Combine : <code>Example Combine</code></li>
+    <li>Mapping : <code>Example Mapping</code></li>
+    <li>Save : <code>Example Save</code></li>
+    <li>Housekeep : <code>none</code></li>
+    <li>Schedule : <code>none</code></li>
+    </ol>
+    
+    <h3>Run</h3>
+    <p>Once happy with all of the settings, you can click the update button to run the process.</p>',
+                        'new_lines' => '',
+                        'esc_html' => 0,
                     ),
                 ),
             ),
@@ -732,7 +892,7 @@ if( function_exists('acf_add_local_field_group') ):
                             ),
                             array(
                                 'key' => 'field_5f3aa979b72d1',
-                                'label' => 'Content ID',
+                                'label' => 'Process ID',
                                 'name' => 'ue_process_id',
                                 'type' => 'text',
                                 'instructions' => '',
@@ -770,7 +930,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'min' => 0,
                         'max' => 0,
                         'layout' => 'block',
-                        'button_label' => '',
+                        'button_label' => 'Add Field',
                         'sub_fields' => array(
                             array(
                                 'key' => 'field_5f6ee3637425f',
@@ -1031,7 +1191,7 @@ if( function_exists('acf_add_local_field_group') ):
                     ),
                     array(
                         'key' => 'field_5fc7c2fbba2d6',
-                        'label' => '<span class="mdi mdi-help-rhombus"></span> Help',
+                        'label' => '<span class="mdi mdi-help-rhombus"></span> Process Help',
                         'name' => '',
                         'type' => 'accordion',
                         'instructions' => '',
@@ -1186,15 +1346,15 @@ if( function_exists('acf_add_local_field_group') ):
                         'hide_admin' => 0,
                         'choices' => array(
                             'separate' => 'Keep records individual',
-                            'combine' => 'Combine into one record',
+                            'combine' => 'Combine into one collection',
                         ),
                         'default_value' => array(
                         ),
                         'allow_null' => 0,
                         'multiple' => 0,
-                        'ui' => 0,
-                        'return_format' => 'value',
+                        'ui' => 1,
                         'ajax' => 0,
+                        'return_format' => 'value',
                         'placeholder' => '',
                     ),
                     array(
@@ -1222,15 +1382,15 @@ if( function_exists('acf_add_local_field_group') ):
                         'collapsed' => 'field_5f70506e00672',
                         'min' => 0,
                         'max' => 0,
-                        'layout' => 'table',
-                        'button_label' => '',
+                        'layout' => 'block',
+                        'button_label' => 'Add Input Field Row',
                         'sub_fields' => array(
                             array(
                                 'key' => 'field_5f70506e00672',
                                 'label' => 'Input Field',
                                 'name' => 'ue_combine_input_select',
                                 'type' => 'select',
-                                'instructions' => 'The field in the record you want to use as the source. <b>NOTE - Only the fields that have been processed are available.</b>',
+                                'instructions' => '',
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
@@ -1241,6 +1401,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'hide_admin' => 0,
                                 'choices' => array(
                                     0 => 'post_title',
+                                    1 => '_wp_attached_file->0',
                                 ),
                                 'default_value' => array(
                                 ),
@@ -1256,7 +1417,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'label' => 'Combine Method',
                                 'name' => 'ue_combine_method',
                                 'type' => 'select',
-                                'instructions' => 'How to combine the records into one. The fields are "flattened" from arrays into single fields so each record is prefixed with the record number and identifiable. You can then use any field in the mapping section.',
+                                'instructions' => '',
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
@@ -1462,6 +1623,101 @@ if( function_exists('acf_add_local_field_group') ):
                         'multi_expand' => 0,
                         'endpoint' => 1,
                     ),
+                    array(
+                        'key' => 'field_5fcf5a7d2495b',
+                        'label' => '<span class="mdi mdi-help-rhombus"></span> Combine Help',
+                        'name' => '',
+                        'type' => 'accordion',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'open' => 0,
+                        'multi_expand' => 0,
+                        'endpoint' => 0,
+                    ),
+                    array(
+                        'key' => 'field_5fcf5a8c2495c',
+                        'label' => '',
+                        'name' => '',
+                        'type' => 'message',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => 'processor__help',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'message' => '<h1><span class="mdi mdi-merge" style="width: 1em; font-size: 1.4em;"></span> Combine</h1>
+    <p>The combine tool will help you decide how to process each record into one single record.</p>
+    <p>You can pick each field key you wish to keep in the output record and the method to generate it.</p>
+    
+    <h3>Input Field</h3>
+    <p>The field key in a record coming out of the <span class="mdi mdi-layers-triple"></span> Process stage. </p>
+    <p>NOTE - Only the fields that have been processed	in the <span class="mdi mdi-layers-triple"></span> Process stage will be available to the combine stage.</p>
+    <p>Use the debug tool in the Process tab to see what fields are available.</p>
+    
+    <h3>Combine Method</h3>
+    <p>How to combine the records into one. The fields are "flattened" from arrays into single fields so each record is prefixed with the record number and identifiable.</p>
+    <p>The following combine methods are available:</p>
+    <ol>
+    <li><code>Use First Record</code> : This will keep the <code>[key => value]</code> array field of the first record only and ignore the rest. The resulting field will have the first records\' array field. <br/>
+    For example, if the collection array has three records in it, like this:<br/>
+    <pre>[
+            [ \'post_title\' => \'Post One\' ],
+            [ \'post_title\' => \'Post Two\' ],
+            [ \'post_title\' => \'Post Three\' ],
+    ]</pre>
+    The result combined record would be:<br/>
+    <pre>
+    [ 
+            \'post_title\' => \'Post One\' 
+    ]</pre>
+    </li>
+    
+    
+    <li><code>Use Last Record</code> : This will keep the value of the last record in the collection and ignore the rest. The resulting field will have the last record\'s value.<br/>
+    For example, if the collection array has three records in it, like this:<br/>
+    <pre>[
+            [ \'post_title\' => \'Post One\' ],
+            [ \'post_title\' => \'Post Two\' ],
+            [ \'post_title\' => \'Post Three\' ],
+    ]</pre>
+    The result combined record would be:<br/>
+    <pre>
+    [ 
+            \'post_title\' => \'Post Three\' 
+    ]</pre>
+    </li>
+    
+    
+    <li><code>Keep All Records</code> : This will include the field from ALL records and prefix each field key with a record number.<br/>
+    For example, if the collection array has three records in it, like this:<br/>
+    <pre>[
+            [ \'post_title\' => \'Post One\' ],
+            [ \'post_title\' => \'Post Two\' ],
+            [ \'post_title\' => \'Post Three\' ],
+    ]</pre>
+    The result combined record would be:<br/>
+    <pre>
+    [ 
+            \'0_post_title\' => \'Post One\',
+            \'1_post_title\' => \'Post Two\',
+            \'2_post_title\' => \'Post Three\' 
+    ]</pre>
+    
+    </li>
+    </ol>',
+                        'new_lines' => '',
+                        'esc_html' => 0,
+                    ),
                 ),
             ),
             array(
@@ -1573,86 +1829,7 @@ if( function_exists('acf_add_local_field_group') ):
                             'id' => '',
                         ),
                         'hide_admin' => 0,
-                        'message' => '<div class="ue__moustache">{{post_title}}</div>',
-                        'new_lines' => 'wpautop',
-                        'esc_html' => 0,
-                    ),
-                    array(
-                        'key' => 'field_5f72e18b323e5',
-                        'label' => 'Posts',
-                        'name' => '',
-                        'type' => 'message',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '25',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'hide_admin' => 0,
-                        'message' => 'Required Fields:
-    - post_title
-    - post_content
-    - post_status = published',
-                        'new_lines' => 'wpautop',
-                        'esc_html' => 0,
-                    ),
-                    array(
-                        'key' => 'field_5f72e259323e6',
-                        'label' => 'Meta',
-                        'name' => '',
-                        'type' => 'message',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '25',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'hide_admin' => 0,
-                        'message' => 'Meta fields will always have an array as a value.
-    A field \'videoId\' will become videoId[0] = \'value\'.',
-                        'new_lines' => 'wpautop',
-                        'esc_html' => 0,
-                    ),
-                    array(
-                        'key' => 'field_5f72e2ae323e7',
-                        'label' => 'Image',
-                        'name' => '',
-                        'type' => 'message',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '25',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'hide_admin' => 0,
-                        'message' => 'An image is an \'attachment\' post type and has the same fields as a post.
-    Required Fields:
-    - path (the wp-content/uploads... location)',
-                        'new_lines' => 'wpautop',
-                        'esc_html' => 0,
-                    ),
-                    array(
-                        'key' => 'field_5f72e331323e8',
-                        'label' => 'Extras',
-                        'name' => '',
-                        'type' => 'message',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '25',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'hide_admin' => 0,
-                        'message' => 'Added functions for templates:
-    - {{date:PHP_DATE_FORMAT}}',
+                        'message' => '<div class="ue__moustache">{{0_post_title}}</div> <div class="ue__moustache">{{0__wp_attached_file->0}}</div> <div class="ue__moustache">{{1_post_title}}</div> <div class="ue__moustache">{{1__wp_attached_file->0}}</div> <div class="ue__moustache">{{2_post_title}}</div> <div class="ue__moustache">{{2__wp_attached_file->0}}</div> <div class="ue__moustache">{{_wp_attached_file->0}}</div>',
                         'new_lines' => 'wpautop',
                         'esc_html' => 0,
                     ),
@@ -1685,7 +1862,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
-                                    'width' => '50',
+                                    'width' => '55',
                                     'class' => '',
                                     'id' => '',
                                 ),
@@ -1698,7 +1875,7 @@ if( function_exists('acf_add_local_field_group') ):
                             ),
                             array(
                                 'key' => 'field_5f3a3e6e03517',
-                                'label' => 'Mapping Destination',
+                                'label' => 'Type',
                                 'name' => 'ue_mapping_destination',
                                 'type' => 'select',
                                 'instructions' => '',
@@ -2014,6 +2191,88 @@ if( function_exists('acf_add_local_field_group') ):
                         'multi_expand' => 0,
                         'endpoint' => 1,
                     ),
+                    array(
+                        'key' => 'field_5fcf6dccd2534',
+                        'label' => '<span class="mdi mdi-help-rhombus"></span> Mapping Help',
+                        'name' => '',
+                        'type' => 'accordion',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'open' => 0,
+                        'multi_expand' => 0,
+                        'endpoint' => 0,
+                    ),
+                    array(
+                        'key' => 'field_5fcf6de3d2535',
+                        'label' => '',
+                        'name' => '',
+                        'type' => 'message',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => 'processor__help',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'message' => '<h1><span class="mdi mdi-relation-one-to-one" style="width: 1em; font-size: 1.4em;"></span> Mapping</h1>
+    <p>The mapping stage will allow you to populate the final output record with values. This is done using a template which can contain <code>{{moustache}}</code> fields that will be substituted with real values.</p>
+    
+    <h3>Note - Required Minimum</h3>
+    <p>To generate a successful post within Wordpress, you will need these fields to be declared:</p>
+    <ol>
+    <li><code>post_title</code></li>
+    <li><code>post_status</code> to be set to <code>published</code></li>
+    </ol>
+    
+    <h3>Mapping Template</h3>
+    <p>The mapping template is the value you wish to put into the field. This can be a combination of raw text and <code>{{moustache}}</code> fields.</p>
+    <p>Example input :</p>
+    <pre>Title one will be {{0_post_title}} and Title two will be {{1_post_title}}</pre>
+    <p>The output value, placed into the database will be something like this:</p>
+    <pre>Title one will be FIRST POST TITLE and Title two will be THE SECOND POST TITLE</pre>
+    
+    <h4>Date Moustache</h4>
+    <p>The following additional <code>{{date:PHP_DATE_FORMAT}}</code> moustache is also available.</p>
+    
+    <p><code>{{date:PHP_DATE_FORMAT}}</code> : This allows you to insert the current DateTime into the field. See the <a href="https://www.php.net/manual/en/datetime.format.php" target="_blank">PHP manual</a> for formats to use. </p>
+    
+    <p>Examples:<br/>
+    <code>{{date:U}}</code> For a Unix Timestamp.<br/>
+    <code>{{date:c}}</code> For an ISO 8601 date.<br/>
+    <code>{{date:d m Y}}</code> For : day month year. dd mm yyyy.</p>
+    
+    <h3>Type</h3>
+    <p>You can pick one of three post types:</p>
+    <ol>
+    
+    <li><code>Post</code> : This will allow you to insert values into the base WP_POST object. There are a strict number of fields for this object, so the "Post Field" values are restricted to those (see below).</li>
+    
+    <li><code>Meta</code> : The Meta field allows you to specify any string as the field key. Post meta is 
+    stored as an array, so <code>VideoID</code> will become <code>VideoID[0] => \'value\'</code></li>
+    
+    <li><code>Image</code> : The image type is an <code>attachment</code> post type and has the same fields as a WP_POST. There is a single required field to be set, and that is <code>path</code>. This needs to be the relative location to <code>/wp-content/uploads/</code>. <br/>
+    E.g. <code>/2020/11/my_image.jpg</code> </p>
+    
+    <h3>Post Field</h3>
+    <p>This will be a select dropdown box of all the fields available for a WP_POST.</p>
+    
+    <h3>Post Meta Field</h3>
+    <p>This will be a text entry box to input the value of the meta key you want to create.</p>
+    
+    <h3>Post Image Field</h3>
+    <p>This will be a text entry box to input the value of the key you want to create on an \'attachment\' post.</p>',
+                        'new_lines' => '',
+                        'esc_html' => 0,
+                    ),
                 ),
             ),
             array(
@@ -2047,7 +2306,7 @@ if( function_exists('acf_add_local_field_group') ):
                     'id' => '',
                 ),
                 'hide_admin' => 0,
-                'collapsed' => 'field_5f3aa9dfb72d3',
+                'collapsed' => 'field_5f7068d9cf738',
                 'min' => 0,
                 'max' => 0,
                 'layout' => 'block',
@@ -2406,6 +2665,58 @@ if( function_exists('acf_add_local_field_group') ):
                         'multi_expand' => 0,
                         'endpoint' => 1,
                     ),
+                    array(
+                        'key' => 'field_5fcf95ff2382e',
+                        'label' => '<span class="mdi mdi-help-rhombus"></span> Save Help',
+                        'name' => '',
+                        'type' => 'accordion',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'open' => 0,
+                        'multi_expand' => 0,
+                        'endpoint' => 0,
+                    ),
+                    array(
+                        'key' => 'field_5fcf960c2382f',
+                        'label' => '',
+                        'name' => '',
+                        'type' => 'message',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => 'processor__help',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'message' => '<h1><span class="mdi mdi-content-save" style="width: 1em; font-size: 1.4em;"></span> Saving</h1>
+    <p>The saving stage lets you upload the final post into the WordPress system as a post.</p>
+    
+    <h3>Exporter - Custom Post Type (CPT)</h3>
+    <p>Built into the Processor plugin is a custom post type called \'Exporter\'. This can be found in the left admin sidebar. It has its own custom taxonomy called <code>\'exportercategory\'</code>.</p>
+    <p>This allows you to keep the output separate from other post types if needed and comes with the added benefit of a "Featured Image" column in the list page that gives a preview of the attached image.</p>
+    
+    <h3>Save PostType</h3>
+    <p>Select ANY post type to insert your new post into. This is an auto-populated list of all post types within your Wordpress system. It also includes the \'Exporter\' CPT.</p>
+    
+    <h3>Save Taxonomy</h3>
+    <p>Select ANY taxonomy to attach the post to. This is an auto-populated list of all taxonomies within your Wordpress system.</p>
+    <p>Note that it\'s probably best practice to only use a taxonomy that is assigned to the particular post type you have selected. For instance, only use the \'exportercategory\' taxonomy for the \'exporter\' post type</p>
+    
+    <h3>Save Taxonomy Term</h3>
+    <p>A text box for you to give a custom term to the post within the selected taxonomy.</p>
+    <p>Useful for separating different content types.</p>',
+                        'new_lines' => '',
+                        'esc_html' => 0,
+                    ),
                 ),
             ),
             array(
@@ -2470,7 +2781,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
-                                    'width' => '15',
+                                    'width' => '20',
                                     'class' => '',
                                     'id' => '',
                                 ),
@@ -2490,7 +2801,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
-                                    'width' => '70',
+                                    'width' => '80',
                                     'class' => '',
                                     'id' => '',
                                 ),
@@ -2501,53 +2812,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'append' => '',
                                 'maxlength' => '',
                             ),
-                            array(
-                                'key' => 'field_5f3a4c1f9ce2a',
-                                'label' => 'Status',
-                                'name' => 'ue_housekeep_status',
-                                'type' => 'select',
-                                'instructions' => '',
-                                'required' => 0,
-                                'conditional_logic' => 0,
-                                'wrapper' => array(
-                                    'width' => '15',
-                                    'class' => '',
-                                    'id' => '',
-                                ),
-                                'hide_admin' => 0,
-                                'choices' => array(
-                                    'BUILDING' => 'BUILDING',
-                                    'WARNING' => 'WARNING',
-                                    'ERROR' => 'ERROR',
-                                    'RUNNING' => 'RUNNING',
-                                ),
-                                'default_value' => array(
-                                ),
-                                'allow_null' => 0,
-                                'multiple' => 0,
-                                'ui' => 1,
-                                'ajax' => 0,
-                                'return_format' => 'value',
-                                'placeholder' => '',
-                            ),
                         ),
-                    ),
-                    array(
-                        'key' => 'field_5f3a4a2e73c04',
-                        'label' => '<span class="mdi mdi-cog"></span> Settings',
-                        'name' => '',
-                        'type' => 'tab',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'hide_admin' => 0,
-                        'placement' => 'top',
-                        'endpoint' => 0,
                     ),
                     array(
                         'key' => 'field_5f3a4b3473c0e',
@@ -2580,31 +2845,6 @@ if( function_exists('acf_add_local_field_group') ):
                         'placeholder' => '',
                     ),
                     array(
-                        'key' => 'field_5f3a4b6473c0f',
-                        'label' => 'Housekeep Schedule',
-                        'name' => 'ue_housekeep_schedule',
-                        'type' => 'select',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '30',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'hide_admin' => 0,
-                        'choices' => array(
-                        ),
-                        'default_value' => array(
-                        ),
-                        'allow_null' => 0,
-                        'multiple' => 0,
-                        'ui' => 0,
-                        'return_format' => 'value',
-                        'ajax' => 0,
-                        'placeholder' => '',
-                    ),
-                    array(
                         'key' => 'field_5f3a4b0f73c0d',
                         'label' => 'Housekeep Query',
                         'name' => 'ue_housekeep_query',
@@ -2613,8 +2853,8 @@ if( function_exists('acf_add_local_field_group') ):
                         'required' => 0,
                         'conditional_logic' => 0,
                         'wrapper' => array(
-                            'width' => '40',
-                            'class' => '',
+                            'width' => '70',
+                            'class' => 'ue__codemirror',
                             'id' => '',
                         ),
                         'hide_admin' => 0,
@@ -2623,6 +2863,72 @@ if( function_exists('acf_add_local_field_group') ):
                         'maxlength' => '',
                         'rows' => 12,
                         'new_lines' => '',
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_5fd1fdee7b388',
+                'label' => '',
+                'name' => 'ue_housekeep_help_group',
+                'type' => 'group',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'hide_admin' => 0,
+                'layout' => 'block',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_5fd1fdef7b391',
+                        'label' => '<span class="mdi mdi-help-rhombus"></span> Housekeep Help',
+                        'name' => '',
+                        'type' => 'accordion',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'open' => 0,
+                        'multi_expand' => 0,
+                        'endpoint' => 0,
+                    ),
+                    array(
+                        'key' => 'field_5fd1fdef7b392',
+                        'label' => '',
+                        'name' => '',
+                        'type' => 'message',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => 'processor__help',
+                            'id' => '',
+                        ),
+                        'hide_admin' => 0,
+                        'message' => '<h1><span class="mdi mdi-broom"></span> Housekeep</h1>
+    <p>The housekeep stage helps you clean up any posts, images or taxonomy you wish to remove after processing.</p>
+    
+    <h3>Example</h3>
+    <p>If you are processing a particular type of post, say a <code>youtube</code> custom post type, to join together three posts into a single post in the <code>exporter</code>, you may want to delete the <code>youtube</code> posts afterwards.</p>
+    <p>To do this, you can use a simple <code>query</code> like this:
+    <pre>[
+            \'post_type\' => \'youtube\',
+            \'numberposts\' => 3,
+    ]</pre>
+    </p>
+    
+    <p>The query can be as complex as you like, using all features of a <code>WP_Query</code>. See <a href="https://developer.wordpress.org/reference/classes/wp_query/" target="_blank">https://developer.wordpress.org/reference/classes/wp_query/</a> for more details.</p>',
+                        'new_lines' => '',
+                        'esc_html' => 0,
                     ),
                 ),
             ),
@@ -2688,7 +2994,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
-                                    'width' => '15',
+                                    'width' => '20',
                                     'class' => '',
                                     'id' => '',
                                 ),
@@ -2701,14 +3007,14 @@ if( function_exists('acf_add_local_field_group') ):
                             ),
                             array(
                                 'key' => 'field_5f3aaa3eb72d9',
-                                'label' => 'Save ID',
+                                'label' => 'Schedule ID',
                                 'name' => 'ue_schedule_id',
                                 'type' => 'text',
                                 'instructions' => '',
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
-                                    'width' => '70',
+                                    'width' => '80',
                                     'class' => '',
                                     'id' => '',
                                 ),
@@ -2719,53 +3025,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'append' => '',
                                 'maxlength' => '',
                             ),
-                            array(
-                                'key' => 'field_5f3aaa3eb72da',
-                                'label' => 'Status',
-                                'name' => 'ue_schedule_status',
-                                'type' => 'select',
-                                'instructions' => '',
-                                'required' => 0,
-                                'conditional_logic' => 0,
-                                'wrapper' => array(
-                                    'width' => '15',
-                                    'class' => '',
-                                    'id' => '',
-                                ),
-                                'hide_admin' => 0,
-                                'choices' => array(
-                                    'BUILDING' => 'BUILDING',
-                                    'WARNING' => 'WARNING',
-                                    'ERROR' => 'ERROR',
-                                    'RUNNING' => 'RUNNING',
-                                ),
-                                'default_value' => array(
-                                ),
-                                'allow_null' => 0,
-                                'multiple' => 0,
-                                'ui' => 1,
-                                'ajax' => 0,
-                                'return_format' => 'value',
-                                'placeholder' => '',
-                            ),
                         ),
-                    ),
-                    array(
-                        'key' => 'field_5f3a3836da521',
-                        'label' => '<span class="mdi mdi-cog"></span> Settings',
-                        'name' => '',
-                        'type' => 'tab',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'hide_admin' => 0,
-                        'placement' => 'top',
-                        'endpoint' => 0,
                     ),
                     array(
                         'key' => 'field_5f547d912997d',
@@ -2788,81 +3048,100 @@ if( function_exists('acf_add_local_field_group') ):
                         'button_label' => '',
                         'sub_fields' => array(
                             array(
-                                'key' => 'field_5f547e85f0920',
-                                'label' => 'Schedule Label',
-                                'name' => 'schedule_label',
-                                'type' => 'text',
+                                'key' => 'field_5fd20f93ff793',
+                                'label' => '',
+                                'name' => 'schedule',
+                                'type' => 'group',
                                 'instructions' => '',
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
-                                    'width' => '20',
+                                    'width' => '25',
                                     'class' => '',
                                     'id' => '',
                                 ),
                                 'hide_admin' => 0,
-                                'default_value' => '',
-                                'placeholder' => '',
-                                'prepend' => '',
-                                'append' => '',
-                                'maxlength' => '',
-                            ),
-                            array(
-                                'key' => 'field_5f3a3836da525',
-                                'label' => 'Schedule Repeats',
-                                'name' => 'ue_schedule_repeats',
-                                'type' => 'select',
-                                'instructions' => '',
-                                'required' => 0,
-                                'conditional_logic' => 0,
-                                'wrapper' => array(
-                                    'width' => '30',
-                                    'class' => '',
-                                    'id' => '',
+                                'layout' => 'block',
+                                'sub_fields' => array(
+                                    array(
+                                        'key' => 'field_5f547e85f0920',
+                                        'label' => 'Schedule Label',
+                                        'name' => 'schedule_label',
+                                        'type' => 'text',
+                                        'instructions' => '',
+                                        'required' => 0,
+                                        'conditional_logic' => 0,
+                                        'wrapper' => array(
+                                            'width' => '100',
+                                            'class' => '',
+                                            'id' => '',
+                                        ),
+                                        'hide_admin' => 0,
+                                        'default_value' => '',
+                                        'placeholder' => '',
+                                        'prepend' => '',
+                                        'append' => '',
+                                        'maxlength' => '',
+                                    ),
+                                    array(
+                                        'key' => 'field_5f3a3836da525',
+                                        'label' => 'Schedule Repeats',
+                                        'name' => 'ue_schedule_repeats',
+                                        'type' => 'select',
+                                        'instructions' => '',
+                                        'required' => 0,
+                                        'conditional_logic' => 0,
+                                        'wrapper' => array(
+                                            'width' => '100',
+                                            'class' => '',
+                                            'id' => '',
+                                        ),
+                                        'hide_admin' => 0,
+                                        'choices' => array(
+                                            '1min' => '1 Minute',
+                                            '2mins' => '2 Minutes',
+                                            '3mins' => '3 Minutes',
+                                            '5mins' => '5 Minutes',
+                                            '10mins' => '10 Minutes',
+                                            '30mins' => '30 Minutes',
+                                            '1hour' => '1 Hour',
+                                            '2hours' => '2 Hours',
+                                            '3hours' => '3 Hours',
+                                            '4hours' => '4 Hours',
+                                            '6hours' => '6 Hours',
+                                            '12hours' => '12 Hours',
+                                            '2days' => '2 days',
+                                            '3days' => '3 days',
+                                            '1week' => '1 week',
+                                            '2weeks' => '2 weeks',
+                                            '4weeks' => '4 weeks',
+                                            '1month' => '1 month',
+                                            '3months' => '3 months',
+                                            '4months' => '4 months',
+                                            'wio_1_min' => '1 min',
+                                            'wio_2_min' => '2 min',
+                                            'wio_5_min' => '5 min',
+                                            'wio_10_min' => '10 min',
+                                            'wio_30_min' => '30 min',
+                                            'wio_hourly' => '60 min',
+                                            'wio_daily' => 'daily',
+                                            'hourly' => 'Once Hourly',
+                                            'twicedaily' => 'Twice Daily',
+                                            'daily' => 'Once Daily',
+                                            'weekly' => 'Once Weekly',
+                                            'none' => 'None',
+                                        ),
+                                        'default_value' => array(
+                                            0 => 'daily',
+                                        ),
+                                        'allow_null' => 0,
+                                        'multiple' => 0,
+                                        'ui' => 0,
+                                        'return_format' => 'value',
+                                        'ajax' => 0,
+                                        'placeholder' => '',
+                                    ),
                                 ),
-                                'hide_admin' => 0,
-                                'choices' => array(
-                                    '1min' => '1 Minute',
-                                    '2mins' => '2 Minutes',
-                                    '3mins' => '3 Minutes',
-                                    '5mins' => '5 Minutes',
-                                    '10mins' => '10 Minutes',
-                                    '30mins' => '30 Minutes',
-                                    '1hour' => '1 Hour',
-                                    '2hours' => '2 Hours',
-                                    '3hours' => '3 Hours',
-                                    '4hours' => '4 Hours',
-                                    '6hours' => '6 Hours',
-                                    '12hours' => '12 Hours',
-                                    '2days' => '2 days',
-                                    '3days' => '3 days',
-                                    '1week' => '1 week',
-                                    '2weeks' => '2 weeks',
-                                    '4weeks' => '4 weeks',
-                                    '1month' => '1 month',
-                                    '3months' => '3 months',
-                                    'wio_1_min' => '1 min',
-                                    'wio_2_min' => '2 min',
-                                    'wio_5_min' => '5 min',
-                                    'wio_10_min' => '10 min',
-                                    'wio_30_min' => '30 min',
-                                    'wio_hourly' => '60 min',
-                                    'wio_daily' => 'daily',
-                                    'hourly' => 'Once Hourly',
-                                    'twicedaily' => 'Twice Daily',
-                                    'daily' => 'Once Daily',
-                                    'weekly' => 'Once Weekly',
-                                    'none' => 'None',
-                                ),
-                                'default_value' => array(
-                                    0 => 'daily',
-                                ),
-                                'allow_null' => 0,
-                                'multiple' => 0,
-                                'ui' => 0,
-                                'return_format' => 'value',
-                                'ajax' => 0,
-                                'placeholder' => '',
                             ),
                             array(
                                 'key' => 'field_5f51ea9e517f6',
@@ -2873,7 +3152,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
-                                    'width' => '50',
+                                    'width' => '75',
                                     'class' => '',
                                     'id' => '',
                                 ),
@@ -2883,43 +3162,6 @@ if( function_exists('acf_add_local_field_group') ):
                                 'first_day' => 1,
                             ),
                         ),
-                    ),
-                    array(
-                        'key' => 'field_5f3a3836da52a',
-                        'label' => '? Notes',
-                        'name' => '',
-                        'type' => 'tab',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'hide_admin' => 0,
-                        'placement' => 'top',
-                        'endpoint' => 0,
-                    ),
-                    array(
-                        'key' => 'field_5f3a3836da52b',
-                        'label' => 'Notes',
-                        'name' => 'ue_schedule_notes',
-                        'type' => 'textarea',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'hide_admin' => 0,
-                        'default_value' => '',
-                        'placeholder' => '',
-                        'maxlength' => '',
-                        'rows' => 20,
-                        'new_lines' => '',
                     ),
                 ),
             ),
@@ -2977,7 +3219,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'required' => 0,
                                 'conditional_logic' => 0,
                                 'wrapper' => array(
-                                    'width' => '',
+                                    'width' => '20',
                                     'class' => '',
                                     'id' => '',
                                 ),
