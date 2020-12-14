@@ -1,8 +1,8 @@
 <?php
 
-namespace ue\housekeep;
+namespace andyp\housekeeper\action;
 
-use ue\interfaces\housekeepInterface;
+use andyp\housekeeper\interfaces\housekeepInterface;
 
 class none implements housekeepInterface {
 

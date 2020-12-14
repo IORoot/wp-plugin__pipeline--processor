@@ -1,10 +1,10 @@
 <?php
 
-namespace ue\housekeep;
+namespace andyp\housekeeper\action;
 
-use ue\interfaces\housekeepInterface;
+use andyp\housekeeper\interfaces\housekeepInterface;
 
-class delete_posts implements housekeepInterface{
+class bin_posts implements housekeepInterface{
 
 
     public $query;
@@ -17,6 +17,7 @@ class delete_posts implements housekeepInterface{
     public function wp_query($wp_query)
     {
         $config = preg_replace( "/\r|\n/", "", $wp_query );
+        
         $this->query = @eval("return " . $config . ";");
 
         $this->post_list();
@@ -29,17 +30,15 @@ class delete_posts implements housekeepInterface{
         if (empty($this->post_list)){
             return;
         }
+
         foreach($this->post_list as $post)
         {
-            $this->response[] = wp_delete_post( $post->ID, true);
+            $this->response[] = wp_trash_post( $post->ID, true);
         }
 
         return;
     }
 
-    /**
-     * Report : What WILL happen and what HAS happened.
-     */
     public function result()
     {
         if (!isset($this->post_list)){ return false; }
@@ -53,6 +52,7 @@ class delete_posts implements housekeepInterface{
         if (!is_array($this->query)){
             return;
         }
+        
         $this->post_list = get_posts($this->query);
     }
 

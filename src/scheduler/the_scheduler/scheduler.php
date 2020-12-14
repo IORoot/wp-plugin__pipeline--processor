@@ -1,8 +1,8 @@
 <?php
 
-namespace ue;
+namespace andyp\scheduler;
 
-class scheduler
+class schedule
 {
 
 

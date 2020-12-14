@@ -31,6 +31,11 @@ require __DIR__.'/src/cpt/exporter_cpt.php';
 require __DIR__.'/src/acf/acf_init.php';
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
-//  │                         The Schedules Filter                            │
+//  │                               The Schedules                             │
 //  └─────────────────────────────────────────────────────────────────────────┘
-new add_schedules;
+new \andyp\scheduler\add_schedules;
+
+//  ┌─────────────────────────────────────────────────────────────────────────┐
+//  │                              The Run Action                             │
+//  └─────────────────────────────────────────────────────────────────────────┘
+new \ue\action\pipeline_processor;

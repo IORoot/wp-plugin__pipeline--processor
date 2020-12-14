@@ -8,7 +8,7 @@
  */
 
 /**
- * @testdox Testing the \ue\scheduler class
+ * @testdox Testing the \andyp\scheduler\scheduler class
  */
 class schedulerTest extends WP_UnitTestCase
 {
@@ -18,7 +18,7 @@ class schedulerTest extends WP_UnitTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->class_instance = new \ue\scheduler;
+        $this->class_instance = new \andyp\scheduler\schedule;
     }
 
     public function tearDown()

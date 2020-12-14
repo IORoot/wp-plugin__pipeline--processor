@@ -10,13 +10,13 @@ class processor
     
     public $options;
 
-    public $current_option;
-
     public $results;
 
     public $_export_key;
 
     public $job_id;
+    
+    public $running_from_action;
 
 
     public function __construct()
@@ -68,6 +68,8 @@ class processor
     public function run_single_job()
     {
         if (empty($this->job_id)){ return; }
+        
+        $this->running_from_action = true;
 
         foreach ($this->options as $this->_export_key => $current_export) {
 
@@ -96,7 +98,9 @@ class processor
 
         $this->run_class('ue\housekeep');
 
-        $this->run_scheduler();
+        if ($this->running_from_action){ return; }
+
+        $this->run_class('ue\schedule');
     }
 
 
@@ -104,8 +108,7 @@ class processor
     private function run_class($classname)
     {
         $class = new $classname;
-        $this->conform_options($classname);
-        $class->set_options($this->current_option);
+        $class->set_options($this->options[$this->_export_key]);
         $class->set_collection($this->results);
         $this->results[$classname] = $class->run();
     }
@@ -114,60 +117,6 @@ class processor
     private function is_save_only()
     {
         return $this->options['saveonly'];
-    }
-
-
-    private function conform_options($classname)
-    {
-        /**
-         * Housekeep expects a certain format for input.
-         */
-        if ($classname == 'ue\housekeep'){
-            unset($this->current_option);
-            $current_option = $this->options[$this->_export_key]['ue_job_housekeep_id'];
-
-            $this->current_option['enabled'] = $current_option['ue_housekeep_group']['ue_housekeep_enabled'];
-            $this->current_option['action'] = $current_option['ue_housekeep_action'];
-            $this->current_option['query'] = $current_option['ue_housekeep_query'];
-            return;
-        }
-
-        $this->current_option = $this->options[$this->_export_key];
-    }
-
-
-    /**
-     * run_scheduler function
-     * 
-     * Loops through all scheduled starttimes
-     *
-     * @return void
-     */
-    private function run_scheduler()
-    {   
-        
-        $current_option = $this->options[$this->_export_key]['ue_job_schedule_id'];
-
-        /**
-         * Loop through each schedule
-         */
-        foreach($current_option['ue_schedule_list'] as $event)
-        {
-            $this->current_option = [
-                'enabled' => $current_option['ue_schedule_group']['ue_schedule_enabled'],
-                'hook'    => 'pipeline_processor',
-                'params'  => [ 'job_id' => $this->options[$this->_export_key]['ue_job_group']['ue_job_id'] ],    
-                'repeats' => $event['schedule']['ue_schedule_repeats'],
-                'starts'  => $event['ue_schedule_starts'], 
-            ];
-
-            $classname = 'ue\\scheduler';
-            $scheduler = new $classname;
-            $scheduler->set_options($this->current_option);
-            $scheduler->run();
-            $this->results[$classname][] = $scheduler->get_event();
-        }
-
     }
 
 }

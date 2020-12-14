@@ -1,11 +1,12 @@
 <?php
 
-namespace ue\housekeep;
+namespace andyp\housekeeper\action;
 
-use ue\interfaces\housekeepInterface;
+use andyp\housekeeper\interfaces\housekeepInterface;
 
-class delete_all implements housekeepInterface
-{
+class bin_all implements housekeepInterface{
+
+
     public $query;
 
     public $post_list;
@@ -13,28 +14,34 @@ class delete_all implements housekeepInterface
     public $response;
 
 
+    /**
+     * Convert a string query to an array.
+     */
     public function wp_query($wp_query)
     {
-
-        $config = preg_replace("/\r|\n/", "", $wp_query);
+        $config = preg_replace( "/\r|\n/", "", $wp_query );
         $this->query = @eval("return " . $config . ";");
         $this->post_list();
 
         return;
     }
 
+
     public function run()
     {
-        if (empty($this->post_list)) {
+        if (empty($this->post_list)){
             return;
         }
-        foreach ($this->post_list as $post) {
-            $this->delete_image($post->ID);
-            $this->delete_post($post->ID);
+
+        foreach($this->post_list as $post)
+        {
+            $this->bin_image($post->ID);
+            $this->bin_post($post->ID);
         }
 
         return;
     }
+
 
     public function result()
     {
@@ -54,17 +61,21 @@ class delete_all implements housekeepInterface
 
 
 
-    public function delete_post($post_id)
+    public function bin_post($post_id)
     {
-        $this->response[] = wp_delete_post($post_id, true);
+        $this->response[] = wp_trash_post( $post_id, false);
     }
 
     
-    public function delete_image($post_id)
+    
+    public function bin_image($post_id)
     {
         $attachment_id = get_post_thumbnail_id($post_id);
-        if ($attachment_id != '') {
-            $this->response[] = wp_delete_attachment($attachment_id, true);
+        if ($attachment_id != ''){
+            $this->response[] = wp_delete_attachment($attachment_id, false);
         }
+        
     }
+
+
 }

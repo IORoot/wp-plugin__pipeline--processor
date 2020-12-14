@@ -18,7 +18,7 @@ class housekeepTest extends WP_UnitTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->class_instance = new \ue\housekeep;
+        $this->class_instance = new \andyp\housekeeper\housekeep;
     }
 
     public function tearDown()

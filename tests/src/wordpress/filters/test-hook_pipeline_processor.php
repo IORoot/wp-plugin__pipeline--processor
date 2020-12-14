@@ -15,7 +15,7 @@ class hookPipelineProcessorTest extends WP_UnitTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->class_instance = new \filter\pipeline_processor;
+        $this->class_instance = new \ue\action\pipeline_processor;
     }
 
     public function tearDown()
@@ -184,6 +184,8 @@ class hookPipelineProcessorTest extends WP_UnitTestCase
 	 */
 	public function test_run_filter() {
 
+
+
         /**
          * Setup - Insert Post and Thumbnail.
          */
@@ -238,18 +240,25 @@ class hookPipelineProcessorTest extends WP_UnitTestCase
          *  Setup - Schedule
          */
         add_row('ue_schedule_instance', $this->mock_schedule(), 'option');
-        
+
         /**
-         * Run filter.
+         * Run ACTION.
          */
-        $return = apply_filters('pipeline_processor', 'phpunit_job_1');
+        do_action('pipeline_processor', 'phpunit_job_1');
+
+        /**
+         * Get result from WP
+         */
+        $result = get_posts([
+            'post_type' => 'exporter'
+        ]);
 
         /**
          * Expected, Received, Asserted
          */
         $expected = 19;
 
-        $received = strpos($return['ue\\save']['post']['post_title'], $post->post_title);
+        $received = strpos($result[0]->post_title, $post->post_title);
 
         $this->assertEquals($expected, $received );
 

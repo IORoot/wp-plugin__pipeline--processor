@@ -1,6 +1,6 @@
 <?php
 
-namespace ue\interfaces;
+namespace andyp\housekeeper\interfaces;
 
 interface housekeepInterface { 
 

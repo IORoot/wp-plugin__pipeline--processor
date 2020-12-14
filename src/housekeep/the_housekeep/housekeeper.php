@@ -1,6 +1,6 @@
 <?php
 
-namespace ue;
+namespace andyp\housekeeper;
 
 class housekeep
 {
@@ -19,9 +19,6 @@ class housekeep
         $this->options = $options;
     }
 
-    public function set_collection($collection)
-    {
-    }
 
     public function get_result()
     {
@@ -61,7 +58,7 @@ class housekeep
      */
     private function instantiate_action()
     {
-        $this->action_classname = '\\ue\\housekeep\\'.$this->options['action'];
+        $this->action_classname = '\\andyp\\housekeeper\\action\\'.$this->options['action'];
     }
 
 

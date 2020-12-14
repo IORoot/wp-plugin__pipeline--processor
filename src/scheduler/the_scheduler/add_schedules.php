@@ -1,5 +1,7 @@
 <?php
 
+namespace andyp\scheduler;
+
 /**
  * This being a filter, it'll be constantly run every minute.
  * this will add in these new schedules every minute.
