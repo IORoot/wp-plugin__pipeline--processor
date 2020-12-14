@@ -19,7 +19,7 @@ function processor_acf_add_menus_init() {
         'capability' => 'manage_options',
         'position' => '1',
         'parent_slug' => '',
-        'icon_url' => 'dashicons-marker',
+        'icon_url' => 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEyLDJBMTAsMTAgMCAwLDAgMiwxMkExMCwxMCAwIDAsMCAxMiwyMkExMCwxMCAwIDAsMCAyMiwxMkExMCwxMCAwIDAsMCAxMiwyTTEyLDRBOCw4IDAgMCwxIDIwLDEyQTgsOCAwIDAsMSAxMiwyMEE4LDggMCAwLDEgNCwxMkE4LDggMCAwLDEgMTIsNE0xMiw2QTYsNiAwIDAsMCA2LDEyQTYsNiAwIDAsMCAxMiwxOEE2LDYgMCAwLDAgMTgsMTJBNiw2IDAgMCwwIDEyLDZNMTIsOEE0LDQgMCAwLDEgMTYsMTJBNCw0IDAgMCwxIDEyLDE2QTQsNCAwIDAsMSA4LDEyQTQsNCAwIDAsMSAxMiw4WiIvPjwvc3ZnPg==',
         'redirect' => true,
         'post_id' => 'options',
         'autoload' => false,
@@ -40,8 +40,8 @@ function processor_acf_add_menus_init() {
     if (function_exists('acf_add_options_page')) {
         $args = array(
 
-        'page_title' => 'The Processor',
-        'menu_title' => '🎛 The Processor',
+        'page_title' => '<span class="mdi mdi-cog-clockwise" style="color:#11998E"></span> The Processor',
+        'menu_title' => '<span class="mdi mdi-cog-clockwise" style="color:#11998E"></span> The Processor',
         'menu_slug' => 'processor',
         'capability' => 'manage_options',
         'position' => '3',
