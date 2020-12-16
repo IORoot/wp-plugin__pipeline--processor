@@ -35,7 +35,7 @@ class combine
 
         if ($this::is_disabled($this->options, $this->step_type)){ return; }
         $this->process_combine();
-        $this->update_mapping_selects();
+        $this->update_mapping_moustaches();
         $this->debug('combine', $this->results);
         return $this->results;
     }
@@ -56,7 +56,14 @@ class combine
         $this->results = $combine->run();
     }
 
-    private function update_mapping_selects()
+    /**
+     * update_mapping_selects function
+     * 
+     * Updates all of the {{moustaches}}
+     *
+     * @return void
+     */
+    private function update_mapping_moustaches()
     {
         $all_keys = array_keys($this->results[0]);
         $all_keys = implode('}}</div> <div class="ue__moustache">{{',$all_keys);

@@ -51,11 +51,11 @@ class field_input_choices
 
 function acf_populate_ue_mutation_input_select_choices($field)
 {
-    $options = new field_input_choices();
+    $options = new field_input_choices;
     
     $field['choices'] = $options->get_result();
 
     return $field;
 }
 
-add_filter('acf/prepare_field/key=field_5f6ee3637425f', 'acf_populate_ue_mutation_input_select_choices');
+add_filter('acf/prepare_field/name=ue_mutation_input_select', 'acf_populate_ue_mutation_input_select_choices');

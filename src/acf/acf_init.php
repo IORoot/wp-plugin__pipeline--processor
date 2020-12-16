@@ -5,7 +5,7 @@
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/acf_admin_page.php';
 require __DIR__.'/acf_admin_css.php';
-require __DIR__.'/acf_fields.php';
+// require __DIR__.'/acf_fields.php';
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │               Only run when the UPDATE button is clicked                │
@@ -34,7 +34,7 @@ require __DIR__.'/selects/populate_ue_mutation_type.php';
 require __DIR__.'/selects/populate_ue_mutation_catalog.php';
 
 // combine
-// require __DIR__.'/selects/populate_ue_combine_input_field.php';
+require __DIR__.'/selects/populate_ue_combine_input_field.php'; 
 
 // save
 require __DIR__.'/selects/populate_ue_save_post_type.php';

@@ -62,13 +62,26 @@ class process
         $all_choices = array();
         foreach($this->results as $key => $choices)
         {
+            $choice_keys = array_keys($choices);
             $all_choices = array_merge($all_choices, array_keys($choices));
         }
+        // Make unique. Not repeats.
         $all_choices = array_unique($all_choices);
 
+        $choice_array = array();
+        foreach($all_choices as $key => $value)
+        {
+            $choice_array[$value] = $value; 
+        }
+
+
+
+        /**
+         * Uses \src\acf\acf_update_options_field.php
+         */
         $field = new \update_acf_options_field;
-        $field->set_field('field_5f70506e00672');
-        $field->set_value('choices', $all_choices);
+        $field->set_field('ue_combine_input_select');
+        $field->set_value('choices', $choice_array);
         $field->run();
     }
 
