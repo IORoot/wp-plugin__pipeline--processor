@@ -16,6 +16,9 @@ class set_image
     public $id;
 
 
+    /**
+     * This is the resulting ID of the image attachment.
+     */
     public $attachment_id;
 
 
@@ -34,11 +37,30 @@ class set_image
     
     public function update_post_thumbnail()
     {
+        if (!$this->is_valid()){ return; }
+
         $this->create_attachment();
+
         set_post_thumbnail($this->id, $this->attachment_id);
+
         return $this->attachment_id;
     }
 
+    private function is_valid()
+    {
+        // are there moustaches?
+        if (strpos($this->filename, '{{', ) !== false){ return false; }
+
+        // are there arrows?
+        if (strpos($this->filename, '->', ) !== false){ return false; }
+
+        // does file exist?
+        if (!file_exists( WP_CONTENT_DIR . '/uploads/' . $this->filename)){ return false; }
+        
+        return true;
+
+    }
+    
 
 
     public function create_attachment(){
@@ -61,16 +83,22 @@ class set_image
         $new_file = str_replace(get_site_url() . '/', '', $this->filename);
 
         // Insert the attachment.
-        $this->attachment_id = $attach_id = wp_insert_attachment($attachment, $new_file, $this->id);
+        $this->attachment_id = wp_insert_attachment($attachment, $new_file, $this->id);
         
         // Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
         require_once(ABSPATH . 'wp-admin/includes/image.php');
         
-        // Generate the metadata for the attachment, and update the database record.
-        $attach_data = wp_generate_attachment_metadata($attach_id, $new_file);
+        /**
+         * Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+         * - width
+         * - height
+         * - file
+         * Creates thumbnails and intermediate filesizes too.
+         */
+        $attach_data = wp_generate_attachment_metadata($this->attachment_id, $new_file);
 
 
-        wp_update_attachment_metadata($attach_id, $attach_data);
+        $updated_data = wp_update_attachment_metadata($this->attachment_id, $attach_data);
     }
 
 }
