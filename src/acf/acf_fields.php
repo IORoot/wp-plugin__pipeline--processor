@@ -173,7 +173,6 @@ if( function_exists('acf_add_local_field_group') ):
                         'hide_admin' => 0,
                         'choices' => array(
                             'Example Combine' => 'Example Combine',
-                            'Combine 1' => 'Combine 1',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -200,8 +199,7 @@ if( function_exists('acf_add_local_field_group') ):
                         ),
                         'hide_admin' => 0,
                         'choices' => array(
-                            'Example Mapping' => 'Example Mapping',
-                            'Mapping 1' => 'Mapping 1',
+                            'Test Mapping' => 'Test Mapping',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -257,7 +255,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'hide_admin' => 0,
                         'choices' => array(
                             'housekeep 2' => 'housekeep 2',
-                            'housekeep 1' => 'housekeep 1',
+                            'Example Housekeep' => 'Example Housekeep',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -285,7 +283,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'hide_admin' => 0,
                         'choices' => array(
                             'schedule 1' => 'schedule 1',
-                            'schedule testing for phpunit' => 'schedule testing for phpunit',
+                            'Example Multi Schedule' => 'Example Multi Schedule',
                             'none' => 'none',
                         ),
                         'default_value' => array(
@@ -1358,32 +1356,24 @@ if( function_exists('acf_add_local_field_group') ):
                         'placeholder' => '',
                     ),
                     array(
-                        'key' => 'field_5f70506e00671',
+                        'key' => 'field_5fd9b85edabc5',
                         'label' => '',
                         'name' => 'ue_combine_collection',
                         'type' => 'repeater',
                         'instructions' => '',
                         'required' => 0,
-                        'conditional_logic' => array(
-                            array(
-                                array(
-                                    'field' => 'field_5f70506e00670',
-                                    'operator' => '==',
-                                    'value' => 'combine',
-                                ),
-                            ),
-                        ),
+                        'conditional_logic' => 0,
                         'wrapper' => array(
                             'width' => '',
                             'class' => '',
                             'id' => '',
                         ),
                         'hide_admin' => 0,
-                        'collapsed' => 'field_5f70506e00672',
+                        'collapsed' => '',
                         'min' => 0,
                         'max' => 0,
                         'layout' => 'block',
-                        'button_label' => 'Add Input Field Row',
+                        'button_label' => '',
                         'sub_fields' => array(
                             array(
                                 'key' => 'field_5f70506e00672',
@@ -1400,15 +1390,17 @@ if( function_exists('acf_add_local_field_group') ):
                                 ),
                                 'hide_admin' => 0,
                                 'choices' => array(
-                                    0 => 'post_title',
-                                    1 => '_wp_attached_file->0',
+                                    'post_title' => 'post_title',
+                                    '_wp_attached_file->0' => '_wp_attached_file->0',
+                                    'videoId->0_0' => 'videoId->0_0',
+                                    'videoId->0_output_file' => 'videoId->0_output_file',
                                 ),
                                 'default_value' => array(
                                 ),
                                 'allow_null' => 0,
                                 'multiple' => 0,
                                 'ui' => 0,
-                                'return_format' => 'label',
+                                'return_format' => 'value',
                                 'ajax' => 0,
                                 'placeholder' => '',
                             ),
@@ -1738,7 +1730,7 @@ if( function_exists('acf_add_local_field_group') ):
                 'endpoint' => 0,
             ),
             array(
-                'key' => 'field_5f3a35614b635',
+                'key' => 'field_5fd9ca281f494',
                 'label' => '',
                 'name' => 'ue_mapping_instance',
                 'type' => 'repeater',
@@ -1829,7 +1821,7 @@ if( function_exists('acf_add_local_field_group') ):
                             'id' => '',
                         ),
                         'hide_admin' => 0,
-                        'message' => '<div class="ue__moustache">{{0_post_title}}</div> <div class="ue__moustache">{{0__wp_attached_file->0}}</div> <div class="ue__moustache">{{1_post_title}}</div> <div class="ue__moustache">{{1__wp_attached_file->0}}</div> <div class="ue__moustache">{{2_post_title}}</div> <div class="ue__moustache">{{2__wp_attached_file->0}}</div> <div class="ue__moustache">{{_wp_attached_file->0}}</div>',
+                        'message' => '<div class="ue__moustache">{{post_title}}</div> <div class="ue__moustache">{{_wp_attached_file->0}}</div> <div class="ue__moustache">{{videoId->0_output_file}}</div>',
                         'new_lines' => 'wpautop',
                         'esc_html' => 0,
                     ),
@@ -4126,7 +4118,7 @@ if( function_exists('acf_add_local_field_group') ):
                 array(
                     'param' => 'options_page',
                     'operator' => '==',
-                    'value' => 'acf-options-andyp-plugins',
+                    'value' => 'processor',
                 ),
             ),
         ),
@@ -4136,7 +4128,7 @@ if( function_exists('acf_add_local_field_group') ):
         'label_placement' => 'top',
         'instruction_placement' => 'label',
         'hide_on_screen' => '',
-        'active' => true,
+        'active' => false,
         'description' => '',
     ));
     
